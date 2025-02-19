@@ -1,0 +1,293 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+header {
+  width: 100%;
+  background-color: #add8e6;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px 20px;
+  height: 50px; /* Reduced height */
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+}
+
+.btn-back {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.btn-back i {
+  margin-right: 5px;
+}
+
+.btn-back:hover {
+  background-color: #0056b3;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.register-form,
+.login-form {
+  max-width: 400px;
+  width: 100%;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.register-form h2,
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.register-form label,
+.login-form label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.register-form input,
+.login-form input,
+.register-form select,
+.login-form select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.phone-input {
+  display: flex;
+  gap: 10px;
+}
+
+.phone-input select {
+  width: 30%;
+}
+
+.register-form button,
+.login-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.register-form button:hover,
+.login-form button:hover {
+  background-color: #0056b3;
+}
+
+footer {
+  width: 100%;
+  background-color: #add8e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  flex-shrink: 0;
+}
+
+.footer-left,
+.footer-right {
+  display: flex;
+  align-items: center;
+}
+
+.footer-left p,
+.footer-right p {
+  margin: 0;
+}
+
+.footer-right img {
+  height: 40px; /* Adjust the height as needed */
+  width: auto; /* Maintain aspect ratio */
+  background-color: transparent; /* Remove background color */
+  margin-right: 10px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #add8e6;
+}
+
+.dashboard-header .logo {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-header .logo h1 {
+  font-size: 24px;
+  color: #0f0e0e;
+}
+
+.dashboard-header nav ul {
+  list-style: none;
+  display: flex;
+}
+
+.dashboard-header nav ul li {
+  margin: 0 15px;
+}
+
+.dashboard-header nav ul li a {
+  text-decoration: none;
+  color: #0c0b0b;
+  font-size: 16px;
+}
+
+.dashboard-header nav ul li a:hover {
+  color: #444;
+}
+
+.dashboard-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.dashboard-welcome-message {
+  text-align: center;
+}
+
+.dashboard-welcome-message h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.dashboard-welcome-message h2 {
+  font-size: 24px;
+  color: #333;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 50%;
+}
+
+#signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+#signup-form input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+#signup-form button,
+.contact-us {
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  flex: 1;
+}
+
+#signup-form button:hover,
+.contact-us:hover {
+  background-color: #0056b3;
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 50%;
+  text-align: right;
+}
+
+.social-icons {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.social-icons a {
+  margin-left: 10px;
+}
+
+.social-icons img {
+  height: 30px;
+  width: 30px;
+}
+
+.footer-bottom {
+  text-align: right;
+  padding-top: 10px;
+}

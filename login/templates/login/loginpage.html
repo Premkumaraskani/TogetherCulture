@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Together Culture</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-container">
+          <a href="/" class="btn-back"
+            ><i class="fas fa-arrow-left"></i> Home</a
+          >
+        </div>
+      </header>
+
+      <main>
+        <div class="login-form">
+          <h2>Login</h2>
+          <form id="login-form" action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <label for="loginid">Login ID:</label>
+            <input type="text" id="loginid" name="loginid" required /><br />
+
+            <label for="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+            /><br />
+
+            <button type="submit" id="login-button">Login</button>
+          </form>
+          <div class="additional-links">
+            <a href="/login/forgot-password/">Forgot Password?</a> |
+            <a href="{% url 'userregister' %}">New User Registration</a>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <div class="footer-left">
+          <p>&copy; 2025 TogetherCulture</p>
+        </div>
+        <div class="footer-right">
+          <p>Contact Info: info@togetherculture.com</p>
+        </div>
+      </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#login-form").on("submit", function (event) {
+          var loginid = $("#loginid").val();
+          var password = $("#password").val();
+
+          if (!loginid || !password) {
+            event.preventDefault();
+            alert("Please fill in both the Login ID and Password fields.");
+            return;
+          }
+
+          event.preventDefault();
+          $.ajax({
+            type: "POST",
+            url: '{% url "login" %}',
+            data: {
+              loginid: loginid,
+              password: password,
+              csrfmiddlewaretoken: "{{ csrf_token }}",
+            },
+            success: function (response) {
+              console.log("Login successful");
+              window.location.href = "/dashboard/";
+            },
+            error: function (response) {
+              console.log("Login failed");
+              alert("Login failed!");
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
