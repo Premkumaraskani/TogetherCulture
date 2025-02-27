@@ -78,11 +78,12 @@ WSGI_APPLICATION = "TCC.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "TogetherCulture",
-        "USER": "username",
-        "PASSWORD": "Password12345!@#$%",
-        "HOST": "127.0.0.1",
-        "PORT": "3306",
+        "NAME": 'TogetherCulture',
+        "USER":'username',
+        "PASSWORD":'Password12345!@#$%',
+        "HOST":'127.0.0.1',
+        # "HOST":'192.168.0.186',
+        "PORT":'3306'
     }
 }
 

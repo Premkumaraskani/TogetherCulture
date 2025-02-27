@@ -1,8 +1,7 @@
-from django.shortcuts import render
-from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User 
-from django.shortcuts import redirect
 from django.http import JsonResponse
 import json
 from .models import Users
@@ -12,14 +11,13 @@ def login_view(request):
     if request.method == 'POST':
         loginid = request.POST.get('loginid')
         password = request.POST.get('password')
-        print("Login ID and Password: "+loginid+" : "+password)
+        print(f"Login ID: {loginid}, Password: {password}")
         user = authenticate(request, username=loginid, password=password)
         if user is not None:
             login(request, user)
-            return redirect('dashboard')
+            return JsonResponse({'success': True, 'redirect_url': reverse('dashboard')})
         else:
-            return render(request, 'login/loginpage.html', {'error': 'Invalid credentials'})
-    
+            return JsonResponse({'success': False, 'error': 'Invalid credentials'})
     return render(request, 'login/loginpage.html')
 
 def userregister_view(request):
@@ -34,7 +32,8 @@ def userregister_view(request):
         interests = request.POST.get('interests')
         
         interests = json.loads(interests)
-        print(f"User Details: {first_name} : {last_name} : {username} : {password} : {email} : {phoneno} : {status} : {interests}")
+        type = request.POST.get('type', 'guest')
+        print(f"User Details are here: {first_name} : {last_name} : {username} : {password} : {email} : {phoneno} : {status} : {interests} : {type}")
         user = Users(
             first_name=first_name,
             last_name=last_name,
@@ -43,8 +42,26 @@ def userregister_view(request):
             email=email,
             phone=phoneno,
             status=status,
-            interests=interests
+            interests=interests,
+            type=type
         )
         user.save()
-        return JsonResponse({'message': 'Registered Successfully'})
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+        return redirect(f'{reverse("homepage")}?username={username}')
     return render(request, 'login/userregister.html')
+
+# def homepage_view(request):
+#     user_authenticated = request.user.is_authenticated
+#     return render(request, 'dashboard/homepage.html', {'user_authenticated': user_authenticated})
+
+# def logout_view(request):
+#     logout(request)
+#     return redirect('homepage')
+
+# def profile_view(request):
+#     if request.user.is_authenticated:
+#         user = request.user
+#         return render(request, 'login/profile.html', {'user': user})
+#     return redirect('login')
