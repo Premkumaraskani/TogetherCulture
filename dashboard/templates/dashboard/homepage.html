@@ -6,6 +6,46 @@
     <title>Together Culture</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <style>
+      /* Dropdown Button */
+      .dropbtn {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+      }
+      /* Dropdown container */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      /* Dropdown Content (Hidden by Default) */
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 120px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+      /* Dropdown Links */
+      .dropdown-content a {
+        color: black;
+        padding: 10px 12px;
+        text-decoration: none;
+        display: block;
+      }
+      /* Show menu on hover */
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      /* Hover effect for links */
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -19,7 +59,20 @@
             <li><a href="#">Membership</a></li>
             <li><a href="#">users</a></li>
             <li><a href="#">Resources</a></li>
+            <!-- <li id="user-link"><a href="{% url 'login' %}">Login</a></li> -->
+            {% if user.is_authenticated %}
+            <li id="user-link">
+              <div class="dropdown">
+                <button class="dropbtn">{{ user.username }}</button>
+                <div class="dropdown-content">
+                  <a href="{% url 'profile' %}">Profile</a>
+                  <a href="{% url 'logout' %}">Logout</a>
+                </div>
+              </div>
+            </li>
+            {% else %}
             <li id="user-link"><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
           </ul>
         </nav>
       </header>
@@ -66,7 +119,16 @@
         var username = urlParams.get("username");
         if (username) {
           var userLink = document.getElementById("user-link");
-          userLink.innerHTML = '<a href="/profile/">' + username + "</a>";
+          userLink.innerHTML =
+            '<div class="dropdown">' +
+            '<button class="dropbtn">' +
+            username +
+            "</button>" +
+            '<div class="dropdown-content">' +
+            '<a href="{% url "profile" %}">Profile</a>' +
+            '<a href="{% url "logout" %}">Logout</a>' +
+            "</div>" +
+            "</div>";
         }
       });
     </script>

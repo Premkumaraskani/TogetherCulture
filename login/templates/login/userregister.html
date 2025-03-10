@@ -25,25 +25,6 @@
         transform: translateY(-50%);
         cursor: pointer;
       }
-
-      .interests-container {
-        display: flex;
-        flex-wrap: wrap;
-      }
-
-      .interest-tag {
-        background-color: #e0e0e0;
-        border-radius: 5px;
-        padding: 5px 10px;
-        margin: 5px;
-        display: inline-flex;
-        align-items: center;
-      }
-
-      .interest-tag i {
-        margin-left: 5px;
-        cursor: pointer;
-      }
       /* Popup styles */
       .popup {
         display: none;
@@ -75,9 +56,9 @@
     <div class="container">
       <header>
         <div class="header-container">
-          <a href="/" class="btn-back"
-            ><i class="fas fa-arrow-left"></i> Back</a
-          >
+          <a href="/" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Back
+          </a>
         </div>
       </header>
 
@@ -154,18 +135,23 @@
       </footer>
     </div>
 
-    
-    <div class="popup-overlay"></div>
-    <div class="popup">
+    <div class="popup-overlay" id="success-popup-overlay"></div>
+    <div class="popup" id="success-popup">
       <p>Successfully registered!</p>
       <button id="popup-ok-button">OK</button>
+    </div>
+
+    <div class="popup-overlay" id="error-popup-overlay"></div>
+    <div class="popup" id="error-popup">
+      <h2>WarningMessage!</h2>
+      <p id="error-popup-message">Username Already Exists</p>
+      <button id="error-popup-ok-button">OK</button>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       $(document).ready(function () {
         var interests = [];
-
         $("#interests-input").on("keypress", function (event) {
           if (event.which === 13) {
             event.preventDefault();
@@ -178,19 +164,24 @@
                   '<i class="fas fa-times remove-interest" style="cursor:pointer; margin-left:10px;"></i></span>'
               );
               $(this).val("");
-              console.log("Interest values:", interests);
             }
           }
         });
-
         $(document).on("click", ".remove-interest", function () {
           var interest = $(this).parent().text().trim();
           interests = interests.filter(function (item) {
             return item !== interest;
           });
           $(this).parent().remove();
-          console.log("Interest values:", interests);
         });
+
+        $(".toggle-password")
+          .on("mousedown", function () {
+            $("#password").attr("type", "text");
+          })
+          .on("mouseup mouseleave", function () {
+            $("#password").attr("type", "password");
+          });
 
         $("#register-form").on("submit", function (event) {
           event.preventDefault();
@@ -213,37 +204,49 @@
             alert("Please fill in all the fields.");
             return;
           }
+          $.ajax({
+            url: "{% url 'check_username' %}",
+            type: "POST",
+            data: {
+              username: username,
+              csrfmiddlewaretoken: "{{ csrf_token }}",
+            },
+            success: function (response) {
+              if (response.exists) {
+                $("#error-popup-message").text("Username Already Exists");
+                $("#error-popup-overlay, #error-popup").show();
+              } else {
+                $("<input>")
+                  .attr({
+                    type: "hidden",
+                    name: "interests",
+                    value: JSON.stringify(interests),
+                  })
+                  .appendTo("#register-form");
 
-          $("<input>")
-            .attr({
-              type: "hidden",
-              name: "interests",
-              value: JSON.stringify(interests), 
-            })
-            .appendTo("#register-form");
+                $("<input>")
+                  .attr({ type: "hidden", name: "status", value: "Pending" })
+                  .appendTo("#register-form");
 
-          $("<input>")
-            .attr({ type: "hidden", name: "status", value: "Pending" })
-            .appendTo("#register-form");
+                $("<input>")
+                  .attr({ type: "hidden", name: "type", value: "Guest" })
+                  .appendTo("#register-form");
 
-          $("<input>")
-            .attr({ type: "hidden", name: "type", value: "Guest" })
-            .appendTo("#register-form");
+                $("#success-popup-overlay, #success-popup").show();
 
-          $(".popup-overlay, .popup").show();
-
-          $("#popup-ok-button").on("click", function () {
-            $("#register-form")[0].submit();
+                $("#popup-ok-button").one("click", function () {
+                  $("#register-form")[0].submit();
+                });
+              }
+            },
+            error: function (xhr, status, error) {
+              alert("An error occurred while checking username.");
+            },
           });
         });
-
-        $(".toggle-password")
-          .on("mousedown", function () {
-            $("#password").attr("type", "text");
-          })
-          .on("mouseup mouseleave", function () {
-            $("#password").attr("type", "password");
-          });
+        $(document).on("click", "#error-popup-ok-button", function () {
+          $("#error-popup-overlay, #error-popup").hide();
+        });
       });
     </script>
   </body>
