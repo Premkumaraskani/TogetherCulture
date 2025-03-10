@@ -24,3 +24,6 @@ def userregister_view(request):
     else:
         form = UserRegisterForm()
     return render(request, 'login/userregister.html', {'form': form})
+
+def homepage_view(request):
+    return render(request, 'dashboard/homepage.html')
