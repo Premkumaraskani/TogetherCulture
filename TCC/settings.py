@@ -79,16 +79,18 @@ WSGI_APPLICATION = "TCC.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+AUTH_USER_MODEL = 'login.Users'
+
 DATABASES = {
-    "default": {
-        # "ENGINE": "django.db.backends.mysql",
-        # "NAME": "TogetherCulture",
-        # "USER": "username",
-        # "PASSWORD": "Password12345!@#$%",
-        # "HOST": "127.0.0.1",
-        # "PORT": "3306",
-         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3", 
+    "default": { 
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": 'TogetherCulture',
+        "USER":'username',
+        "PASSWORD":'Password12345!@#$%',
+        "HOST":'127.0.0.1',
+        # "HOST":'192.168.0.186',
+        "PORT":'3306'
+
     }
 }
 
@@ -128,9 +130,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-]   
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
