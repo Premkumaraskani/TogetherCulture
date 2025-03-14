@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Together Culture</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <!-- <style>
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        .nav-container {
+            text-align: right;
+        }
+    </style> -->
+  </head>
+  <body>
+    <div class="container">
+      <header class="dashboard-header">
+        <div class="logo">
+          <h1>Together Culture</h1>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="{% url 'events'%}">Events</a></li>
+            <li><a href="#">Membership</a></li>
+            <li><a href="{% url 'user' %}">Users</a></li>
+            <li><a href="#">Resources</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main class="dashboard-main">
+        <div class="dashboard-welcome-message">
+          <h1>WELCOME</h1>
+          <h2>To Together Culture</h2>
+        </div>
+      </main>
+
+      <footer>
+        <div class="footer-content">
+          <div class="footer-right">
+            <div class="social-icons">
+              <a href="#"
+                ><img src="{% static 'images/instagram.png' %}" alt="Instagram"
+              /></a>
+              <a href="#"
+                ><img src="{% static 'images/whatsapp.png' %}" alt="WhatsApp"
+              /></a>
+            </div>
+            <div class="footer-bottom">
+              <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

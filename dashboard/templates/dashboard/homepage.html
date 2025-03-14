@@ -55,10 +55,10 @@
         </div>
         <nav>
           <ul>
-            <li><a href="#">Events</a></li>
-            <li><a href="#">Membership</a></li>
-            <li><a href="#">users</a></li>
-            <li><a href="#">Resources</a></li>
+            <li><a href="{% url 'events'%}">Events</a></li>
+            <li><a href="{% url 'membership'%}">Membership</a></li>
+            <li><a href="{% url 'user' %}">Users</a></li>
+            <li><a href="{% url 'digital' %}">Resources</a></li>
             <!-- <li id="user-link"><a href="{% url 'login' %}">Login</a></li> -->
             {% if user.is_authenticated %}
             <li id="user-link">

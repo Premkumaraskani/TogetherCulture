@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "dashboard",
-    "login"
+    "login",
+    "users",
+    "events",
+    "membership",
+    "digitalcontent"
 ]
 
 MIDDLEWARE = [
@@ -78,7 +82,7 @@ WSGI_APPLICATION = "TCC.wsgi.application"
 AUTH_USER_MODEL = 'login.Users'
 
 DATABASES = {
-    "default": {
+    "default": { 
         "ENGINE": "django.db.backends.mysql",
         "NAME": 'TogetherCulture',
         "USER":'username',
@@ -86,6 +90,7 @@ DATABASES = {
         "HOST":'127.0.0.1',
         # "HOST":'192.168.0.186',
         "PORT":'3306'
+
     }
 }
 

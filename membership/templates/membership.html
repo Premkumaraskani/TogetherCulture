@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Together Culture</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <style>
+      .user-members {
+        display: flex;
+        gap: 10px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        width: 135px;
+        height: 40px;
+        padding: 10px;
+        margin: 10px;
+        margin-top: 20px;
+        border-radius: 3px;
+      }
+      .users-portal {
+        display: flex;
+      }
+      .users-admin {
+        height: 23rem;
+        width: 100vw;
+      }
+      .member-activity {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px;
+        margin-right: 20px;
+      }
+      .user-filter {
+        display: flex;
+        gap: 10px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        width: 5rem;
+        height: 30px;
+        padding: 8px;
+        border-radius: 5px;
+      }
+      table {
+        width: 1250px;
+        border-collapse: collapse;
+        margin-top: 20px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        margin-left: 10px;
+      }
+      table,
+      th,
+      td {
+        border: 0.5px solid black;
+      }
+      th {
+        padding: 10px;
+        text-align: left;
+        background-color: gray;
+        color: white;
+      }
+      td {
+        padding: 10px;
+        text-align: left;
+        background-color: white;
+      }
+      .edit-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        box-shadow: rgba(0, 123, 255, 0.2) 0px 7px 29px 0px;
+        cursor: pointer;
+      }
+      .edit-button svg {
+        margin-right: 5px;
+      }
+      .member-img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      .member-name {
+        display: flex;
+        align-items: center;
+        border: none;
+      }
+      .card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        width: 25rem;
+        height: 5rem;
+        padding: 10px;
+        margin: 10px;
+        margin-top: 20px;
+        border-radius: 3px;
+        margin-bottom: 20px;
+      }
+      .card img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+      .card .info {
+        flex-grow: 1;
+      }
+      .card .info p {
+        margin: 0;
+        font-size: 12px;
+      }
+      .card .buttons {
+        display: flex;
+        gap: 5px;
+      }
+      .card .buttons button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      .approve-button {
+        background-color: #28a745;
+        color: white;
+      }
+      .reject-button {
+        background-color: #dc3545;
+        color: white;
+      }
+      .membership-plan {
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 20px;
+        margin-left: 14px;
+        border-radius: 5px;
+        width: 20rem;
+        border-radius: 5px;
+     
+      }
+      .membership-plan h4 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .membership-plan h4 svg {
+        color: green;
+      }
+      .membership-plan div {
+        /* display: flex; */
+        align-items: center;
+        gap: 10px;
+      }
+      .membership-plan div svg {
+        color: green;
+      }
+      .Community-mmebership-cards{
+        display: flex;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="dashboard-header">
+        <div class="logo">
+          <h1>Together Culture</h1>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">Membership</a></li>
+            <li><a href="{% url 'user' %}">Users</a></li>
+            <li><a href="#">Resources</a></li>
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="#">Cart</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <div style="height: 23rem;">
+        <h3 style="padding: 19px;">Membership Plans</h3>
+        <div style="display: flex;gap: 20px;">
+            <div class="membership-plan">
+                <div>
+                  <h4>
+                   
+                    Community Membership
+                  </h4>
+                  <div class="Community-mmebership-cards">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
+                    </svg>
+                    <p>Access to Community Form</p>
+                  </div>
+                  <div class="Community-mmebership-cards">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
+                    </svg>
+                    <p>Basic Support</p>
+                  </div>
+                  <div class="Community-mmebership-cards">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
+                    </svg>
+                    <p>Monthly newsletters</p>
+                  </div>
+                  <button style=    "background-color: #28a745;
+                  color: white;
+                  border: none;
+                  padding: 6px;
+                  width: 204px;
+                  border-radius: 5px;
+                  margin-top: 10px;">select plan</button>
+                </div>
+              </div>
+              <div class="membership-plan">
+                <div>
+                  <h4>
+                   
+                    Key Access Membership
+                  </h4>
+                  <div class="Community-mmebership-cards">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
+                    </svg>
+                    <p>All Community Features</p>
+                  </div>
+                  <div class="Community-mmebership-cards">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
+                    </svg>
+                    <p>Priority Support</p>
+                  </div>
+                  <div class="Community-mmebership-cards">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
+                    </svg>
+                    <p>Exclusive Content Access</p>
+                  </div>
+                  <button style=    "background-color: #28a745;
+                  color: white;
+                  border: none;
+                  padding: 6px;
+                  width: 204px;
+                  border-radius: 5px;
+                  margin-top: 10px;">select plan</button>
+                </div>
+              </div>
+              <div class="membership-plan">
+                <div>
+                  <h4>
+                   
+                    WorkSpace Membership
+                  </h4>
+                  <div class="Community-mmebership-cards">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
+                    </svg>
+                    <p>All Key Access Features</p>
+                  </div>
+                  <div class="Community-mmebership-cards">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
+                    </svg>
+                    <p>Custom WorkSpace Creation</p>
+                  </div>
+                  <div class="Community-mmebership-cards">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
+                    </svg>
+                    <p>Advanced Analytics</p>
+                  </div>
+                  <button style=    "background-color: #28a745;
+                  color: white;
+                  border: none;
+                  padding: 6px;
+                  width: 204px;
+                  border-radius: 5px;
+                  margin-top: 10px;">select plan</button>
+                </div>
+              </div>
+        </div>
+        
+      </div>
+
+      <footer>
+        <div class="footer-content">
+          <div class="footer-left">
+            <!-- <form id="signup-form">
+              <input type="text" placeholder="First Name" required />
+              <input type="text" placeholder="Last Name" required />
+              <input type="email" placeholder="Email Address" required />
+              <div class="button-group">
+                <button type="submit">Sign Up</button>
+                <button type="button" class="contact-us">Contact Us</button>
+              </div>
+            </form> -->
+          </div>
+          <div class="footer-right">
+            <div class="social-icons">
+              <a href="#"
+                ><img src="{% static 'images/instagram.png' %}" alt="Instagram"
+              /></a>
+              <a href="#"
+                ><img src="{% static 'images/whatsapp.png' %}" alt="WhatsApp"
+              /></a>
+            </div>
+            <div class="footer-bottom">
+              <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
