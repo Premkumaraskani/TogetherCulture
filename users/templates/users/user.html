@@ -3,314 +3,389 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Together Culture</title>
+    <title>Together Culture - Users Dashboard</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <style>
-      .user-members {
+      /* Remove Scrollbars */
+      html,
+      body {
+        overflow: hidden; /* Prevent scrolling */
+        scrollbar-width: none; /* Hide scrollbar for Firefox */
+        -ms-overflow-style: none; /* Hide scrollbar for IE */
+      }
+
+      /* Reset and Common Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #f8f9fc;
+        color: #333;
+      }
+
+      /* Full Page Layout */
+      .container {
         display: flex;
-        gap: 10px;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        width: 135px;
-        height: 40px;
-        padding: 10px;
-        margin: 10px;
-        margin-top: 20px;
-        border-radius: 3px;
+        flex-direction: column;
+        height: 100vh;
       }
-      .users-portal {
-        display: flex;
-      }
-      .users-admin {
-        height: 23rem;
-        width: 100vw;
-      }
-      .member-activity {
+
+      /* Header */
+      header {
         display: flex;
         justify-content: space-between;
-        margin: 10px;
-        margin-right: 20px;
-      }
-      .user-filter {
-        display: flex;
-        gap: 10px;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        width: 5rem;
-        height: 30px;
-        padding: 8px;
-        border-radius: 5px;
-      }
-      .search-bar {
-        display: flex;
         align-items: center;
-        gap: 10px;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        width: 15rem;
-        height: 30px;
-        padding: 8px;
-        border-radius: 5px;
+        padding: 15px 30px;
+        background: white;
+        border-bottom: 1px solid #ddd;
       }
-      .search-bar input {
+      .dropbtn {
+        background: transparent; /* Adjust background as needed */
+        color: #333; /* Use dark color (black-ish) for the username */
         border: none;
-        outline: none;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+      header h1 {
+        font-size: 1.8rem;
+        color: #3366cc;
+      }
+
+      header nav ul {
+        display: flex;
+        list-style: none;
+        gap: 15px;
+      }
+
+      header nav ul li a {
+        text-decoration: none;
+        color: #3366cc;
+        font-weight: bold;
+      }
+
+      /* Main Content */
+      main {
+        flex: 1;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      /* Dashboard Statistic Cards */
+      .dashboard-stats {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .stat-card {
+        flex: 1;
+        background: white;
+        padding: 12px;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-2px);
+      }
+
+      .stat-card h3 {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 3px;
+      }
+
+      .stat-value {
+        font-size: 1.4rem;
+        font-weight: bold;
+      }
+
+      /* Status Colors */
+      .stat-card.active {
+        border-top: 4px solid #28a745;
+      }
+
+      .stat-card.pending {
+        border-top: 4px solid #f0ad4e;
+      }
+
+      .stat-card.premium {
+        border-top: 4px solid #5c67f2;
+      }
+
+      /* Sections */
+      .section-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      /* Tables */
+      .table {
         width: 100%;
-      }
-      .search-bar button {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 3px;
-        padding: 5px 10px;
-        cursor: pointer;
-      }
-      table {
-        width: 1250px;
         border-collapse: collapse;
-        margin-top: 20px;
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-        margin-left: 10px;
+        margin-top: 5px;
       }
-      table, th, td {
-        border: 0.5px solid black;
-      }
-      th {
-        padding: 10px;
+
+      .table th,
+      .table td {
+        border: 1px solid #ddd;
+        padding: 8px;
         text-align: left;
-        background-color: gray;
-        color: white;
       }
-      td {
-        padding: 10px;
-        text-align: left;
-        background-color: white;
+
+      .table th {
+        background: #eef2ff;
+        font-size: 0.9rem;
       }
-      .edit-button {
+
+      /* User Info */
+      .user-info {
         display: flex;
         align-items: center;
-        justify-content: center;
-        padding: 5px 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 3px;
-        box-shadow: rgba(0, 123, 255, 0.2) 0px 7px 29px 0px;
-        cursor: pointer;
       }
-      .edit-button svg {
+
+      .user-info img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+
+      /* Badges */
+      .status {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+
+      .status.active {
+        background: #28a745;
+        color: white;
+      }
+
+      .status.pending {
+        background: #f0ad4e;
+        color: white;
+      }
+
+      .subscription-badge {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+        background: #5c67f2;
+        color: white;
+        border-radius: 4px;
+      }
+
+      /* Action Icons */
+      .action-edit,
+      .action-view,
+      .action-delete {
+        text-decoration: none;
+        margin-right: 5px;
+        font-size: 1rem;
+      }
+
+      /* Membership Requests */
+      .request-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        padding: 12px;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 8px;
+      }
+
+      .request-user {
+        display: flex;
+        align-items: center;
+      }
+
+      .request-user img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+
+      .request-actions button {
+        padding: 6px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        border: none;
+      }
+
+      .btn-accept {
+        background: #28a745;
+        color: white;
         margin-right: 5px;
       }
-      .member-img {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        margin-right: 10px;
+
+      .btn-decline {
+        background: #dc3545;
+        color: white;
       }
-      .member-name {
-        display: flex;
-        align-items: center;
+
+      .btn-approve-all {
+        background: #28a745;
+        color: white;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        border-radius: 5px;
         border: none;
-      }
-      .card {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        width: 25rem;
-        height: 5rem;
-        padding: 10px;
-        margin: 10px;
-        margin-top: 20px;
-        border-radius: 3px;
-        margin-bottom: 20px;
-      }
-      .card img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-      }
-      .card .info {
-        flex-grow: 1;
-      }
-      .card .info p {
-        margin: 0;
-        font-size: 12px;
-      }
-      .card .buttons {
-        display: flex;
-        gap: 5px;
-      }
-      .card .buttons button {
-        padding: 5px 10px;
-        border: none;
-        border-radius: 3px;
         cursor: pointer;
       }
-      .approve-button {
-        background-color: #28a745;
-        color: white;
-      }
-      .reject-button {
-        background-color: #dc3545;
-        color: white;
-      }
-      .search-filter-container {
-        display: flex;
-        gap: 10px;
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 12px;
+        background: white;
+        border-top: 1px solid #ddd;
+        font-size: 0.9rem;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <header class="dashboard-header">
-        <div class="logo">
-          <h1>Together Culture</h1>
-        </div>
+      <!-- Header -->
+      <header>
+        <h1>Together Culture</h1>
         <nav>
           <ul>
-            <li><a href="#">Events</a></li>
-            <li><a href="#">Membership</a></li>
+            <li><a href="{% url 'events' %}">Events</a></li>
+            <li>
+              {% if user.is_authenticated %} {% if not user.is_superuser %}
+              <a href="{% url 'membership' %}">Membership</a>
+              {% endif %} {% else %}
+              <a href="{% url 'membership' %}">Membership</a>
+              {% endif %}
+            </li>
+            {% if user.is_authenticated and user.is_superuser %}
             <li><a href="{% url 'user' %}">Users</a></li>
-            <li><a href="#">Resources</a></li>
-            <li><a href="{% url 'login' %}">Login</a></li>
-            <li><a href="#">Cart</a></li>
+            {% endif %}
+            <li><a href="{% url 'digital' %}">Resources</a></li>
+            {% if user.is_authenticated %}
+            <li>
+              <div class="dropdown">
+                <button class="dropbtn">{{ user.username }}</button>
+                <div class="dropdown-content">
+                  {% if not user.is_superuser %}
+                  <a href="{% url 'profile' %}">Profile</a>
+                  {% endif %}
+                  <a href="{% url 'logout' %}">Logout</a>
+                </div>
+              </div>
+            </li>
+            {% else %}
+            <li id="user-link"><a href="{% url 'loginpage' %}">Login</a></li>
+            {% endif %}
           </ul>
         </nav>
       </header>
 
-      <div class="users-admin">
-        <div class="users-portal">
-          <div class="user-members">
-            <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-people-fill"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"
-                />
-              </svg>
-            </div>
-            <div>
-              <h6>Total Members</h6>
-              <h6>78</h6>
-            </div>
+      <!-- Main Content -->
+      <main>
+        <!-- Dashboard Statistics -->
+        <div class="dashboard-stats">
+          <div class="stat-card">
+            <h3>Total Members</h3>
+            <span class="stat-value">3,247</span>
           </div>
-          <div class="user-members">
-            <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-people-fill"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"
-                />
-              </svg>
-            </div>
-            <div>
-              <h6>Active Members</h6>
-              <h6>16</h6>
-            </div>
+          <div class="stat-card active">
+            <h3>Active Members</h3>
+            <span class="stat-value">2,891</span>
+          </div>
+          <div class="stat-card pending">
+            <h3>Pending Requests</h3>
+            <span class="stat-value">156</span>
+          </div>
+          <div class="stat-card premium">
+            <h3>Premium Members</h3>
+            <span class="stat-value">892</span>
           </div>
         </div>
-        <div class="member-activity">
-          <div>
-            <h3>Recent Member Activity</h3>
-          </div>
-          <div class="search-filter-container">
-            <div class="search-bar">
-              <input type="text" placeholder="Search...">
-              <button>Search</button>
-            </div>
-            <div class="user-filter">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel-fill" viewBox="0 0 16 16">
-                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"/>
-              </svg>
-              <p>Filter</p>
-            </div>
-          </div>
-        </div>
-        <table>
-          <thead>
+
+        <!-- Recent Member Activity -->
+        <div class="container">
+          <div class="section-title">Recent Member Activity</div>
+          <table class="table">
             <tr>
-              <th>Members</th>
+              <th>Member</th>
+              <th>Subscription</th>
+              <th>Last Activity</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
-          </thead>
-          <tbody>
             <tr>
-              <td class="member-name">
-                <img src="https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Profile Image" class="member-img">
-                <div>
-                  <p style="font-size: 12px;">Alice</p>
-                  <p style="font-size: 12px; color: gray;">alice@gmail.com</p>
+              <td>
+                <div class="user-info">
+                  <img
+                    src="{% static 'images/profile.jpg' %}"
+                    alt="Profile Picture"
+                  />
+                  <div>
+                    <strong>Sarah Wilson</strong>
+                    <br />
+                    <span>sarah@example.com</span>
+                  </div>
                 </div>
               </td>
-              <td>Active</td>
+              <td><span class="subscription-badge">Premium</span></td>
               <td>
-                <button class="edit-button">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                  </svg>
-                  Edit
-                </button>
+                2 minutes ago<br />
+                Posted a comment
+              </td>
+              <td><span class="status active">Active</span></td>
+              <td>
+                <a href="#" class="action-edit">✏️</a>
+                <a href="#" class="action-view">👁️</a>
+                <a href="#" class="action-delete">❌</a>
               </td>
             </tr>
-            <!-- Add more rows as needed -->
-          </tbody>
-        </table>
-        <div style="margin: 10px; margin-top: 20px;">
-          <h4>New Membership Request</h4>
+          </table>
         </div>
-        <div class="card">
-          <img src="https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Profile Image">
-          <div class="info">
-            <p>John Doe</p>
-            <p style="color: gray;">john.doe@example.com</p>
-          </div>
-          <div class="buttons">
-            <button class="approve-button">Approve</button>
-            <button class="reject-button">Reject</button>
-          </div>
-        </div>
-      </div>
 
-      <footer>
-        <div class="footer-content">
-          <div class="footer-left">
-            <!-- <form id="signup-form">
-              <input type="text" placeholder="First Name" required />
-              <input type="text" placeholder="Last Name" required />
-              <input type="email" placeholder="Email Address" required />
-              <div class="button-group">
-                <button type="submit">Sign Up</button>
-                <button type="button" class="contact-us">Contact Us</button>
+        <!-- New Membership Requests -->
+        <div class="container">
+          <div class="section-title">New Membership Requests</div>
+          <div class="request-card">
+            <div class="request-user">
+              <img src="{% static 'images/user2.jpg' %}" alt="User Picture" />
+              <div>
+                <strong>Michael Brown</strong>
+                <br />
+                <span>Requested: Basic Plan</span>
               </div>
-            </form> -->
-          </div>
-          <div class="footer-right">
-            <div class="social-icons">
-              <a href="#"
-                ><img src="{% static 'images/instagram.png' %}" alt="Instagram"
-              /></a>
-              <a href="#"
-                ><img src="{% static 'images/whatsapp.png' %}" alt="WhatsApp"
-              /></a>
             </div>
-            <div class="footer-bottom">
-              <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
+            <span class="status pending">Pending</span>
+            <div class="request-actions">
+              <button class="btn-accept">✅ Accept</button>
+              <button class="btn-decline">❌ Decline</button>
             </div>
           </div>
+          <button class="btn-approve-all">Approve All</button>
         </div>
+      </main>
+
+      <!-- Footer -->
+      <footer>
+        <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
       </footer>
     </div>
   </body>
