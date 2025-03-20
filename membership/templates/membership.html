@@ -1,320 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    {% load static %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Together Culture</title>
-    {% load static %}
+    <title>Membership Plans - Together Culture</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <style>
-      .user-members {
-        display: flex;
-        gap: 10px;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        width: 135px;
-        height: 40px;
-        padding: 10px;
-        margin: 10px;
-        margin-top: 20px;
-        border-radius: 3px;
-      }
-      .users-portal {
-        display: flex;
-      }
-      .users-admin {
-        height: 23rem;
-        width: 100vw;
-      }
-      .member-activity {
-        display: flex;
-        justify-content: space-between;
-        margin: 10px;
-        margin-right: 20px;
-      }
-      .user-filter {
-        display: flex;
-        gap: 10px;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        width: 5rem;
-        height: 30px;
-        padding: 8px;
-        border-radius: 5px;
-      }
-      table {
-        width: 1250px;
-        border-collapse: collapse;
-        margin-top: 20px;
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-        margin-left: 10px;
-      }
-      table,
-      th,
-      td {
-        border: 0.5px solid black;
-      }
-      th {
-        padding: 10px;
-        text-align: left;
-        background-color: gray;
-        color: white;
-      }
-      td {
-        padding: 10px;
-        text-align: left;
-        background-color: white;
-      }
-      .edit-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 5px 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 3px;
-        box-shadow: rgba(0, 123, 255, 0.2) 0px 7px 29px 0px;
-        cursor: pointer;
-      }
-      .edit-button svg {
-        margin-right: 5px;
-      }
-      .member-img {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        margin-right: 10px;
-      }
-      .member-name {
-        display: flex;
-        align-items: center;
-        border: none;
-      }
-      .card {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        width: 25rem;
-        height: 5rem;
-        padding: 10px;
-        margin: 10px;
-        margin-top: 20px;
-        border-radius: 3px;
-        margin-bottom: 20px;
-      }
-      .card img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-      }
-      .card .info {
-        flex-grow: 1;
-      }
-      .card .info p {
-        margin: 0;
-        font-size: 12px;
-      }
-      .card .buttons {
-        display: flex;
-        gap: 5px;
-      }
-      .card .buttons button {
-        padding: 5px 10px;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-      }
-      .approve-button {
-        background-color: #28a745;
-        color: white;
-      }
-      .reject-button {
-        background-color: #dc3545;
-        color: white;
-      }
-      .membership-plan {
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        padding: 20px;
-        margin-left: 14px;
-        border-radius: 5px;
-        width: 20rem;
-        border-radius: 5px;
-     
-      }
-      .membership-plan h4 {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .membership-plan h4 svg {
-        color: green;
-      }
-      .membership-plan div {
-        /* display: flex; */
-        align-items: center;
-        gap: 10px;
-      }
-      .membership-plan div svg {
-        color: green;
-      }
-      .Community-mmebership-cards{
-        display: flex;
-        margin-top: 10px;
-      }
-    </style>
   </head>
   <body>
     <div class="container">
-      <header class="dashboard-header">
-        <div class="logo">
-          <h1>Together Culture</h1>
-        </div>
+      <!-- Header -->
+      <header>
+        <h1>Together Culture</h1>
         <nav>
           <ul>
-            <li><a href="#">Events</a></li>
-            <li><a href="#">Membership</a></li>
+            <li><a href="{% url 'events' %}">Events</a></li>
+            <li><a href="{% url 'membership' %}">Membership</a></li>
+            {% if user.is_authenticated and user.is_superuser %}
             <li><a href="{% url 'user' %}">Users</a></li>
-            <li><a href="#">Resources</a></li>
-            <li><a href="{% url 'login' %}">Login</a></li>
-            <li><a href="#">Cart</a></li>
+            {% endif %}
+            <li><a href="{% url 'digital' %}">Resources</a></li>
+            {% if user.is_authenticated %}
+            <li>
+              <div class="dropdown">
+                <button class="dropbtn">{{ user.username }}</button>
+                <div class="dropdown-content">
+                  {% if not user.is_superuser %}
+                  <a href="{% url 'profile' %}">Profile</a>
+                  {% endif %}
+                  <a href="{% url 'logout' %}">Logout</a>
+                </div>
+              </div>
+            </li>
+            {% else %}
+            <li id="user-link"><a href="{% url 'loginpage' %}">Login</a></li>
+            {% endif %}
           </ul>
         </nav>
       </header>
-
-      <div style="height: 23rem;">
-        <h3 style="padding: 19px;">Membership Plans</h3>
-        <div style="display: flex;gap: 20px;">
-            <div class="membership-plan">
-                <div>
-                  <h4>
-                   
-                    Community Membership
-                  </h4>
-                  <div class="Community-mmebership-cards">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
-                    </svg>
-                    <p>Access to Community Form</p>
-                  </div>
-                  <div class="Community-mmebership-cards">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
-                    </svg>
-                    <p>Basic Support</p>
-                  </div>
-                  <div class="Community-mmebership-cards">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
-                    </svg>
-                    <p>Monthly newsletters</p>
-                  </div>
-                  <button style=    "background-color: #28a745;
-                  color: white;
-                  border: none;
-                  padding: 6px;
-                  width: 204px;
-                  border-radius: 5px;
-                  margin-top: 10px;">select plan</button>
-                </div>
-              </div>
-              <div class="membership-plan">
-                <div>
-                  <h4>
-                   
-                    Key Access Membership
-                  </h4>
-                  <div class="Community-mmebership-cards">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
-                    </svg>
-                    <p>All Community Features</p>
-                  </div>
-                  <div class="Community-mmebership-cards">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
-                    </svg>
-                    <p>Priority Support</p>
-                  </div>
-                  <div class="Community-mmebership-cards">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
-                    </svg>
-                    <p>Exclusive Content Access</p>
-                  </div>
-                  <button style=    "background-color: #28a745;
-                  color: white;
-                  border: none;
-                  padding: 6px;
-                  width: 204px;
-                  border-radius: 5px;
-                  margin-top: 10px;">select plan</button>
-                </div>
-              </div>
-              <div class="membership-plan">
-                <div>
-                  <h4>
-                   
-                    WorkSpace Membership
-                  </h4>
-                  <div class="Community-mmebership-cards">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
-                    </svg>
-                    <p>All Key Access Features</p>
-                  </div>
-                  <div class="Community-mmebership-cards">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
-                    </svg>
-                    <p>Custom WorkSpace Creation</p>
-                  </div>
-                  <div class="Community-mmebership-cards">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.08 0l3.992-3.992a.75.75 0 1 0-1.08-1.08L7.5 9.439 5.53 7.47a.75.75 0 0 0-1.08 1.08l2.52 2.52z"/>
-                    </svg>
-                    <p>Advanced Analytics</p>
-                  </div>
-                  <button style=    "background-color: #28a745;
-                  color: white;
-                  border: none;
-                  padding: 6px;
-                  width: 204px;
-                  border-radius: 5px;
-                  margin-top: 10px;">select plan</button>
-                </div>
-              </div>
+      <!-- Main Content -->
+      <main>
+        <h3>Membership Plans</h3>
+        <div class="plans-wrapper">
+          <!-- Community Membership Plan -->
+          <div class="membership-plan">
+            <h4>Community Membership</h4>
+            <ul>
+              <li>Access to Community Forum</li>
+              <li>Basic Support</li>
+              <li>Monthly Newsletters</li>
+            </ul>
+            {% if user.is_authenticated %}
+            <button class="select-plan" data-plan="community">
+              Select Plan
+            </button>
+            {% endif %}
+          </div>
+          <!-- Key Access Membership Plan -->
+          <div class="membership-plan">
+            <h4>Key Access Membership</h4>
+            <ul>
+              <li>All Community Features</li>
+              <li>Priority Support</li>
+              <li>Exclusive Content Access</li>
+            </ul>
+            {% if user.is_authenticated %}
+            <button class="select-plan" data-plan="key">Select Plan</button>
+            {% endif %}
+          </div>
+          <!-- WorkSpace Membership Plan -->
+          <div class="membership-plan">
+            <h4>WorkSpace Membership</h4>
+            <ul>
+              <li>All Key Access Features</li>
+              <li>Custom WorkSpace Creation</li>
+              <li>Advanced Analytics</li>
+            </ul>
+            {% if user.is_authenticated %}
+            <button class="select-plan" data-plan="workspace">
+              Select Plan
+            </button>
+            {% endif %}
+          </div>
         </div>
-        
-      </div>
-
+      </main>
+      <!-- Footer -->
       <footer>
-        <div class="footer-content">
-          <div class="footer-left">
-            <!-- <form id="signup-form">
-              <input type="text" placeholder="First Name" required />
-              <input type="text" placeholder="Last Name" required />
-              <input type="email" placeholder="Email Address" required />
-              <div class="button-group">
-                <button type="submit">Sign Up</button>
-                <button type="button" class="contact-us">Contact Us</button>
-              </div>
-            </form> -->
-          </div>
-          <div class="footer-right">
-            <div class="social-icons">
-              <a href="#"
-                ><img src="{% static 'images/instagram.png' %}" alt="Instagram"
-              /></a>
-              <a href="#"
-                ><img src="{% static 'images/whatsapp.png' %}" alt="WhatsApp"
-              /></a>
-            </div>
-            <div class="footer-bottom">
-              <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
-            </div>
-          </div>
-        </div>
+        <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
       </footer>
     </div>
+    <!-- Modal Popup for Membership Application -->
+    <div id="membership-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="modal-body">
+          <!-- Modal content will be loaded dynamically based on the plan -->
+        </div>
+      </div>
+    </div>
+    <!-- Submission Popup -->
+    <div id="submission-popup" class="popup">
+      <div class="popup-content">
+        <p id="submission-message"></p>
+        <button id="popup-ok-button">OK</button>
+      </div>
+    </div>
+    <!-- jQuery is loaded only once here -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Hide submission popup on load.
+        $("#submission-popup").hide();
+
+        // Parse the membership_info object.
+        var userMembershipInfo = JSON.parse(
+          '{{ user.membership_info|default:"{}"|escapejs }}'
+        );
+        // If the user has already submitted a membership (i.e. membership_info is not empty),
+        // disable ALL select-plan buttons.
+        if (Object.keys(userMembershipInfo).length > 0) {
+          $(".select-plan").prop("disabled", true);
+        }
+
+        // When a "Select Plan" button is clicked, load modal with plan-specific questions.
+        $(".select-plan").on("click", function () {
+          var plan = $(this).data("plan");
+          var modalContent = "";
+          if (plan === "community") {
+            modalContent += "<h4>Community Membership Application</h4>";
+            modalContent +=
+              "<p>What are you looking for in our community? (Max 100 words)</p>";
+            modalContent +=
+              '<textarea name="community_question" rows="4" placeholder="Enter your answer..." maxlength="600"></textarea>';
+          } else if (plan === "key") {
+            modalContent += "<h4>Key Access Membership Application</h4>";
+            modalContent +=
+              "<p>1. What are you looking for in our community? (Max 100 words)</p>";
+            modalContent +=
+              '<textarea name="key_question1" rows="3" placeholder="Enter your answer..." maxlength="600"></textarea>';
+            modalContent +=
+              "<p>2. Are you a member of any other community before? Can you explain your experience?</p>";
+            modalContent +=
+              '<textarea name="key_question2" rows="3" placeholder="Enter your answer..." maxlength="600"></textarea>';
+          } else if (plan === "workspace") {
+            modalContent += "<h4>WorkSpace Membership Application</h4>";
+            modalContent +=
+              "<p>1. What are you looking for in our community? (Max 100 words)</p>";
+            modalContent +=
+              '<textarea name="workspace_question1" rows="3" placeholder="Enter your answer..." maxlength="600"></textarea>';
+            modalContent +=
+              "<p>2. Are you a member of any other community before? Can you explain your experience?</p>";
+            modalContent +=
+              '<textarea name="workspace_question2" rows="3" placeholder="Enter your answer..." maxlength="600"></textarea>';
+            modalContent +=
+              "<p>3. What are you planning to bring to our community? (Minimum 100 words)</p>";
+            modalContent +=
+              '<textarea name="workspace_question3" rows="5" placeholder="Enter your answer..." minlength="100"></textarea>';
+          }
+          modalContent +=
+            '<button id="modal-submit" data-plan="' +
+            plan +
+            '">Submit</button>';
+          $("#modal-body").html(modalContent);
+          $("#membership-modal").fadeIn();
+        });
+
+        // Close modal when clicking the 'x'
+        $(".close-modal").on("click", function () {
+          $("#membership-modal").fadeOut();
+        });
+
+        // Handle modal submit with validation and show submission popup.
+        $(document).on("click", "#modal-submit", function () {
+          var plan = $(this).data("plan");
+          var responses = [];
+          $("#modal-body p").each(function () {
+            var question = $(this).text();
+            var answer = $(this).next("textarea").val().trim();
+            if (!answer) {
+              $("#submission-message").text(
+                "Please answer all questions before submitting."
+              );
+              $("#submission-popup").fadeIn();
+              responses = null;
+              return false;
+            }
+            var wordCount = answer.split(/\s+/).length;
+            if (wordCount > 100) {
+              $("#submission-message").text(
+                "One or more responses exceed the maximum limit of 100 words. Please shorten your answer(s)."
+              );
+              $("#submission-popup").fadeIn();
+              responses = null;
+              return false;
+            }
+            responses.push({ question: question, answer: answer });
+          });
+          if (!responses) return;
+          console.log("Plan selected:", plan);
+          console.log("Responses:", responses);
+          $.ajax({
+            url: "{% url 'save_membership_application' %}",
+            type: "POST",
+            data: JSON.stringify({ plan: plan, responses: responses }),
+            contentType: "application/json",
+            headers: { "X-CSRFToken": "{{ csrf_token }}" },
+            success: function (response) {
+              $("#submission-message").text(
+                "Your application for " +
+                  plan +
+                  " membership has been submitted successfully."
+              );
+              $("#submission-popup").fadeIn();
+              // Disable all select-plan buttons so the user cannot reapply.
+              $(".select-plan").prop("disabled", true);
+              $("#membership-modal").fadeOut();
+            },
+            error: function (xhr) {
+              console.error("Submission error:", xhr.responseText);
+              $("#submission-message").text(
+                "There was an error submitting your application. Please try again."
+              );
+              $("#submission-popup").fadeIn();
+            },
+          });
+        });
+
+        // Close submission popup when clicking OK.
+        $("#popup-ok-button").on("click", function () {
+          $("#submission-popup").fadeOut();
+        });
+        // Also close popup/modal when clicking outside of them.
+        $(window).on("click", function (e) {
+          if ($(e.target).is("#submission-popup")) {
+            $("#submission-popup").fadeOut();
+          }
+          if ($(e.target).is("#membership-modal")) {
+            $("#membership-modal").fadeOut();
+          }
+        });
+      });
+    </script>
   </body>
 </html>

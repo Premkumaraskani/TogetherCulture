@@ -1,0 +1,194 @@
+/* Reset and base settings (ensure these come first) */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+}
+
+/* Body and container layout */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.container {
+  max-width: 600px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: block; /* Ensures vertical layout */
+}
+
+/* Header Styles */
+header {
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+}
+header a.back-button {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 20px;
+  font-size: 20px;
+}
+
+/* Profile picture styling */
+.profile-pic {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.profile-pic img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #333;
+}
+
+/* Form styles for profile page: force vertical stacking */
+form {
+  display: block;
+}
+form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+form input,
+form textarea,
+form select {
+  display: block; /* Forces fields to stack vertically */
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+form input:disabled,
+form textarea:disabled,
+form select:disabled {
+  background: #eee;
+}
+
+/* Interests Section */
+.interests-container {
+  margin-top: 10px;
+}
+.interest-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.interest-field input {
+  width: 80%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.interest-field button.remove-btn {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 10px;
+  background: #e74c3c;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Add Interest Button */
+.add-interest-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: #1ba275;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Submit Button */
+.submit-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background: #1ba275;
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Footer (match your login page style) */
+footer {
+  width: 100%;
+  background-color: #add8e6;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+.footer-left,
+.footer-right {
+  display: flex;
+  align-items: center;
+}
+.footer-left p,
+.footer-right p {
+  margin: 0;
+  font-size: 14px;
+}
+.footer-right img {
+  height: 40px;
+  width: auto;
+  background-color: transparent;
+  margin-right: 10px;
+}
+
+/* Interests Container & Tags */
+.interests-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.interest-tag {
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  padding: 5px 10px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.interest-tag i {
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #e74c3c;
+}
+
+#interests-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}

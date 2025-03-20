@@ -6,34 +6,45 @@
     <title>Together Culture</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <!-- <style>
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        nav ul li {
-            display: inline;
-            margin-right: 20px;
-        }
-        .nav-container {
-            text-align: right;
-        }
-    </style> -->
   </head>
   <body>
     <div class="container">
-      <header class="dashboard-header">
+      <header>
         <div class="logo">
           <h1>Together Culture</h1>
         </div>
         <nav>
           <ul>
-            <li><a href="{% url 'events'%}">Events</a></li>
-            <li><a href="#">Membership</a></li>
+            <li><a href="{% url 'events' %}">Events</a></li>
+            <li>
+              {% if user.is_authenticated %} {% if not user.is_superuser %}
+              <a href="{% url 'membership' %}">Membership</a>
+              {% endif %} {% else %}
+              <!-- Guest sees the membership link -->
+              <a href="{% url 'membership' %}">Membership</a>
+              {% endif %}
+            </li>
+            {% if user.is_authenticated and user.is_superuser %}
             <li><a href="{% url 'user' %}">Users</a></li>
-            <li><a href="#">Resources</a></li>
-            <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+            <li><a href="{% url 'digital' %}">Resources</a></li>
+            {% if user.is_authenticated %}
+            <li>
+              <div class="dropdown">
+                <button class="dropbtn">{{ user.username }}</button>
+                <div class="dropdown-content">
+                  {% if not user.is_superuser %}
+                  <a href="{% url 'profile' %}">Profile</a>
+                  {% endif %}
+                  <a href="{% url 'logout' %}">Logout</a>
+                </div>
+              </div>
+            </li>
+            {% else %}
+            <li id="user-link">
+              <a href="{% url 'loginpage' %}">Login</a>
+            </li>
+            {% endif %}
           </ul>
         </nav>
       </header>
@@ -46,21 +57,7 @@
       </main>
 
       <footer>
-        <div class="footer-content">
-          <div class="footer-right">
-            <div class="social-icons">
-              <a href="#"
-                ><img src="{% static 'images/instagram.png' %}" alt="Instagram"
-              /></a>
-              <a href="#"
-                ><img src="{% static 'images/whatsapp.png' %}" alt="WhatsApp"
-              /></a>
-            </div>
-            <div class="footer-bottom">
-              <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
-            </div>
-          </div>
-        </div>
+        <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
       </footer>
     </div>
   </body>

@@ -1,3 +1,6 @@
+/* =========================
+   Reset & Global Styles
+========================= */
 * {
   margin: 0;
   padding: 0;
@@ -10,62 +13,105 @@ body {
   font-family: Arial, sans-serif;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
- 
-  
-}
-
+/* =========================
+   Layout Containers
+========================= */
 .container {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+}
+main {
   flex: 1;
 }
+body {
+  display: flex;
+  flex-direction: column;
+}
 
+/* =========================
+   Header & Navigation
+========================= */
 header {
-  width: 100%;
-  background-color: #add8e6;
+  background-color: #333;
+  color: #fff;
+  padding: 8px 16px;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 10px 20px;
-  height: 50px; /* Reduced height */
-}
-
-.header-container {
-  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-.btn-back {
-  display: inline-block;
-  padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
+header h1 {
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+/* Navigation */
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+  align-items: center;
+}
+
+nav ul li a {
+  color: #fff;
   text-decoration: none;
-  border-radius: 5px;
-  font-size: 14px;
-  transition: background-color 0.3s;
+  font-weight: bold;
+  padding: 5px 10px;
+  transition: background-color 0.3s ease;
 }
 
-.btn-back i {
-  margin-right: 5px;
+nav ul li a:hover {
+  background-color: #555;
+  border-radius: 4px;
 }
 
-.btn-back:hover {
-  background-color: #0056b3;
+/* Dropdown styling for user menu */
+.dropdown {
+  position: relative;
+  display: inline-block;
 }
 
-/* main {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+.dropbtn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 1rem;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
   background-color: #fff;
-} */
+  min-width: 150px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
 
+.dropdown-content a {
+  color: #333;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+  font-weight: normal;
+}
+
+.dropdown-content a:hover {
+  background-color: #f2f2f2;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* =========================
+   Forms (Register & Login)
+========================= */
 .register-form,
 .login-form {
   max-width: 400px;
@@ -85,8 +131,8 @@ header {
 
 .register-form label,
 .login-form label {
-  display: block;
   margin-bottom: 8px;
+  display: block;
 }
 
 .register-form input,
@@ -126,13 +172,16 @@ header {
   background-color: #0056b3;
 }
 
+/* =========================
+   Footer Styles
+========================= */
 footer {
   width: 100%;
   background-color: #add8e6;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 12px 16px;
   flex-shrink: 0;
 }
 
@@ -148,12 +197,15 @@ footer {
 }
 
 .footer-right img {
-  height: 40px; /* Adjust the height as needed */
-  width: auto; /* Maintain aspect ratio */
-  background-color: transparent; /* Remove background color */
+  height: 40px;
+  width: auto;
+  background-color: transparent;
   margin-right: 10px;
 }
 
+/* =========================
+   Dashboard Styles
+========================= */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -212,21 +264,9 @@ footer {
   color: #333;
 }
 
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.footer-left {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 50%;
-}
-
+/* =========================
+   Signup & Contact Forms
+========================= */
 #signup-form {
   display: flex;
   flex-direction: column;
@@ -266,8 +306,24 @@ footer {
   background-color: #0056b3;
 }
 
-.footer-right {
+/* =========================
+   Footer Content & Social Icons
+========================= */
+.footer-content {
   display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.footer-left {
+  flex-direction: column;
+  align-items: flex-start;
+  width: 50%;
+}
+
+.footer-right {
   flex-direction: column;
   align-items: flex-end;
   width: 50%;
@@ -291,4 +347,426 @@ footer {
 .footer-bottom {
   text-align: right;
   padding-top: 10px;
+}
+
+/* =========================
+   Modal & Popup Styles
+========================= */
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+  position: relative;
+  animation: fadeIn 0.5s ease;
+}
+
+.close-modal {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+  color: #333;
+}
+
+.modal h4 {
+  margin-top: 0;
+  font-size: 1.8rem;
+}
+
+.modal p {
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.modal textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+.modal button {
+  background-color: #171a18;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal button:hover {
+  background-color: #89b592;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Submission Popup */
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 3000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content {
+  background-color: #fff;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.popup-content p {
+  font-size: 1.1rem;
+  margin: 20px 0;
+}
+
+.popup-content button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* =========================
+   Carousel & Related Components
+========================= */
+.carousel {
+  position: relative;
+  width: 60%;
+  margin: auto;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  display: flex;
+  width: 100%;
+  transition: transform 0.2s ease-in-out;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+  text-align: center;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 15rem;
+  border-radius: 10px;
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.carousel-control-prev {
+  left: 10px;
+}
+
+.carousel-control-next {
+  right: 10px;
+}
+
+/* =========================
+   Search & Sort Components
+========================= */
+.search-sort-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px auto;
+  width: 60%;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  width: 20rem;
+  height: 30px;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.search-bar button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.sort-by {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sort-by select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* =========================
+   Membership Plan Grid & Cards
+========================= */
+.plans-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.membership-plan {
+  flex: 1 1 calc(33% - 20px);
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 50px;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+}
+
+.membership-plan h4 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.membership-plan ul {
+  list-style: disc;
+  padding-left: 30px;
+}
+
+.membership-plan ul li {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.membership-plan button.select-plan {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 8px;
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+/* =========================
+   Tables & Cards
+========================= */
+table {
+  width: 1250px;
+  border-collapse: collapse;
+  margin: 20px 0 0 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+table,
+th,
+td {
+  border: 0.5px solid black;
+}
+
+th {
+  padding: 10px;
+  text-align: left;
+  background-color: gray;
+  color: white;
+}
+
+td {
+  padding: 10px;
+  text-align: left;
+  background-color: white;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  width: 25rem;
+  height: 5rem;
+  padding: 10px;
+  margin: 20px 10px 20px 10px;
+  border-radius: 3px;
+}
+
+.card img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.card .info {
+  flex-grow: 1;
+}
+
+.card .info p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.card .buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.card .buttons button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: #007bff;
+  color: white;
+  box-shadow: rgba(0, 123, 255, 0.2) 0px 7px 29px 0px;
+}
+
+.approve-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.reject-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* =========================
+   Miscellaneous
+========================= */
+
+/* Interests */
+.interests-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.interest-tag {
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 5px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.interest-tag i {
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+/* User Members (if used for portal etc.) */
+.user-members {
+  display: flex;
+  gap: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  width: 135px;
+  height: 40px;
+  padding: 10px;
+  margin: 10px;
+  margin-top: 20px;
+  border-radius: 3px;
+}
+
+.users-portal {
+  display: flex;
+}
+
+.users-admin {
+  height: 23rem;
+  width: 100vw;
+}
+
+.member-activity {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  margin-right: 20px;
+}
+
+.user-filter {
+  display: flex;
+  gap: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  width: 5rem;
+  height: 30px;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.search-filter-container {
+  display: flex;
+  gap: 10px;
 }
