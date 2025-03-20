@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User 
 from django.http import JsonResponse
 from django.db.utils import IntegrityError
 import json
@@ -11,36 +10,47 @@ from django.contrib import messages
 
 def login_view(request):
     if request.method == 'POST':
-        loginid = request.POST.get('loginid')
-        password = request.POST.get('password')
-        print(f"Login ID: {loginid}, Password: {password}")
-        user = authenticate(request, username=loginid, password=password)
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '').strip()
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return JsonResponse({'success': True, 'redirect_url': reverse('dashboard')})
+            # Return a response that tells the client to redirect
+            return JsonResponse({
+                'success': True,
+                'redirect_url': reverse('homepage')
+            })
         else:
-            return JsonResponse({'success': False, 'error': 'Invalid credentials'})
+            # Return error message for invalid credentials
+            return JsonResponse({
+                'success': False,
+                'error': 'Invalid credentials. Please try again.'
+            })
     return render(request, 'login/loginpage.html')
+
 
 def userregister_view(request):
     if request.method == 'POST':
-        first_name    = request.POST.get('first_name')
-        last_name     = request.POST.get('last_name')
-        username      = request.POST.get('username')
-        password      = request.POST.get('password')
-        email         = request.POST.get('email')
-        phoneno       = request.POST.get('phoneno')
-        status        = request.POST.get('status')
-        interests_str = request.POST.get('interests')
-        type_field    = request.POST.get('type', 'Guest')
-        
+        first_name    = request.POST.get('first_name', '').strip()
+        last_name     = request.POST.get('last_name', '').strip()
+        username      = request.POST.get('username', '').strip()
+        password      = request.POST.get('password', '').strip()
+        email         = request.POST.get('email', '').strip()
+        phone         = request.POST.get('phone', '').strip()
+        interests_str = request.POST.get('interests', '[]').strip()
         try:
             interests = json.loads(interests_str)
-        except (TypeError, json.JSONDecodeError):
+        except json.JSONDecodeError:
             interests = []
-        
-        # Debug print
-        print(f"User Details: {first_name} | {last_name} | {username} | {password} | {email} | {phoneno} | {status} | {interests} | {type_field}")
+            
+        # Check for duplicate username
+        if Users.objects.filter(username=username).exists():
+            error_msg = "User already exists!"
+            if request.headers.get("x-requested-with") == "XMLHttpRequest":
+                return JsonResponse({'success': False, 'error': error_msg})
+            else:
+                messages.error(request, error_msg)
+                return render(request, 'login/userregister.html')
         
         try:
             user = Users.objects.create_user(
@@ -49,25 +59,38 @@ def userregister_view(request):
                 password=password,
                 first_name=first_name,
                 last_name=last_name,
-                phone=phoneno,
-                status=status,
+                phone=phone,
                 interests=interests,
-                type=type_field
+                type="user"
             )
-        except IntegrityError:
-            return render(request, 'login/userregister.html', {'error': 'Username already exists'})
-        
+        except Exception as e:
+            err_msg = f"Error creating account: {str(e)}"
+            if request.headers.get("x-requested-with") == "XMLHttpRequest":
+                return JsonResponse({'success': False, 'error': err_msg})
+            else:
+                messages.error(request, err_msg)
+                return render(request, 'login/userregister.html')
+                
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-        return redirect(f'{reverse("homepage")}?username={username}')
-    
+            redirect_url = reverse('homepage')
+            if request.headers.get("x-requested-with") == "XMLHttpRequest":
+                return JsonResponse({'success': True, 'redirect_url': redirect_url})
+            else:
+                return redirect(redirect_url)
+        else:
+            err_msg = "Authentication failed after registration!"
+            if request.headers.get("x-requested-with") == "XMLHttpRequest":
+                return JsonResponse({'success': False, 'error': err_msg})
+            else:
+                messages.error(request, err_msg)
+                return render(request, 'login/userregister.html')
     return render(request, 'login/userregister.html')
 
 def logout_view(request):
     logout(request)
-    return redirect('homepage')
-
+    return redirect('homepage') 
 
 @login_required(login_url='loginpage')
 def profile_view(request):
@@ -97,12 +120,14 @@ def profile_view(request):
 
     return render(request, "login/profile.html", {"user": user})
 
+
 def dashboard_view(request):
     return render(request, 'dashboard/homepage.html')
 
 def check_username(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        exists = Users.objects.filter(username=username).exists()
-        return JsonResponse({"exists": exists})
-    return JsonResponse({"exists": False})
+    username = request.GET.get("username", "").strip()
+    exists = Users.objects.filter(username=username).exists()
+    return JsonResponse({"exists": exists})
+
+# login(request, user)
+# return redirect('homepage')

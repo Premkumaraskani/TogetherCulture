@@ -16,8 +16,8 @@ Including another URLconf
 """
 
 from django.contrib import admin
-
 from django.urls import path, include
+#from dashboard import views 
 from login import views as login_views
 
 urlpatterns = [
@@ -28,9 +28,8 @@ urlpatterns = [
     path('users/',include('users.urls')),
     path('events/',include('events.urls')),
     path('membership/',include('membership.urls')),
-    path('digital/',include('digitalcontent.urls'))
+    path('digital/',include('digitalcontent.urls')),
 
     # new code added
     path('profile/', login_views.profile_view, name='profile'),
-
 ]

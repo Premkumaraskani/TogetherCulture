@@ -49,29 +49,41 @@
   </head>
   <body>
     <div class="container">
-      <header class="dashboard-header">
+      <header>
         <div class="logo">
           <h1>Together Culture</h1>
         </div>
         <nav>
           <ul>
-            <li><a href="{% url 'events'%}">Events</a></li>
-            <li><a href="{% url 'membership'%}">Membership</a></li>
+            <li><a href="{% url 'events' %}">Events</a></li>
+            <li>
+              {% if user.is_authenticated %} {% if not user.is_superuser %}
+              <a href="{% url 'membership' %}">Membership</a>
+              {% endif %} {% else %}
+              <!-- Guest sees the membership link -->
+              <a href="{% url 'membership' %}">Membership</a>
+              {% endif %}
+            </li>
+            {% if user.is_authenticated and user.is_superuser %}
             <li><a href="{% url 'user' %}">Users</a></li>
+            {% endif %}
             <li><a href="{% url 'digital' %}">Resources</a></li>
-            <!-- <li id="user-link"><a href="{% url 'login' %}">Login</a></li> -->
             {% if user.is_authenticated %}
-            <li id="user-link">
+            <li>
               <div class="dropdown">
                 <button class="dropbtn">{{ user.username }}</button>
                 <div class="dropdown-content">
+                  {% if not user.is_superuser %}
                   <a href="{% url 'profile' %}">Profile</a>
+                  {% endif %}
                   <a href="{% url 'logout' %}">Logout</a>
                 </div>
               </div>
             </li>
             {% else %}
-            <li id="user-link"><a href="{% url 'login' %}">Login</a></li>
+            <li id="user-link">
+              <a href="{% url 'loginpage' %}">Login</a>
+            </li>
             {% endif %}
           </ul>
         </nav>
@@ -79,58 +91,18 @@
 
       <main class="dashboard-main">
         <div class="dashboard-welcome-message">
+          <h1>
+            Welcome {% if user.is_authenticated %}{{ user.first_name }}{% else
+            %}Guest{% endif %}!
+          </h1>
           <h1>WELCOME</h1>
           <h2>To Together Culture</h2>
         </div>
       </main>
 
       <footer>
-        <div class="footer-content">
-          <div class="footer-left">
-            <form id="signup-form">
-              <input type="text" placeholder="First Name" required />
-              <input type="text" placeholder="Last Name" required />
-              <input type="email" placeholder="Email Address" required />
-              <div class="button-group">
-                <button type="submit">Sign Up</button>
-                <button type="button" class="contact-us">Contact Us</button>
-              </div>
-            </form>
-          </div>
-          <div class="footer-right">
-            <div class="social-icons">
-              <a href="#"
-                ><img src="{% static 'images/instagram.png' %}" alt="Instagram"
-              /></a>
-              <a href="#"
-                ><img src="{% static 'images/whatsapp.png' %}" alt="WhatsApp"
-              /></a>
-            </div>
-            <div class="footer-bottom">
-              <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
-            </div>
-          </div>
-        </div>
+        <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
       </footer>
     </div>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var urlParams = new URLSearchParams(window.location.search);
-        var username = urlParams.get("username");
-        if (username) {
-          var userLink = document.getElementById("user-link");
-          userLink.innerHTML =
-            '<div class="dropdown">' +
-            '<button class="dropbtn">' +
-            username +
-            "</button>" +
-            '<div class="dropdown-content">' +
-            '<a href="{% url "profile" %}">Profile</a>' +
-            '<a href="{% url "logout" %}">Logout</a>' +
-            "</div>" +
-            "</div>";
-        }
-      });
-    </script>
   </body>
 </html>
