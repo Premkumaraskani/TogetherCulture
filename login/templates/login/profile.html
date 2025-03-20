@@ -45,12 +45,44 @@
     </style>
   </head>
   <body>
-    <header class="dashboard-header">
-      <div class="header-container">
-        <a href="{% url 'homepage' %}" class="btn-back">
-          <i class="fas fa-arrow-left"></i> Home</a
-        >
+    <header>
+      <div class="logo">
+        <h1>Together Culture</h1>
       </div>
+      <nav>
+        <ul>
+          <li><a href="{% url 'events' %}">Events</a></li>
+          <li>
+            {% if user.is_authenticated %} {% if not user.is_superuser %}
+            <a href="{% url 'membership' %}">Membership</a>
+            {% endif %} {% else %}
+            <!-- Guest sees the membership link -->
+            <a href="{% url 'membership' %}">Membership</a>
+            {% endif %}
+          </li>
+          {% if user.is_authenticated and user.is_superuser %}
+          <li><a href="{% url 'user' %}">Users</a></li>
+          {% endif %}
+          <li><a href="{% url 'digital' %}">Resources</a></li>
+          {% if user.is_authenticated %}
+          <li>
+            <div class="dropdown">
+              <button class="dropbtn">{{ user.username }}</button>
+              <div class="dropdown-content">
+                {% if not user.is_superuser %}
+                <a href="{% url 'profile' %}">Profile</a>
+                {% endif %}
+                <a href="{% url 'logout' %}">Logout</a>
+              </div>
+            </div>
+          </li>
+          {% else %}
+          <li id="user-link">
+            <a href="{% url 'loginpage' %}">Login</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
     </header>
     <div class="container">
       <div class="profile-pic">
@@ -126,12 +158,7 @@
       </form>
     </div>
     <footer>
-      <div class="footer-left">
-        <p>&copy; 2025 TogetherCulture</p>
-      </div>
-      <div class="footer-right">
-        <p>Contact Info: info@togetherculture.com</p>
-      </div>
+      <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
     </footer>
 
     <div id="error-popup-overlay"></div>

@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "login.apps.LoginConfig",
     "dashboard",
-    "login",
+    # "login",
     "users",
     "events",
     "membership",
@@ -82,15 +83,21 @@ WSGI_APPLICATION = "TCC.wsgi.application"
 AUTH_USER_MODEL = 'login.Users'
 
 DATABASES = {
-    "default": { 
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": 'TogetherCulture',
-        "USER":'username',
-        "PASSWORD":'Password12345!@#$%',
-        "HOST":'127.0.0.1',
-        # "HOST":'192.168.0.186',
-        "PORT":'3306'
-
+    # "default": {
+    #     "ENGINE": "django.db.backends.mysql",
+    #     "NAME": 'TogetherCulture',
+    #     "USER":'username',
+    #     "PASSWORD":'Password12345!@#$%',
+    #     "HOST":'127.0.0.1',
+    #     # "HOST":'192.168.0.186',
+    #     "PORT":'3306'
+    # }
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+        "OPTIONS":{
+            "timeout": 20,
+        }
     }
 }
 
