@@ -263,6 +263,7 @@
   </head>
   <body>
     <div class="container">
+      <!-- Header -->
       <header>
         <h1>Together Culture</h1>
         <nav>
@@ -272,7 +273,6 @@
               {% if user.is_authenticated %} {% if not user.is_superuser %}
               <a href="{% url 'membership' %}">Membership</a>
               {% endif %} {% else %}
-              <!-- Guest sees the membership link -->
               <a href="{% url 'membership' %}">Membership</a>
               {% endif %}
             </li>
@@ -383,6 +383,7 @@
         </div>
       </main>
 
+      <!-- Footer -->
       <footer>
         <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
       </footer>
