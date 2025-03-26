@@ -51,6 +51,14 @@ def userregister_view(request):
             else:
                 messages.error(request, error_msg)
                 return render(request, 'login/userregister.html')
+            
+        if Users.objects.filter(email=email).exists():
+            error_msg = "Email already exists!"
+            if request.headers.get("x-requested-with") == "XMLHttpRequest":
+                return JsonResponse({'success': False, 'error': error_msg})
+            else:
+                messages.error(request, error_msg)
+                return render(request, 'login/userregister.html')
         
         try:
             user = Users.objects.create_user(
@@ -112,7 +120,7 @@ def profile_view(request):
         user.interests = interests
 
         if request.FILES.get("profile_image"):
-            user.profile_image = request.FILES.get("profile_image")
+            user.profile_image = request.FILES["profile_image"]
 
         user.save()
         messages.success(request, "Profile updated successfully!")

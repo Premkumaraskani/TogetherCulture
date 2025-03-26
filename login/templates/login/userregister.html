@@ -8,6 +8,45 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <style>
       /* Overlay that dims the background */
+      .phone-wrapper {
+        position: relative;
+        width: 100%;
+      }
+      .email-wrapper {
+        position: relative;
+        width: 100%;
+      }
+
+      #email {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      #email-status {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 13px;
+        white-space: nowrap;
+      }
+      #phone {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      #phone-status {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .hidden {
+        display: none;
+      }
       .popup-overlay {
         position: fixed;
         top: 0;
@@ -59,16 +98,51 @@
         border-radius: 4px;
         cursor: pointer;
       }
+      .color-cycle {
+        font-weight: bold;
+        animation: colorChange 3s infinite;
+      }
+
+      @keyframes colorChange {
+        0% {
+          color: #e74c3c;
+        } /* red */
+        25% {
+          color: #f39c12;
+        } /* orange */
+        50% {
+          color: #27ae60;
+        } /* green */
+        75% {
+          color: #fa0808;
+        } /* blue */
+        100% {
+          color: #aa0aef;
+        } /* purple */
+      }
+      .register-form {
+        background-color: rgba(255, 255, 255, 0.6); /* more transparent */
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        max-width: 450px;
+        margin: 50px auto;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <header class="dashboard-header">
+      <header>
         <div class="logo">
-          <h1>Together Culture</h1>
+          <a href="{% url 'homepage' %}">
+            <span class="color-cycle"><h1>Together Culture</h1></span>
+          </a>
         </div>
         <nav>
           <ul>
+            <li><a href="{% url 'events' %}">Events</a></li>
             <li>
               {% if user.is_authenticated %} {% if not user.is_superuser %}
               <a href="{% url 'membership' %}">Membership</a>
@@ -84,7 +158,9 @@
             {% if user.is_authenticated %}
             <li>
               <div class="dropdown">
-                <button class="dropbtn">{{ user.username }}</button>
+                <button class="dropbtn">
+                  {{ user.username }}<i class="fas fa-caret-down"></i>
+                </button>
                 <div class="dropdown-content">
                   {% if not user.is_superuser %}
                   <a href="{% url 'profile' %}">Profile</a>
@@ -101,7 +177,7 @@
           </ul>
         </nav>
       </header>
-      <main>
+      <main class="register-background">
         <div class="register-form">
           <h2>New User Registration</h2>
           <form
@@ -133,26 +209,34 @@
             /><br />
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required /><br />
+            <!-- <input type="email" id="email" name="email" required /><br /> -->
+            <div class="email-wrapper">
+              <input type="email" id="email" name="email" required />
+              <span id="email-status" class="hidden"></span>
+            </div>
+            <br />
 
             <label for="phone">Phone Number:</label>
-            <input type="text" id="phone" name="phone" required /><br />
 
-            <!-- <label for="interests">Interests:</label>
-            <input
-              type="text"
-              id="interests"
-              name="interests"
-              placeholder="Enter your interests (e.g. caring, creative)"
-              required
-            /><br /> -->
+            <div class="phone-wrapper">
+              <input
+                type="text"
+                id="phone"
+                name="phone"
+                required
+                maxlength="10"
+                inputmode="numeric"
+              />
+              <span id="phone-status" class="hidden"></span>
+            </div>
+
             <label for="interest-input">Interests:</label>
             <div id="interest-container">
               <!-- Interest text input -->
               <input
                 type="text"
                 id="interest-input"
-                placeholder="Type an interest and press Enter"
+                placeholder="Type an interest"
               />
               <!-- Container for added interest tokens -->
               <div id="interest-tokens"></div>
@@ -161,7 +245,9 @@
             <input type="hidden" id="interests" name="interests" />
             <br />
 
-            <button type="submit" id="register-button">Register</button>
+            <button type="submit" id="register-button" disabled>
+              Register
+            </button>
           </form>
 
           <!-- Error popup -->
@@ -193,12 +279,14 @@
           </div>
 
           <div class="additional-links">
-            <a href="{% url 'loginpage' %}">Already have an account? Login</a>
+            <a href="{% url 'loginpage' %}" style="color: blue"
+              >Already have an account? Login</a
+            >
           </div>
         </div>
       </main>
       <footer>
-        <p>
+        <p style="color: white">
           &copy; 2025 TogetherCulture. All rights reserved. | Contact:
           info@togetherculture.com
         </p>
@@ -208,6 +296,67 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       $(document).ready(function () {
+        // new code below
+        function validateEmail(email) {
+          // Regex: starts with alphanumeric/dot/underscore, ends with @gmail.com, but not multiple @s or bad patterns
+          const pattern = /^[a-zA-Z0-9._]+@gmail\.com$/;
+          return pattern.test(email);
+        }
+
+        $("#email").on("input", function () {
+          const emailVal = $(this).val().trim();
+          const $status = $("#email-status");
+
+          if (emailVal.length === 0) {
+            $status.text("").addClass("hidden");
+          } else if (validateEmail(emailVal)) {
+            $status
+              .text("✅ Valid")
+              .css("color", "green")
+              .removeClass("hidden");
+          } else {
+            $status
+              .text("❌ Invalid")
+              .css("color", "red")
+              .removeClass("hidden");
+          }
+
+          toggleRegisterButton();
+        });
+        function toggleRegisterButton() {
+          const phone = $("#phone").val().trim();
+          const isPhoneValid = phone.length === 10;
+          const email = $("#email").val().trim();
+          const isEmailValid = validateEmail(email);
+          const allFieldsFilled =
+            $("#first_name").val().trim() &&
+            $("#last_name").val().trim() &&
+            $("#username").val().trim() &&
+            $("#password").val().trim() &&
+            // $("#email").val().trim() &&
+            // $("#phone").val().trim() &&
+            isEmailValid &&
+            isPhoneValid &&
+            $("#interest-tokens .interest-token").length > 0;
+
+          $("#register-button").prop("disabled", !allFieldsFilled);
+        }
+
+        $("#first_name, #last_name, #username, #password, #email, #phone").on(
+          "input",
+          toggleRegisterButton
+        );
+
+        $("#interest-input").on("keydown", function (event) {
+          if (event.key === "Enter") {
+            setTimeout(toggleRegisterButton, 100);
+          }
+        });
+
+        $("#interest-tokens").on("click", ".remove-token", function () {
+          setTimeout(toggleRegisterButton, 100);
+        });
+
         $("#interest-input").on("keydown", function (event) {
           if (event.key === "Enter") {
             event.preventDefault();
@@ -237,27 +386,54 @@
           }
         });
 
-        // Remove a token when its "x" is clicked
         $("#interest-tokens").on("click", ".remove-token", function () {
           $(this).parent(".interest-token").remove();
         });
 
+        $("#phone").on("input", function () {
+          this.value = this.value.replace(/\D/g, "").slice(0, 10);
+          const phoneVal = this.value;
+          const $status = $("#phone-status");
+
+          if (phoneVal.length === 0) {
+            $status.text("").addClass("hidden");
+          } else if (phoneVal.length === 10) {
+            $status
+              .text("✅ Valid")
+              .css("color", "green")
+              .removeClass("hidden");
+          } else {
+            $status
+              .text("❌ Invalid")
+              .css("color", "red")
+              .removeClass("hidden");
+          }
+
+          toggleRegisterButton();
+        });
+
         $("#register-form").on("submit", function (event) {
-          event.preventDefault(); // Prevent form’s regular submission
+          event.preventDefault();
+          let interests = [];
+          $("#interest-tokens .interest-token").each(function () {
+            let text = $(this).clone().children().remove().end().text().trim();
+            interests.push(text);
+          });
+          $("#interests").val(JSON.stringify(interests));
+
           var formData = $(this).serialize();
+
           $.ajax({
             url: "{% url 'userregister' %}",
             type: "POST",
             data: formData,
             success: function (response) {
               if (response.success) {
-                // When registration is successful, show success popup.
                 $("#success-popup-overlay, #success-popup").fadeIn();
                 $("#popup-ok-button").one("click", function () {
                   window.location.href = response.redirect_url;
                 });
               } else {
-                // If there’s an error (like duplicate username), show error popup.
                 $("#error-popup-message").text(response.error);
                 $("#error-popup-overlay, #error-popup").fadeIn();
               }

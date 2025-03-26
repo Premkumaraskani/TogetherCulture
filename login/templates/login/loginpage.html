@@ -25,13 +25,54 @@
       #warning-popup button {
         margin-top: 10px;
       }
+      .color-cycle {
+        font-weight: bold;
+        animation: colorChange 3s infinite;
+      }
+
+      @keyframes colorChange {
+        0% {
+          color: #e74c3c;
+        } /* red */
+        25% {
+          color: #f39c12;
+        } /* orange */
+        50% {
+          color: #27ae60;
+        } /* green */
+        75% {
+          color: #fa0808;
+        } /* blue */
+        100% {
+          color: #aa0aef;
+        } /* purple */
+      }
+
+      body {
+        background-image: url("{% static 'images/background.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+      }
+
+      .login-form {
+        background: rgba(255, 255, 255, 0.7);
+        padding: 30px;
+        border-radius: 10px;
+        max-width: 400px;
+        margin: 60px auto;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <header>
         <div class="logo">
-          <h1>Together Culture</h1>
+          <a href="{% url 'homepage' %}">
+            <span class="color-cycle"><h1>Together Culture</h1></span>
+          </a>
         </div>
         <nav>
           <ul>
@@ -51,7 +92,9 @@
             {% if user.is_authenticated %}
             <li>
               <div class="dropdown">
-                <button class="dropbtn">{{ user.username }}</button>
+                <button class="dropbtn">
+                  {{ user.username }}<i class="fas fa-caret-down"></i>
+                </button>
                 <div class="dropdown-content">
                   {% if not user.is_superuser %}
                   <a href="{% url 'profile' %}">Profile</a>
@@ -92,13 +135,15 @@
             <button type="submit" id="login-button">Login</button>
           </form>
           <div class="additional-links">
-            <a href="/login/forgot-password/">Forgot Password?</a> |
+            <!-- <a href="/login/forgot-password/">Forgot Password?</a> | -->
             <a href="{% url 'userregister' %}">New User Registration</a>
           </div>
         </div>
       </main>
       <footer>
-        <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
+        <p style="color: white">
+          &copy; 2025 TogetherCulture. All rights reserved.
+        </p>
       </footer>
     </div>
     <div id="warning-popup">

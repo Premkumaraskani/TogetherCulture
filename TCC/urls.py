@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.urls import path, include
 #from dashboard import views 
 from login import views as login_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -33,3 +35,7 @@ urlpatterns = [
     # new code added
     path('profile/', login_views.profile_view, name='profile'),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

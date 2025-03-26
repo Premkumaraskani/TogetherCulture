@@ -1,41 +1,39 @@
-/* Reset and base settings (ensure these come first) */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 html,
 body {
   height: 100%;
   font-family: Arial, sans-serif;
   background: #f2f2f2;
+  overflow: hidden;
 }
 
-/* Body and container layout */
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+.scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 0;
 }
+
 .container {
   max-width: 600px;
-  margin: 30px auto;
+  margin: 0 auto;
   background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  display: block; /* Ensures vertical layout */
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.95);
 }
 
-/* Header Styles */
-header {
-  width: 100%;
-  background-color: #333;
+header,
+footer {
+  background-color: rgba(17, 6, 39, 0.7);
   color: #fff;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
 }
+
 header a.back-button {
   color: #fff;
   text-decoration: none;
@@ -43,11 +41,11 @@ header a.back-button {
   font-size: 20px;
 }
 
-/* Profile picture styling */
 .profile-pic {
   text-align: center;
   margin-bottom: 20px;
 }
+
 .profile-pic img {
   width: 150px;
   height: 150px;
@@ -56,19 +54,23 @@ header a.back-button {
   border: 3px solid #333;
 }
 
-/* Form styles for profile page: force vertical stacking */
 form {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 form label {
   display: block;
   margin-top: 15px;
   font-weight: bold;
+  align-self: flex-start;
 }
+
 form input,
 form textarea,
 form select {
-  display: block; /* Forces fields to stack vertically */
+  display: block;
   width: 100%;
   padding: 10px;
   margin-top: 5px;
@@ -76,95 +78,32 @@ form select {
   border-radius: 4px;
   box-sizing: border-box;
 }
+
 form input:disabled,
 form textarea:disabled,
 form select:disabled {
   background: #eee;
 }
 
-/* Interests Section */
-.interests-container {
-  margin-top: 10px;
-}
-.interest-field {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.interest-field input {
-  width: 80%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-.interest-field button.remove-btn {
-  display: inline-block;
-  margin-left: 5px;
-  padding: 10px;
-  background: #e74c3c;
-  border: none;
-  border-radius: 4px;
-  color: #fff;
-  cursor: pointer;
-}
-
-/* Add Interest Button */
-.add-interest-btn {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 15px;
-  background: #1ba275;
-  border: none;
-  border-radius: 4px;
-  color: #fff;
-  cursor: pointer;
-}
-
-/* Submit Button */
-.submit-btn {
+form .submit-btn {
+  width: 90%;
+  max-width: 300px;
   margin-top: 20px;
-  width: 100%;
-  padding: 12px;
+  padding: 12px 24px;
   background: #1ba275;
   border: none;
-  color: #fff;
-  border-radius: 4px;
+  color: white;
   font-size: 16px;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-/* Footer (match your login page style) */
-footer {
-  width: 100%;
-  background-color: #add8e6;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-shrink: 0;
-}
-.footer-left,
-.footer-right {
-  display: flex;
-  align-items: center;
-}
-.footer-left p,
-.footer-right p {
-  margin: 0;
-  font-size: 14px;
-}
-.footer-right img {
-  height: 40px;
-  width: auto;
-  background-color: transparent;
-  margin-right: 10px;
-}
-
-/* Interests Container & Tags */
 .interests-container {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 
@@ -191,4 +130,47 @@ footer {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+footer {
+  width: 100%;
+  background-color: #000 !important;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.color-cycle {
+  text-shadow: 1px 1px 2px #000;
+}
+
+.footer-left,
+.footer-right {
+  display: flex;
+  align-items: center;
+}
+
+.footer-left p,
+.footer-right p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.footer-right img {
+  height: 40px;
+  width: auto;
+  background-color: transparent;
+  margin-right: 10px;
+}
+
+#profile-preview {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #1ba275;
 }

@@ -28,6 +28,13 @@ body {
   display: flex;
   flex-direction: column;
 }
+main.register-background {
+  background-image: url("../images/register.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 40px 0; /* Optional spacing */
+}
 
 /* =========================
    Header & Navigation
@@ -74,15 +81,23 @@ nav ul li a:hover {
 }
 
 .dropbtn {
-  background: none;
+  background: transparent;
   border: none;
-  color: #fff;
-  font-weight: bold;
   cursor: pointer;
   padding: 5px 10px;
   font-size: 1rem;
 }
+.dashboard-header .dropbtn {
+  color: #333;
+  display: flex;
+  align-items: center;
+}
 
+/* For the Login Header (or other pages) where a different style is needed (e.g., white text) */
+.login-header .dropbtn {
+  color: #fff;
+  font-weight: bold;
+}
 .dropdown-content {
   display: none;
   position: absolute;
@@ -167,6 +182,11 @@ nav ul li a:hover {
   cursor: pointer;
 }
 
+.register-form button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
 .register-form button:hover,
 .login-form button:hover {
   background-color: #0056b3;
@@ -177,7 +197,7 @@ nav ul li a:hover {
 ========================= */
 footer {
   width: 100%;
-  background-color: #add8e6;
+  background-color: #141515;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -769,4 +789,178 @@ td {
 .search-filter-container {
   display: flex;
   gap: 10px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown button (username) */
+/* .dropbtn {
+  background: transparent;
+  color: #333; 
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.dropbtn i {
+  margin-left: 5px;
+} */
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 150px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Links inside dropdown */
+.dropdown-content a {
+  color: #333;
+  padding: 8px 12px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Hover effect for dropdown links */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.homepage-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+}
+
+.section-left,
+.section-right {
+  flex: 1 1 50%;
+  padding: 30px;
+}
+
+.transparent-img {
+  width: 100%;
+  height: auto;
+  opacity: 0.8;
+  border-radius: 8px;
+}
+
+.section-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section-right h2 {
+  margin-bottom: 10px;
+}
+
+.section-right p {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+#toggleMoreBtn {
+  width: 100px;
+  padding: 8px 16px;
+  background-color: #1ba275;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+#toggleMoreBtn:hover {
+  background-color: #168d64;
+}
+
+.more-text {
+  transition: all 0.3s ease;
+}
+
+/* homepage new css */
+
+.homepage-main {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 40px 20px;
+}
+
+.homepage-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+}
+
+.section-left,
+.section-right {
+  flex: 1 1 50%;
+  padding: 20px;
+}
+
+.transparent-img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  opacity: 0.85;
+}
+
+.section-right h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.section-right .summary-text {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.section-right button {
+  background-color: #1ba275;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.section-right button:hover {
+  background-color: #168d64;
+}
+
+.more-text {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
 }

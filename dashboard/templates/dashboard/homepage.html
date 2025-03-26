@@ -5,53 +5,125 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Together Culture</title>
     {% load static %}
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+
     <style>
-      /* Dropdown Button */
       .dropbtn {
-        background-color: #4caf50;
-        color: white;
-        padding: 10px 16px;
-        font-size: 16px;
+        background: none;
         border: none;
+        font-size: 16px;
         cursor: pointer;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
       }
-      /* Dropdown container */
-      .dropdown {
-        position: relative;
-        display: inline-block;
+
+      .dropbtn i {
+        font-size: 18px !important;
+        color: rgb(240, 240, 235) !important;
+        display: inline !important;
+        visibility: visible !important;
       }
-      /* Dropdown Content (Hidden by Default) */
+
+      .dropdown:hover .dropbtn i {
+        transform: rotate(180deg);
+      }
+
       .dropdown-content {
         display: none;
         position: absolute;
-        background-color: #f9f9f9;
-        min-width: 120px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        background-color: white;
+        min-width: 150px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
         z-index: 1;
       }
-      /* Dropdown Links */
+
       .dropdown-content a {
-        color: black;
+        color: #333;
         padding: 10px 12px;
         text-decoration: none;
         display: block;
       }
-      /* Show menu on hover */
+
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+
       .dropdown:hover .dropdown-content {
         display: block;
       }
-      /* Hover effect for links */
-      .dropdown-content a:hover {
-        background-color: #f1f1f1;
+
+      header .logo a {
+        text-decoration: none;
+        color: inherit;
+      }
+      /* css for the color changing */
+      .color-cycle {
+        font-weight: bold;
+        animation: colorChange 3s infinite;
+      }
+
+      @keyframes colorChange {
+        0% {
+          color: #e74c3c;
+        } /* red */
+        25% {
+          color: #f39c12;
+        } /* orange */
+        50% {
+          color: #27ae60;
+        } /* green */
+        75% {
+          color: #2980b9;
+        } /* blue */
+        100% {
+          color: #8e44ad;
+        } /* purple */
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 16px; /* Adjust spacing between logo and user-info */
+      }
+
+      .logo h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .user-info small {
+        font-size: 14px;
+        color: white; /* Adjust to match your header background */
       }
     </style>
   </head>
   <body>
     <div class="container">
       <header>
-        <div class="logo">
-          <h1>Together Culture</h1>
+        <div class="header-left">
+          <div class="logo">
+            <a href="{% url 'homepage' %}">
+              <span class="color-cycle"><h1>Together Culture</h1></span>
+            </a>
+          </div>
+          {% if user.is_authenticated %}
+          <div class="user-info">
+            <small>
+              <span class="color-cycle"
+                >{{ user.get_account_type_display }}</span
+              >
+            </small>
+          </div>
+          {% endif %}
         </div>
         <nav>
           <ul>
@@ -69,9 +141,13 @@
             {% endif %}
             <li><a href="{% url 'digital' %}">Resources</a></li>
             {% if user.is_authenticated %}
+
             <li>
               <div class="dropdown">
-                <button class="dropbtn">{{ user.username }}</button>
+                <button class="dropbtn">
+                  <span class="color-cycle">{{ user.username }}</span
+                  ><i class="fa-solid fa-caret-down"></i>
+                </button>
                 <div class="dropdown-content">
                   {% if not user.is_superuser %}
                   <a href="{% url 'profile' %}">Profile</a>
@@ -91,18 +167,97 @@
 
       <main class="dashboard-main">
         <div class="dashboard-welcome-message">
-          <h1>
+          <!-- <h1>
             Welcome {% if user.is_authenticated %}{{ user.first_name }}{% else
             %}Guest{% endif %}!
           </h1>
           <h1>WELCOME</h1>
-          <h2>To Together Culture</h2>
+          <h2>To Together Culture</h2> -->
+
+          <section class="homepage-section">
+            <div class="section-left">
+              <img
+                src="{% static 'images/people.jpg' %}"
+                alt="Community Event"
+                class="transparent-img"
+              />
+            </div>
+            <div class="section-right">
+              <h2>Connect with Culture</h2>
+              <p class="summary-text">
+                Meet people, share traditions, and grow stronger together.
+              </p>
+              <button class="toggleMoreBtn">More</button>
+              <p class="more-text" style="display: none">
+                Join vibrant festivals, discussions, and shared learning
+                experiences from every background.
+              </p>
+            </div>
+          </section>
+
+          <section class="homepage-section">
+            <div class="section-left">
+              <img
+                src="{% static 'images/login.jpg' %}"
+                alt="Learning Session"
+                class="transparent-img"
+              />
+            </div>
+            <div class="section-right">
+              <h2>Learn and Collaborate</h2>
+              <p class="summary-text">
+                Engage in knowledge-sharing and improve your skills.
+              </p>
+              <button class="toggleMoreBtn">More</button>
+              <p class="more-text" style="display: none">
+                Access digital resources, mentorship, and expert sessions
+                tailored for personal and professional growth.
+              </p>
+            </div>
+          </section>
+
+          <section class="homepage-section">
+            <div class="section-left">
+              <img
+                src="{% static 'images/background.jpg' %}"
+                alt="Support Group"
+                class="transparent-img"
+              />
+            </div>
+            <div class="section-right">
+              <h2>Support and Belonging</h2>
+              <p class="summary-text">
+                Find a safe space to express yourself and seek support.
+              </p>
+              <button class="toggleMoreBtn">More</button>
+              <p class="more-text" style="display: none">
+                Participate in mental health circles, wellness events, and
+                connect with people who understand your journey.
+              </p>
+            </div>
+          </section>
         </div>
       </main>
 
       <footer>
-        <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
+        <p style="color: white">
+          &copy; 2025 TogetherCulture. All rights reserved.
+        </p>
       </footer>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".toggleMoreBtn").forEach((button) => {
+          button.addEventListener("click", function () {
+            const moreText = this.nextElementSibling;
+            const isVisible = moreText.style.display === "block";
+            moreText.style.display = isVisible ? "none" : "block";
+            this.textContent = isVisible ? "More" : "Less";
+          });
+        });
+      });
+    </script>
   </body>
 </html>

@@ -184,7 +184,7 @@
       .subscription-badge {
         padding: 4px 8px;
         font-size: 0.75rem;
-        background: #5c67f2;
+        background: #f7f7f9;
         color: white;
         border-radius: 4px;
       }
@@ -265,7 +265,11 @@
     <div class="container">
       <!-- Header -->
       <header>
-        <h1>Together Culture</h1>
+        <div class="logo">
+          <a href="{% url 'homepage' %}">
+            <h1>Together Culture</h1>
+          </a>
+        </div>
         <nav>
           <ul>
             <li><a href="{% url 'events' %}">Events</a></li>
@@ -283,7 +287,9 @@
             {% if user.is_authenticated %}
             <li>
               <div class="dropdown">
-                <button class="dropbtn">{{ user.username }}</button>
+                <button class="dropbtn">
+                  {{ user.username }}<i class="fas fa-caret-down"></i>
+                </button>
                 <div class="dropdown-content">
                   {% if not user.is_superuser %}
                   <a href="{% url 'profile' %}">Profile</a>
@@ -293,7 +299,9 @@
               </div>
             </li>
             {% else %}
-            <li id="user-link"><a href="{% url 'loginpage' %}">Login</a></li>
+            <li id="user-link">
+              <a href="{% url 'loginpage' %}">Login</a>
+            </li>
             {% endif %}
           </ul>
         </nav>

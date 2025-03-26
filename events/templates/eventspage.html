@@ -169,7 +169,9 @@
       <!-- Header: Logo on left, Menus on right -->
       <header>
         <div class="logo">
-          <h1>Together Culture</h1>
+          <a href="{% url 'homepage' %}">
+            <h1>Together Culture</h1>
+          </a>
         </div>
         <nav>
           <ul>
@@ -178,6 +180,7 @@
               {% if user.is_authenticated %} {% if not user.is_superuser %}
               <a href="{% url 'membership' %}">Membership</a>
               {% endif %} {% else %}
+              <!-- Guest sees the membership link -->
               <a href="{% url 'membership' %}">Membership</a>
               {% endif %}
             </li>
@@ -188,7 +191,9 @@
             {% if user.is_authenticated %}
             <li>
               <div class="dropdown">
-                <button class="dropbtn">{{ user.username }}</button>
+                <button class="dropbtn">
+                  {{ user.username }}<i class="fas fa-caret-down"></i>
+                </button>
                 <div class="dropdown-content">
                   {% if not user.is_superuser %}
                   <a href="{% url 'profile' %}">Profile</a>
@@ -198,7 +203,9 @@
               </div>
             </li>
             {% else %}
-            <li id="user-link"><a href="{% url 'loginpage' %}">Login</a></li>
+            <li id="user-link">
+              <a href="{% url 'loginpage' %}">Login</a>
+            </li>
             {% endif %}
           </ul>
         </nav>

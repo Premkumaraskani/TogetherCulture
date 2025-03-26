@@ -3,52 +3,232 @@
     <meta charset="UTF-8" />
     <title>Profile</title>
     {% load static %}
+
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
+
     <style>
-      #error-popup-overlay {
-        display: none;
-        position: fixed;
+      main.scroll-area {
+        position: relative;
+        background: url("{% static 'images/background.jpg' %}") no-repeat center
+          center;
+        background-size: cover;
+        z-index: 0;
+      }
+
+      main.scroll-area .overlay {
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
+        background-color: rgba(255, 255, 255, 0.75);
+        z-index: 1;
+      }
+      .container {
+        position: relative;
+
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(6px);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      main.scroll-area::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-color: rgba(255, 255, 255, 0.08);
+        z-index: 0;
+      }
+      main.scroll-area .container {
+        position: relative;
+        z-index: 1;
+      }
+
+      #error-popup-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
         background: rgba(0, 0, 0, 0.5);
         z-index: 999;
       }
+
       .popup {
         display: none;
         position: fixed;
         top: 50%;
         left: 50%;
+        width: 320px;
+        max-height: 200px;
+        background-color: #fff;
         transform: translate(-50%, -50%);
-        background: white;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
         z-index: 1000;
-        width: 300px;
+        overflow: hidden;
         text-align: center;
       }
+
+      .popup h2 {
+        background-color: #fdd835;
+        color: #222;
+        font-size: 18px;
+        margin: 0;
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .popup p {
+        padding: 15px;
+        font-size: 15px;
+        color: #333;
+      }
+
       .popup button {
-        margin-top: 10px;
-        padding: 8px 12px;
+        padding: 8px 16px;
+        margin-bottom: 12px;
         background: #1ba275;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      .popup button:hover {
+        background: #168d64;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      form .submit-btn {
+        width: 90%;
+        max-width: 300px;
+        padding: 12px 20px;
+        margin-top: 20px;
+        background-color: #1ba275;
         border: none;
         color: white;
-        border-radius: 4px;
+        font-size: 16px;
+        border-radius: 6px;
         cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      form .submit-btn:hover {
+        background-color: #168d64;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 30px auto;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(8px);
+      }
+
+      .dropbtn {
+        background: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .dropbtn i {
+        font-size: 18px !important;
+        color: rgb(240, 240, 235) !important;
+        display: inline !important;
+        visibility: visible !important;
+      }
+
+      .dropdown:hover .dropbtn i {
+        transform: rotate(180deg);
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 150px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: #333;
+        padding: 10px 12px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      header .logo a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .color-cycle {
+        font-weight: bold;
+        animation: colorChange 3s infinite;
+      }
+
+      @keyframes colorChange {
+        0% {
+          color: #e74c3c;
+        }
+        25% {
+          color: #f39c12;
+        }
+        50% {
+          color: #27ae60;
+        }
+        75% {
+          color: #2980b9;
+        }
+        100% {
+          color: #8e44ad;
+        }
       }
     </style>
   </head>
   <body>
     <header>
       <div class="logo">
-        <h1>Together Culture</h1>
+        <a href="{% url 'homepage' %}">
+          <span class="color-cycle"><h1>Together Culture</h1></span>
+        </a>
       </div>
+      {% if user.is_authenticated %}
+      <div class="user-info">
+        <small>
+          <span class="color-cycle"
+            >{{ user.get_account_type_display }}</span
+          ></small
+        >
+      </div>
+      {% endif %}
       <nav>
         <ul>
           <li><a href="{% url 'events' %}">Events</a></li>
@@ -65,9 +245,13 @@
           {% endif %}
           <li><a href="{% url 'digital' %}">Resources</a></li>
           {% if user.is_authenticated %}
+
           <li>
             <div class="dropdown">
-              <button class="dropbtn">{{ user.username }}</button>
+              <button class="dropbtn">
+                <span class="color-cycle">{{ user.username }}</span
+                ><i class="fa-solid fa-caret-down"></i>
+              </button>
               <div class="dropdown-content">
                 {% if not user.is_superuser %}
                 <a href="{% url 'profile' %}">Profile</a>
@@ -84,79 +268,100 @@
         </ul>
       </nav>
     </header>
-    <div class="container">
-      <div class="profile-pic">
-        {% if user.profile_image %}
-        <img src="{{ user.profile_image.url }}" alt="Profile Picture" />
-        {% else %}
-        <img
-          src="{% static 'images/default-avatar.png' %}"
-          alt="Default Avatar"
-        />
-        {% endif %}
-      </div>
-      <form
-        method="post"
-        action="{% url 'profile' %}"
-        enctype="multipart/form-data"
-      >
-        {% csrf_token %}
-        <label for="profile_image">Change Profile Picture:</label>
-        <input type="file" name="profile_image" id="profile_image" />
-
-        <label for="first_name">First Name:</label>
-        <input
-          type="text"
-          name="first_name"
-          id="first_name"
-          value="{{ user.first_name }}"
-        />
-
-        <label for="last_name">Last Name:</label>
-        <input
-          type="text"
-          name="last_name"
-          id="last_name"
-          value="{{ user.last_name }}"
-        />
-
-        <label for="username">Username:</label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          value="{{ user.username }}"
-          disabled
-        />
-
-        <label for="email">Email:</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          value="{{ user.email }}"
-          disabled
-        />
-
-        <label for="phone">Phone:</label>
-        <input type="text" name="phone" id="phone" value="{{ user.phone }}" />
-
-        <label for="interests-input">Interests:</label>
-        <div id="interests-list" class="interests-container">
-          {% for interest in user.interests %}
-          <span class="interest-tag">
-            {{ interest }}
-            <i class="fas fa-times remove-interest"></i>
-          </span>
-          {% endfor %}
+    <main class="scroll-area">
+      <!-- <div class="overlay"></div> -->
+      <div class="container">
+        <div class="profile-pic">
+          <img
+            id="profile-preview"
+            src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}"
+            alt="Profile Picture"
+          />
         </div>
-        <input type="text" id="interests-input" placeholder="Enter Interest" />
-        <!-- Hidden input to store interests value for submission -->
-        <input type="hidden" name="interests_data" id="interests_data" />
 
-        <button type="submit" class="submit-btn">Update Profile</button>
-      </form>
-    </div>
+        <form
+          method="post"
+          action="{% url 'profile' %}"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+
+          <label for="profile_image">Change Profile Picture:</label>
+          <input
+            type="file"
+            name="profile_image"
+            id="profile_image"
+            accept="image/*"
+          />
+
+          <label for="first_name">First Name:</label>
+          <input
+            type="text"
+            name="first_name"
+            id="first_name"
+            value="{{ user.first_name }}"
+          />
+
+          <label for="last_name">Last Name:</label>
+          <input
+            type="text"
+            name="last_name"
+            id="last_name"
+            value="{{ user.last_name }}"
+          />
+
+          <label for="username">Username:</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            value="{{ user.username }}"
+            disabled
+          />
+
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            value="{{ user.email }}"
+            disabled
+          />
+
+          <label for="phone">Phone:</label>
+          <input type="text" name="phone" id="phone" value="{{ user.phone }}" />
+
+          <label for="account_type">Account Type:</label>
+          <input
+            type="text"
+            name="account_type"
+            id="account_type"
+            value="{{ user.get_account_type_display }}"
+            disabled
+          />
+
+          <label for="interests-input">Interests:</label>
+          <div id="interests-list" class="interests-container">
+            {% for interest in user.interests %}
+            <span class="interest-tag">
+              {{ interest }}
+              <i class="fas fa-times remove-interest"></i>
+            </span>
+            {% endfor %}
+          </div>
+          <input
+            type="text"
+            id="interests-input"
+            placeholder="Enter Interest"
+          />
+          <!-- Hidden input to store interests value for submission -->
+          <input type="hidden" name="interests_data" id="interests_data" />
+
+          <button type="submit" class="submit-btn">Update Profile</button>
+        </form>
+      </div>
+    </main>
+
     <footer>
       <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
     </footer>
@@ -186,6 +391,7 @@
         last_name: $("#last_name").val().trim(),
         phone: $("#phone").val().trim(),
         interests: [],
+        profileChanged: false,
       };
       $("#interests-list .interest-tag").each(function () {
         let interestText = $(this)
@@ -199,6 +405,8 @@
       });
 
       $(document).ready(function () {
+        $("#popup-overlay").hide();
+        $(".popup-modal").hide();
         $("#interests-input").on("keypress", function (event) {
           if (event.which === 13) {
             event.preventDefault();
@@ -270,7 +478,8 @@
             initialData.last_name === newData.last_name &&
             initialData.phone === newData.phone &&
             JSON.stringify(initialData.interests) ===
-              JSON.stringify(newData.interests)
+              JSON.stringify(newData.interests) &&
+            !initialData.profileImageChanged
           ) {
             e.preventDefault();
             $("#error-popup-overlay, #no-change-popup").show();
@@ -279,6 +488,34 @@
           $("#interests_data").val(JSON.stringify(newData.interests));
         });
       });
+      document
+        .getElementById("profile_image")
+        .addEventListener("change", function (event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              document.getElementById("profile-preview").src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+            initialData.profileImageChanged = true;
+          }
+        });
+      function showPopup(id) {
+        $("#error-popup-overlay").show();
+        $(id).fadeIn();
+      }
+
+      function hidePopups() {
+        $("#error-popup-overlay").hide();
+        $(".popup").hide();
+      }
+
+      $(document).on(
+        "click",
+        "#error-popup-ok-button, #max-error-popup-ok-button, #no-change-ok-button",
+        hidePopups
+      );
     </script>
   </body>
 </html>

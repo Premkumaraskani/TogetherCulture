@@ -5,13 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Together Culture</title>
     {% load static %}
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      integrity="sha512-Fo3rlrZj/k7ujTnHg4C+XNU6xZl3MNu9QnuB8Gd9xK1pKRXj7ax6IQj7rc0WocpvsQqHz3Qpi3RpKmbHk7+6Pg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+
+    <style>
+      /* Updated Dropdown Button Style */
+      .dropbtn {
+        background: none; /* Remove any background color */
+        color: #fff; /* White text as in nav links */
+        padding: 10px 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+      /* Dropdown container */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      /* Dropdown Content (Hidden by Default) */
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 120px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+      /* Dropdown Links */
+      .dropdown-content a {
+        color: #333;
+        padding: 10px 12px;
+        text-decoration: none;
+        display: block;
+      }
+      /* Show menu on hover */
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      /* Hover effect for links */
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+
+      /* Style for the header logo as a link */
+      header .logo a {
+        text-decoration: none;
+        color: inherit;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
       <header>
         <div class="logo">
-          <h1>Together Culture</h1>
+          <a href="{% url 'homepage' %}">
+            <h1>Together Culture</h1>
+          </a>
         </div>
         <nav>
           <ul>
@@ -31,7 +89,9 @@
             {% if user.is_authenticated %}
             <li>
               <div class="dropdown">
-                <button class="dropbtn">{{ user.username }}</button>
+                <button class="dropbtn">
+                  {{ user.username }}<i class="fas fa-caret-down"></i>
+                </button>
                 <div class="dropdown-content">
                   {% if not user.is_superuser %}
                   <a href="{% url 'profile' %}">Profile</a>
