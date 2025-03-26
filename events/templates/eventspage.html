@@ -3,9 +3,166 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Together Culture</title>
+    <title>TogetherCulture - Events</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <style>
+      /* Basic Reset & Global Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .dropbtn {
+        background: transparent; /* Adjust background as needed */
+        color: #333; /* Use dark color (black-ish) for the username */
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fc;
+        color: #333;
+      }
+
+      /* Container forces footer to bottom */
+      .container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      main {
+        flex: 1;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background: white;
+        border-bottom: 1px solid #ddd;
+      }
+
+      header .logo h1 {
+        font-size: 1.8rem;
+        color: #3366cc;
+      }
+
+      header nav ul {
+        display: flex;
+        list-style: none;
+        gap: 15px;
+      }
+
+      header nav ul li a {
+        text-decoration: none;
+        color: #3366cc;
+        font-weight: bold;
+      }
+
+      /* Main content styles */
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin: 20px 0;
+      }
+
+      .event-cards {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .event-card {
+        flex: 1;
+        padding: 15px;
+        background: #eef2ff;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      .event-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: #5cb85c;
+        color: white;
+        padding: 5px 10px;
+        font-size: 0.8rem;
+        border-radius: 5px;
+      }
+
+      .upcoming {
+        background: #f0ad4e;
+      }
+
+      .event-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+
+      .event-date,
+      .event-details,
+      .event-meta {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 10px;
+      }
+
+      .event-button {
+        display: inline-block;
+        padding: 8px 12px;
+        border: 1px solid #5c67f2;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        color: #5c67f2;
+        background: white;
+        cursor: pointer;
+      }
+
+      .event-button:hover {
+        background: #5c67f2;
+        color: white;
+      }
+
+      /* Completed Events Table */
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      .table th,
+      .table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+      }
+
+      .table th {
+        background: #eef2ff;
+      }
+
+      .rating {
+        color: #ff9800;
+      }
+
+      /* Footer Styles */
+      footer {
+        text-align: center;
+        padding: 15px;
+        background: white;
+        border-top: 1px solid #ddd;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -41,18 +198,60 @@
               </div>
             </li>
             {% else %}
-            <li id="user-link">
-              <a href="{% url 'loginpage' %}">Login</a>
-            </li>
+            <li id="user-link"><a href="{% url 'loginpage' %}">Login</a></li>
             {% endif %}
           </ul>
         </nav>
       </header>
 
-      <main class="dashboard-main">
-        <div class="dashboard-welcome-message">
-          <h1>WELCOME</h1>
-          <h2>To Together Culture</h2>
+      <!-- Main Content -->
+      <main>
+        <!-- Current & Upcoming Events -->
+        <div class="container">
+          <div class="section-title">Current & Upcoming Events</div>
+          <div class="event-cards">
+            <div class="event-card">
+              <span class="event-badge">Ongoing</span>
+              <div class="event-title">Cultural Festival 2025</div>
+              <div class="event-date">March 20, 2025</div>
+              <div class="event-details">
+                Annual celebration of diverse cultures featuring performances,
+                food, and art exhibitions.
+              </div>
+              <div class="event-meta">👥 156 Attendees</div>
+              <a href="#" class="event-button">View Details</a>
+            </div>
+
+            <div class="event-card">
+              <span class="event-badge upcoming">Upcoming</span>
+              <div class="event-title">Community Workshop</div>
+              <div class="event-date">April 5, 2025</div>
+              <div class="event-details">
+                Interactive session on cultural exchange and community building.
+              </div>
+              <div class="event-meta">👥 89 Registered</div>
+              <a href="#" class="event-button">Register</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Completed Events -->
+        <div class="container">
+          <div class="section-title">Completed Events</div>
+          <table class="table">
+            <tr>
+              <th>Event Name</th>
+              <th>Date</th>
+              <th>Attendance</th>
+              <th>Feedback Score</th>
+            </tr>
+            <tr>
+              <td>Winter Cultural Night</td>
+              <td>Feb 15, 2025</td>
+              <td>243/250</td>
+              <td class="rating">⭐ 4.8/5.0</td>
+            </tr>
+          </table>
         </div>
       </main>
 
