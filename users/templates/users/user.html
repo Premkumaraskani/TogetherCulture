@@ -7,257 +7,97 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <style>
-      /* Remove Scrollbars */
-      html,
-      body {
-        overflow: hidden; /* Prevent scrolling */
-        scrollbar-width: none; /* Hide scrollbar for Firefox */
-        -ms-overflow-style: none; /* Hide scrollbar for IE */
-      }
-
-      /* Reset and Common Styles */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: Arial, sans-serif;
-        background: #f8f9fc;
-        color: #333;
-      }
-
-      /* Full Page Layout */
-      .container {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-      }
-
-      /* Header */
-      header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 30px;
-        background: white;
-        border-bottom: 1px solid #ddd;
-      }
       .dropbtn {
-        background: transparent; /* Adjust background as needed */
-        color: #333; /* Use dark color (black-ish) for the username */
+        background: none;
         border: none;
+        font-size: 16px;
         cursor: pointer;
-        font-weight: bold;
-        font-size: 1rem;
-      }
-      header h1 {
-        font-size: 1.8rem;
-        color: #3366cc;
-      }
-
-      header nav ul {
+        padding: 10px;
         display: flex;
-        list-style: none;
-        gap: 15px;
+        align-items: center;
+        gap: 5px;
       }
 
-      header nav ul li a {
+      .dropbtn i {
+        font-size: 18px !important;
+        color: rgb(240, 240, 235) !important;
+        display: inline !important;
+        visibility: visible !important;
+      }
+
+      .dropdown:hover .dropbtn i {
+        transform: rotate(180deg);
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 150px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: #333;
+        padding: 10px 12px;
         text-decoration: none;
-        color: #3366cc;
-        font-weight: bold;
+        display: block;
       }
 
-      /* Main Content */
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      header .logo a {
+        text-decoration: none;
+        color: inherit;
+      }
+      /* css for the color changing */
+      .color-cycle {
+        font-weight: bold;
+        animation: colorChange 3s infinite;
+      }
+
+      @keyframes colorChange {
+        0% {
+          color: #e74c3c;
+        } /* red */
+        25% {
+          color: #f39c12;
+        } /* orange */
+        50% {
+          color: #27ae60;
+        } /* green */
+        75% {
+          color: #2980b9;
+        } /* blue */
+        100% {
+          color: #8e44ad;
+        } /* purple */
+      }
+
       main {
-        flex: 1;
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        background-image: url("{% static 'images/user.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        padding: 30px;
+        backdrop-filter: blur(2px); /* Optional: for a nice effect */
       }
-
-      /* Dashboard Statistic Cards */
-      .dashboard-stats {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 10px;
-      }
-
-      .stat-card {
-        flex: 1;
-        background: white;
-        padding: 12px;
-        border-radius: 6px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        transition: transform 0.3s ease;
-      }
-
-      .stat-card:hover {
-        transform: translateY(-2px);
-      }
-
-      .stat-card h3 {
-        font-size: 0.9rem;
-        color: #666;
-        margin-bottom: 3px;
-      }
-
-      .stat-value {
-        font-size: 1.4rem;
-        font-weight: bold;
-      }
-
-      /* Status Colors */
-      .stat-card.active {
-        border-top: 4px solid #28a745;
-      }
-
-      .stat-card.pending {
-        border-top: 4px solid #f0ad4e;
-      }
-
-      .stat-card.premium {
-        border-top: 4px solid #5c67f2;
-      }
-
-      /* Sections */
-      .section-title {
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-
-      /* Tables */
       .table {
-        width: 100%;
+        background-color: rgba(255, 255, 255, 0.7); /* white with 85% opacity */
         border-collapse: collapse;
+        width: 100%;
         margin-top: 5px;
-      }
-
-      .table th,
-      .table td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-      }
-
-      .table th {
-        background: #eef2ff;
-        font-size: 0.9rem;
-      }
-
-      /* User Info */
-      .user-info {
-        display: flex;
-        align-items: center;
-      }
-
-      .user-info img {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        margin-right: 8px;
-      }
-
-      /* Badges */
-      .status {
-        padding: 4px 8px;
-        font-size: 0.75rem;
-        border-radius: 4px;
-        font-weight: bold;
-      }
-
-      .status.active {
-        background: #28a745;
-        color: white;
-      }
-
-      .status.pending {
-        background: #f0ad4e;
-        color: white;
-      }
-
-      .subscription-badge {
-        padding: 4px 8px;
-        font-size: 0.75rem;
-        background: #f7f7f9;
-        color: white;
-        border-radius: 4px;
-      }
-
-      /* Action Icons */
-      .action-edit,
-      .action-view,
-      .action-delete {
-        text-decoration: none;
-        margin-right: 5px;
-        font-size: 1rem;
-      }
-
-      /* Membership Requests */
-      .request-card {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: white;
-        padding: 12px;
-        border-radius: 6px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-bottom: 8px;
-      }
-
-      .request-user {
-        display: flex;
-        align-items: center;
-      }
-
-      .request-user img {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        margin-right: 8px;
-      }
-
-      .request-actions button {
-        padding: 6px 10px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 0.8rem;
-        border: none;
-      }
-
-      .btn-accept {
-        background: #28a745;
-        color: white;
-        margin-right: 5px;
-      }
-
-      .btn-decline {
-        background: #dc3545;
-        color: white;
-      }
-
-      .btn-approve-all {
-        background: #28a745;
-        color: white;
-        padding: 8px 12px;
-        font-size: 0.9rem;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-      }
-
-      /* Footer */
-      footer {
-        text-align: center;
-        padding: 12px;
-        background: white;
-        border-top: 1px solid #ddd;
-        font-size: 0.9rem;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       }
     </style>
   </head>
@@ -265,10 +105,19 @@
     <div class="container">
       <!-- Header -->
       <header>
-        <div class="logo">
-          <a href="{% url 'homepage' %}">
-            <h1>Together Culture</h1>
+        <div class="left-header">
+          <a href="{% url 'homepage' %}" class="logo">
+            <span class="color-cycle"><h1>Together Culture</h1></span>
           </a>
+          {% if user.is_authenticated %}
+          <div class="user-info">
+            <small>
+              <span class="color-cycle"
+                >{{ user.get_account_type_display }}</span
+              >
+            </small>
+          </div>
+          {% endif %}
         </div>
         <nav>
           <ul>
@@ -277,6 +126,7 @@
               {% if user.is_authenticated %} {% if not user.is_superuser %}
               <a href="{% url 'membership' %}">Membership</a>
               {% endif %} {% else %}
+              <!-- Guest sees the membership link -->
               <a href="{% url 'membership' %}">Membership</a>
               {% endif %}
             </li>
@@ -285,10 +135,12 @@
             {% endif %}
             <li><a href="{% url 'digital' %}">Resources</a></li>
             {% if user.is_authenticated %}
+
             <li>
               <div class="dropdown">
                 <button class="dropbtn">
-                  {{ user.username }}<i class="fas fa-caret-down"></i>
+                  <span class="color-cycle">{{ user.username }}</span
+                  ><i class="fa-solid fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
                   {% if not user.is_superuser %}
@@ -307,94 +159,278 @@
         </nav>
       </header>
 
-      <!-- Main Content -->
       <main>
-        <!-- Dashboard Statistics -->
-        <div class="dashboard-stats">
-          <div class="stat-card">
+        <h2>Pending Request: {{ users|length }}</h2>
+        <div class="dashboard-summary">
+          <div class="summary-box total">
             <h3>Total Members</h3>
-            <span class="stat-value">3,247</span>
+            <p>{{ total_members }}</p>
           </div>
-          <div class="stat-card active">
+          <div class="summary-box active">
             <h3>Active Members</h3>
-            <span class="stat-value">2,891</span>
+            <p>{{ active_members }}</p>
           </div>
-          <div class="stat-card pending">
+          <div class="summary-box pending">
             <h3>Pending Requests</h3>
-            <span class="stat-value">156</span>
-          </div>
-          <div class="stat-card premium">
-            <h3>Premium Members</h3>
-            <span class="stat-value">892</span>
+            <p>{{ pending_members }}</p>
           </div>
         </div>
-
-        <!-- Recent Member Activity -->
-        <div class="container">
-          <div class="section-title">Recent Member Activity</div>
-          <table class="table">
+        <div class="search-table-wrapper">
+          <input type="text" id="searchUsers" placeholder="Search here.." />
+        </div>
+        <table class="table">
+          <thead>
             <tr>
-              <th>Member</th>
-              <th>Subscription</th>
-              <th>Last Activity</th>
-              <th>Status</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Membership Type</th>
+              <th>View</th>
               <th>Actions</th>
             </tr>
+          </thead>
+
+          <tbody>
+            {% for user in users %}
+
             <tr>
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
+              <!-- prettier-ignore -->
               <td>
-                <div class="user-info">
-                  <img
-                    src="{% static 'images/profile.jpg' %}"
-                    alt="Profile Picture"
-                  />
-                  <div>
-                    <strong>Sarah Wilson</strong>
-                    <br />
-                    <span>sarah@example.com</span>
-                  </div>
-                </div>
+  {% if 'key access holder' in user.membership_info %}
+    Key Access Holder
+  {% elif 'community holder' in user.membership_info %}
+    Community Holder
+  {% elif 'create workspace holder' in user.membership_info %}
+    Create Workspace Holder
+  {% else %}
+    
+  {% endif %}
+</td>
+
+              <td>
+                <button
+                  class="btn-view view-membership"
+                  data-username="{{ user.username }}"
+                >
+                  More
+                </button>
+                {{ user.membership_info|json_script:user.username }}
               </td>
-              <td><span class="subscription-badge">Premium</span></td>
               <td>
-                2 minutes ago<br />
-                Posted a comment
-              </td>
-              <td><span class="status active">Active</span></td>
-              <td>
-                <a href="#" class="action-edit">✏️</a>
-                <a href="#" class="action-view">👁️</a>
-                <a href="#" class="action-delete">❌</a>
+                <a
+                  href="{% url 'approve_user' user.id %}"
+                  class="btn-approve"
+                  onclick="addToActionedTable('{{ user.username }}', '{{ user.email }}', '{{ user.account_type }}', 'Approved')"
+                  >Approve</a
+                >
+                <a
+                  href="{% url 'reject_user' user.id %}"
+                  class="btn-reject"
+                  onclick="addToActionedTable('{{ user.username }}', '{{ user.email }}', '{{ user.account_type }}', 'Rejected')"
+                  >Reject</a
+                >
               </td>
             </tr>
-          </table>
-        </div>
-
-        <!-- New Membership Requests -->
-        <div class="container">
-          <div class="section-title">New Membership Requests</div>
-          <div class="request-card">
-            <div class="request-user">
-              <img src="{% static 'images/user2.jpg' %}" alt="User Picture" />
-              <div>
-                <strong>Michael Brown</strong>
-                <br />
-                <span>Requested: Basic Plan</span>
-              </div>
+            {% empty %}
+            <tr>
+              <td colspan="5">No users found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="actioned-users-section">
+          <div class="section-header">
+            <h3 style="margin-top: 40px">Recently Actioned Users</h3>
+            <div class="search-table-wrapper">
+              <input
+                type="text"
+                id="searchActionedUsers"
+                placeholder="Search here..."
+              />
             </div>
-            <span class="status pending">Pending</span>
-            <div class="request-actions">
-              <button class="btn-accept">✅ Accept</button>
-              <button class="btn-decline">❌ Decline</button>
-            </div>
+            <table class="table" id="actioned-users-table">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Membership Type</th>
+                </tr>
+              </thead>
+              <tbody id="actioned-users-body">
+                {% if actioned_users %} {% for user in actioned_users %}
+                <tr>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.account_type|title }}</td>
+                </tr>
+                {% endfor %} {% else %}
+                <tr>
+                  <td colspan="4">No actions taken yet.</td>
+                </tr>
+                {% endif %}
+              </tbody>
+            </table>
           </div>
-          <button class="btn-approve-all">Approve All</button>
         </div>
       </main>
 
       <!-- Footer -->
       <footer>
-        <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
+        <p style="color: white">
+          &copy; 2025 TogetherCulture. All rights reserved.
+        </p>
       </footer>
     </div>
+    <!-- Membership Info Modal -->
+    <!-- Modal Wrapper -->
+    <div id="membership-modal" class="modal" style="display: none">
+      <div
+        class="modal-content"
+        style="
+          background: white;
+          padding: 30px;
+          border-radius: 10px;
+          max-width: 700px;
+          margin: auto;
+          position: relative;
+        "
+      >
+        <span
+          class="close-modal"
+          style="
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+          "
+          >&times;</span
+        >
+        <div id="modal-body"></div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      function showModal(data) {
+        try {
+          const parsed = JSON.parse(data);
+          let html = "<h3>Membership Info</h3>";
+          for (const [plan, answers] of Object.entries(parsed)) {
+            html += `<strong>${plan.toUpperCase()}</strong><ul>`;
+            answers.forEach((item) => {
+              html += `<li><strong>${item.question}</strong><br>${item.answer}</li>`;
+            });
+            html += "</ul>";
+          }
+          alert(html);
+        } catch (e) {
+          console.error("Invalid membership data", e);
+          alert("Error loading membership info");
+        }
+      }
+
+      $(document).on("click", ".view-membership", function () {
+        const username = $(this).data("username");
+        const json = document.getElementById(username).textContent;
+
+        try {
+          const membershipData = JSON.parse(json);
+          let modalContent = "";
+
+          for (const [plan, answers] of Object.entries(membershipData)) {
+            modalContent += `<h2 style="margin-bottom: 15px;">Membership Application – <span style="text-transform: uppercase;">${plan}</span></h2>`;
+            answers.forEach((item, idx) => {
+              modalContent += `
+          <div style="margin-bottom: 15px;">
+            <label style="font-weight: bold;">${idx + 1}. ${
+                item.question
+              }</label>
+            <textarea disabled rows="3" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; background-color: #f9f9f9; resize: none;">${
+              item.answer
+            }</textarea>
+          </div>
+        `;
+            });
+          }
+
+          // Add close button
+          modalContent += `<div style="text-align: right;">
+      <button id="close-modal-btn" style="background: #3366cc; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer;">Close</button>
+    </div>`;
+
+          $("#modal-body").html(modalContent);
+          $("#membership-modal").fadeIn();
+        } catch (error) {
+          $("#modal-body").html("<p>Error loading membership details.</p>");
+          $("#membership-modal").fadeIn();
+          console.error("Membership parsing failed:", error);
+        }
+      });
+
+      // Top right close (×)
+      $(".close-modal").on("click", function () {
+        $("#membership-modal").fadeOut();
+      });
+
+      // Bottom "Close" button
+      $(document).on("click", "#close-modal-btn", function () {
+        $("#membership-modal").fadeOut();
+      });
+
+      function addToActionedTable(username, email, membership, status) {
+        const tableBody = $("#actioned-users-body");
+
+        // Remove "No actions yet" row
+        if (
+          tableBody.find("tr").length === 1 &&
+          tableBody.text().includes("No actions")
+        ) {
+          tableBody.empty();
+        }
+
+        const row = `
+    <tr>
+      <td>${username}</td>
+      <td>${email}</td>
+      <td>${membership}</td>
+      <td><span style="font-weight:bold; color: ${
+        status === "Approved" ? "green" : "red"
+      }">${status}</span></td>
+    </tr>
+  `;
+        tableBody.append(row);
+      }
+
+      document
+        .getElementById("searchUsers")
+        .addEventListener("keyup", function () {
+          const input = this.value.toLowerCase();
+          const rows = document.querySelectorAll(
+            "table:nth-of-type(1) tbody tr"
+          );
+
+          rows.forEach((row) => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(input) ? "" : "none";
+          });
+        });
+
+      // For Recently Actioned Users Table
+      document
+        .getElementById("searchActionedUsers")
+        .addEventListener("keyup", function () {
+          const input = this.value.toLowerCase();
+          const rows = document.querySelectorAll(
+            "#actioned-users-table tbody tr"
+          );
+
+          rows.forEach((row) => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(input) ? "" : "none";
+          });
+        });
+    </script>
   </body>
 </html>
