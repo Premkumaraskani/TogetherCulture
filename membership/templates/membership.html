@@ -124,25 +124,63 @@
         margin-top: 40px;
         text-shadow: 1px 1px 4px #000;
       }
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 16px; /* Adjust spacing between logo and user-info */
+      }
+
+      .logo h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .user-info small {
+        font-size: 14px;
+        color: white; /* Adjust to match your header background */
+      }
+      header,
+      footer {
+        position: fixed;
+        width: 100%;
+        left: 0;
+        z-index: 999;
+      }
+
+      header {
+        top: 0;
+      }
+
+      footer {
+        bottom: 0;
+      }
+
+      main {
+        margin-top: 80px; /* Adjust based on header height */
+        margin-bottom: 60px; /* Adjust based on footer height */
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <!-- Header -->
       <header>
-        <div class="logo">
-          <a href="{% url 'homepage' %}">
-            <span class="color-cycle"><h1>Together Culture</h1></span>
-          </a>
+        <div class="header-left">
+          <div class="logo">
+            <a href="{% url 'homepage' %}">
+              <span class="color-cycle"><h1>Together Culture</h1></span>
+            </a>
+          </div>
+          {% if user.is_authenticated %}
+          <div class="user-info">
+            <small>
+              <span class="color-cycle"
+                >{{ user.get_account_type_display }}</span
+              >
+            </small>
+          </div>
+          {% endif %}
         </div>
-
-        {% if user.is_authenticated %}
-        <div class="user-info">
-          <small>
-            <span class="color-cycle">{{ user.get_account_type_display }}</span>
-          </small>
-        </div>
-        {% endif %}
         <nav>
           <ul>
             <li><a href="{% url 'events' %}">Events</a></li>
@@ -195,7 +233,7 @@
               <li>Monthly Newsletters</li>
             </ul>
             {% if user.is_authenticated %}
-            <button class="select-plan" data-plan="community">
+            <button class="select-plan" data-plan="community holder">
               Select Plan
             </button>
             {% endif %}
@@ -209,7 +247,9 @@
               <li>Exclusive Content Access</li>
             </ul>
             {% if user.is_authenticated %}
-            <button class="select-plan" data-plan="key">Select Plan</button>
+            <button class="select-plan" data-plan="key access holder">
+              Select Plan
+            </button>
             {% endif %}
           </div>
           <!-- WorkSpace Membership Plan -->
@@ -221,7 +261,7 @@
               <li>Advanced Analytics</li>
             </ul>
             {% if user.is_authenticated %}
-            <button class="select-plan" data-plan="workspace">
+            <button class="select-plan" data-plan="create workspace holder">
               Select Plan
             </button>
             {% endif %}
@@ -272,13 +312,13 @@
         $(".select-plan").on("click", function () {
           var plan = $(this).data("plan");
           var modalContent = "";
-          if (plan === "community") {
+          if (plan === "community holder") {
             modalContent += "<h4>Community Membership Application</h4>";
             modalContent +=
               "<p>What are you looking for in our community? (Max 100 words)</p>";
             modalContent +=
               '<textarea name="community_question" rows="4" placeholder="Enter your answer..." maxlength="600"></textarea>';
-          } else if (plan === "key") {
+          } else if (plan === "key access holder") {
             modalContent += "<h4>Key Access Membership Application</h4>";
             modalContent +=
               "<p>1. What are you looking for in our community? (Max 100 words)</p>";
@@ -288,7 +328,7 @@
               "<p>2. Are you a member of any other community before? Can you explain your experience?</p>";
             modalContent +=
               '<textarea name="key_question2" rows="3" placeholder="Enter your answer..." maxlength="600"></textarea>';
-          } else if (plan === "workspace") {
+          } else if (plan === "create workspace holder") {
             modalContent += "<h4>WorkSpace Membership Application</h4>";
             modalContent +=
               "<p>1. What are you looking for in our community? (Max 100 words)</p>";

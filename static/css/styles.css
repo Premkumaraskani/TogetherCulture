@@ -21,9 +21,9 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
-main {
+/* main {
   flex: 1;
-}
+} */
 body {
   display: flex;
   flex-direction: column;
@@ -87,11 +87,11 @@ nav ul li a:hover {
   padding: 5px 10px;
   font-size: 1rem;
 }
-.dashboard-header .dropbtn {
+/* .dashboard-header .dropbtn {
   color: #333;
   display: flex;
   align-items: center;
-}
+} */
 
 /* For the Login Header (or other pages) where a different style is needed (e.g., white text) */
 .login-header .dropbtn {
@@ -643,7 +643,7 @@ footer {
    Tables & Cards
 ========================= */
 table {
-  width: 1250px;
+  width: 100%;
   border-collapse: collapse;
   margin: 20px 0 0 10px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -812,7 +812,7 @@ td {
 } */
 
 /* Dropdown content (hidden by default) */
-.dropdown-content {
+/* .dropdown-content {
   display: none;
   position: absolute;
   right: 0;
@@ -820,20 +820,20 @@ td {
   min-width: 150px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
-}
+} */
 
 /* Links inside dropdown */
-.dropdown-content a {
+/* .dropdown-content a {
   color: #333;
   padding: 8px 12px;
   text-decoration: none;
   display: block;
-}
+} */
 
 /* Hover effect for dropdown links */
-.dropdown-content a:hover {
+/* .dropdown-content a:hover {
   background-color: #ddd;
-}
+} */
 
 /* Show the dropdown on hover */
 .dropdown:hover .dropdown-content {
@@ -911,7 +911,7 @@ td {
   padding: 40px 20px;
 }
 
-.homepage-section {
+/* .homepage-section {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -920,7 +920,7 @@ td {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   backdrop-filter: blur(6px);
-}
+} */
 
 .section-left,
 .section-right {
@@ -963,4 +963,381 @@ td {
   margin-top: 10px;
   font-size: 14px;
   color: #333;
+}
+
+/* user styles start from here */
+/* ---------------------------- */
+/* html,
+body {
+  overflow: hidden;
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
+} */
+
+/* Reset and Common Styles */
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+/* body {
+  font-family: Arial, sans-serif;
+  background: #f8f9fc;
+  color: #333;
+} */
+
+/* Full Page Layout */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Header */
+/* header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+} */
+/* .dropbtn {
+  background: transparent; 
+  color: #333; 
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+} */
+
+header h1 {
+  font-size: 1.8rem;
+  color: #3366cc;
+}
+
+header nav ul {
+  display: flex;
+  list-style: none;
+  gap: 15px;
+}
+
+header nav ul li a {
+  text-decoration: none;
+  color: #f4f3f9;
+  font-weight: bold;
+}
+
+/* Main Content */
+main {
+  flex: 1;
+  padding: 15px;
+  display: block;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Dashboard Statistic Cards */
+.dashboard-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.stat-card {
+  flex: 1;
+  background: white;
+  padding: 12px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.stat-card h3 {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 3px;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+/* Status Colors */
+.stat-card.active {
+  border-top: 4px solid #28a745;
+}
+
+.stat-card.pending {
+  border-top: 4px solid #f0ad4e;
+}
+
+.stat-card.premium {
+  border-top: 4px solid #68f25c;
+}
+
+/* Sections */
+.section-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Tables */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 5px;
+}
+
+.table th,
+.table td {
+  /* border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left; */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0
+  ); /* slightly more transparent for cells */
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+  color: #333;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.table th {
+  background-color: #000; /* black background */
+  color: #fff; /* white text */
+  font-size: 0.9rem;
+  padding: 10px;
+  text-align: left;
+}
+
+/* User Info */
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-info img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+/* Badges */
+.status {
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.status.active {
+  background: #28a745;
+  color: white;
+}
+
+.status.pending {
+  background: #f0ad4e;
+  color: white;
+}
+
+.subscription-badge {
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  background: #f7f7f9;
+  color: white;
+  border-radius: 4px;
+}
+
+/* Action Icons */
+.action-edit,
+.action-view,
+.action-delete {
+  text-decoration: none;
+  margin-right: 5px;
+  font-size: 1rem;
+}
+
+/* Membership Requests */
+.request-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 12px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 8px;
+}
+
+.request-user {
+  display: flex;
+  align-items: center;
+}
+
+.request-user img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.request-actions button {
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  border: none;
+}
+
+.btn-accept {
+  background: #28a745;
+  color: white;
+  margin-right: 5px;
+}
+
+.btn-decline {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-approve-all {
+  background: #28a745;
+  color: white;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Footer */
+/* footer {
+  text-align: center;
+  padding: 12px;
+  background: white;
+  border-top: 1px solid #ddd;
+  font-size: 0.9rem;
+} */
+
+.modal {
+  position: fixed;
+  z-index: 999;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* user page account type is showing in middle  */
+.left-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.left-header .logo {
+  text-decoration: none;
+  color: inherit;
+}
+
+.user-info small {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* user page search bar css */
+/* .search-bar-wrapper {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#userSearchInput {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+  font-size: 1rem;
+}
+
+.search-bar-wrapper input {
+  padding: 8px 12px;
+  width: 320px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+} */
+
+.search-table-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 0;
+  gap: 10px;
+}
+
+.search-table-wrapper input {
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 280px;
+}
+
+/* users top blocks css */
+.dashboard-summary {
+  display: flex;
+  justify-content: start;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.summary-box {
+  background-color: #f7f9fc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  min-width: 180px;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+.summary-box h3 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.summary-box p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Color variations */
+.summary-box.total {
+  border-top: 4px solid #6c5ce7;
+}
+.summary-box.active {
+  border-top: 4px solid #00b894;
+}
+.summary-box.pending {
+  border-top: 4px solid #e17055;
 }

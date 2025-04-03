@@ -42,9 +42,10 @@ class Users(AbstractBaseUser, PermissionsMixin):
                           choices=[
                             ('admin', 'Admin'),
                             ('guest', 'Guest'),
-                            ('community', 'Community Holder'),
-                            ('key', 'Key Access Holder'),
-                            ('workspace', 'Create Workspace Holder')
+                            ('rejected', 'Rejected'),
+                            ('community holder', 'Community Holder'),
+                            ('key access holder', 'Key Access Holder'),
+                            ('create workspace holder', 'Create Workspace Holder')
                           ]
                         )
     objects = UsersManager()
