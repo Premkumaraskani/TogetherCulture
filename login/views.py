@@ -129,6 +129,8 @@ def profile_view(request):
     return render(request, "login/profile.html", {"user": user})
 
 
+
+
 def dashboard_view(request):
     return render(request, 'dashboard/homepage.html')
 

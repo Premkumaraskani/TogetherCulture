@@ -283,6 +283,7 @@
           method="post"
           action="{% url 'profile' %}"
           enctype="multipart/form-data"
+          id="profileForm"
         >
           {% csrf_token %}
 
@@ -300,7 +301,11 @@
             name="first_name"
             id="first_name"
             value="{{ user.first_name }}"
+            required
           />
+          <small id="first_name-error" style="color: red; display: none"
+            >Only letters are allowed.</small
+          >
 
           <label for="last_name">Last Name:</label>
           <input
@@ -308,7 +313,11 @@
             name="last_name"
             id="last_name"
             value="{{ user.last_name }}"
+            required
           />
+          <small id="last_name-error" style="color: red; display: none"
+            >Only letters are allowed.</small
+          >
 
           <label for="username">Username:</label>
           <input
@@ -328,8 +337,20 @@
             disabled
           />
 
-          <label for="phone">Phone:</label>
-          <input type="text" name="phone" id="phone" value="{{ user.phone }}" />
+          <label for="phone">Phone Number</label>
+          <input
+            type="text"
+            id="phone"
+            name="phone"
+            maxlength="10"
+            placeholder="Enter 10-digit phone number"
+            oninput="validatePhone(this)"
+            value="{{ user.phone }}"
+            required
+          />
+          <small id="phone-error" style="color: red; display: none"
+            >Phone number must be exactly 10 digits.</small
+          >
 
           <label for="account_type">Account Type:</label>
           <input
@@ -356,6 +377,9 @@
           />
           <!-- Hidden input to store interests value for submission -->
           <input type="hidden" name="interests_data" id="interests_data" />
+          <small id="interests-error" style="color: red; display: none"
+            >Please add at least one interest.</small
+          >
 
           <button type="submit" class="submit-btn">Update Profile</button>
         </form>
@@ -487,7 +511,23 @@
           }
           $("#interests_data").val(JSON.stringify(newData.interests));
         });
+
+        function restrictInputPattern(input) {
+          input.addEventListener("input", function () {
+            const value = input.value;
+            // Allow only letters
+            input.value = value.replace(/[^a-zA-Z]/g, "");
+          });
+        }
+
+        // Apply restriction to first name and last name fields
+        const firstNameInput = document.getElementById("first_name");
+        const lastNameInput = document.getElementById("last_name");
+
+        restrictInputPattern(firstNameInput);
+        restrictInputPattern(lastNameInput);
       });
+
       document
         .getElementById("profile_image")
         .addEventListener("change", function (event) {
@@ -516,6 +556,101 @@
         "#error-popup-ok-button, #max-error-popup-ok-button, #no-change-ok-button",
         hidePopups
       );
+
+      function validatePhone(input) {
+        const phoneError = document.getElementById("phone-error");
+        const phonePattern = /^\d{10}$/;
+        if (!phonePattern.test(input.value)) {
+          phoneError.style.display = "block";
+        } else {
+          phoneError.style.display = "none";
+        }
+      }
+
+      function validateTextInput(input) {
+        const textPattern = /^[a-zA-Z]+$/;
+        const errorElement = document.getElementById(input.id + "-error");
+        if (!textPattern.test(input.value.trim())) {
+          errorElement.style.display = "block";
+          input.style.border = "2px solid red";
+          return false;
+        } else {
+          errorElement.style.display = "none";
+          input.style.border = "";
+          return true;
+        }
+      }
+
+      document
+        .getElementById("profileForm")
+        .addEventListener("submit", function (e) {
+          let valid = true;
+
+          // Validate first name
+          const firstNameInput = document.getElementById("first_name");
+          const firstNameError = document.getElementById("first_name-error");
+          if (!validateTextInput(firstNameInput)) {
+            valid = false;
+          }
+
+          // Validate last name
+          const lastNameInput = document.getElementById("last_name");
+          const lastNameError = document.getElementById("last_name-error");
+          if (!validateTextInput(lastNameInput)) {
+            valid = false;
+          }
+
+          // Phone validation
+          const phoneInput = document.getElementById("phone");
+          const phoneError = document.getElementById("phone-error");
+          if (phoneInput.value.length !== 10) {
+            phoneError.style.display = "block";
+            phoneInput.style.border = "2px solid red";
+            valid = false;
+          } else {
+            phoneError.style.display = "none";
+            phoneInput.style.border = "";
+          }
+
+          // Validate interests
+          const interestsList = document.getElementById("interests-list");
+          const interestsError = document.getElementById("interests-error");
+          if (interestsList.children.length === 0) {
+            interestsError.style.display = "block";
+            valid = false;
+          } else {
+            interestsError.style.display = "none";
+          }
+
+          if (!valid) {
+            e.preventDefault(); // Prevent form submission
+          }
+        });
+
+      function validatePhoneInput(input) {
+        input.addEventListener("input", function () {
+          // Allow only digits and limit to 10 characters
+          input.value = input.value.replace(/[^0-9]/g, "").slice(0, 10);
+        });
+      }
+
+      // Apply validation to the phone number field
+      const phoneInput = document.getElementById("phone");
+      validatePhoneInput(phoneInput);
+
+      // Update form submission to check phone number length
+      const form = document.getElementById("profileForm");
+      form.addEventListener("submit", function (e) {
+        const phoneError = document.getElementById("phone-error");
+        if (phoneInput.value.length !== 10) {
+          phoneError.style.display = "block";
+          phoneInput.style.border = "2px solid red";
+          e.preventDefault(); // Prevent form submission
+        } else {
+          phoneError.style.display = "none";
+          phoneInput.style.border = "";
+        }
+      });
     </script>
   </body>
 </html>

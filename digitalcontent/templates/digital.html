@@ -61,15 +61,229 @@
         text-decoration: none;
         color: inherit;
       }
+
+      .book-pagination-section {
+        padding: 20px 0;
+      }
+
+      .book-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .book-card {
+        flex: 1 1 calc(33.33% - 20px);
+        min-width: 250px;
+        padding: 15px;
+        background: #ffffffcc;
+        border-radius: 10px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .book-card h3 {
+        margin-bottom: 8px;
+      }
+
+      .book-card p {
+        margin: 4px 0;
+      }
+
+      .book-card button {
+        margin-top: 10px;
+        padding: 8px 14px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .book-card button:hover {
+        background: #0056b3;
+      }
+
+      .pagination-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        gap: 20px;
+      }
+
+      .pagination-controls button {
+        padding: 6px 12px;
+        background: #333;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .pagination-controls span {
+        font-weight: bold;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: #f5f5f5;
+      }
+
+      .container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      main {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+      }
+
+      /* Fix footer */
+      footer {
+        background: #141515;
+        color: white;
+        padding: 12px 16px;
+        text-align: center;
+        position: relative;
+      }
+      .book-card img.book-img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 6px;
+        margin-bottom: 10px;
+      }
+      header,
+      nav ul li a {
+        color: white !important;
+      }
+
+      .book-scroll-container {
+        position: relative;
+        overflow: hidden;
+        margin-top: 20px;
+      }
+
+      .book-cards-wrapper {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding: 10px;
+      }
+
+      .scroll-arrow {
+        position: absolute;
+        top: 40%;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        font-size: 24px;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 1;
+        display: none;
+      }
+
+      .book-scroll-container:hover .scroll-arrow {
+        display: block;
+      }
+
+      .left-arrow {
+        left: 0;
+      }
+      .right-arrow {
+        right: 0;
+      }
+
+      .color-cycle {
+        font-weight: bold;
+        animation: colorChange 3s infinite;
+      }
+
+      @keyframes colorChange {
+        0% {
+          color: #e74c3c;
+        } /* red */
+        25% {
+          color: #f39c12;
+        } /* orange */
+        50% {
+          color: #27ae60;
+        } /* green */
+        75% {
+          color: #2980b9;
+        } /* blue */
+        100% {
+          color: #8e44ad;
+        } /* purple */
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 16px; /* Adjust spacing between logo and user-info */
+      }
+
+      .logo h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .user-info small {
+        font-size: 14px;
+        color: white; /* Adjust to match your header background */
+      }
+      header,
+      footer {
+        position: fixed;
+        width: 100%;
+        left: 0;
+        z-index: 999;
+      }
+
+      header {
+        top: 0;
+      }
+
+      footer {
+        bottom: 0;
+      }
+
+      main {
+        margin-top: 80px; /* Adjust based on header height */
+        margin-bottom: 60px; /* Adjust based on footer height */
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <header>
-        <div class="logo">
-          <a href="{% url 'homepage' %}">
-            <h1>Together Culture</h1>
-          </a>
+        <div class="header-left">
+          <div class="logo">
+            <a href="{% url 'homepage' %}">
+              <span class="color-cycle"><h1>Together Culture</h1></span>
+            </a>
+          </div>
+          {% if user.is_authenticated %}
+          <div class="user-info">
+            <small>
+              <span class="color-cycle"
+                >{{ user.get_account_type_display }}</span
+              >
+            </small>
+          </div>
+          {% endif %}
         </div>
         <nav>
           <ul>
@@ -87,10 +301,12 @@
             {% endif %}
             <li><a href="{% url 'digital' %}">Resources</a></li>
             {% if user.is_authenticated %}
+
             <li>
               <div class="dropdown">
                 <button class="dropbtn">
-                  {{ user.username }}<i class="fas fa-caret-down"></i>
+                  <span class="color-cycle">{{ user.username }}</span
+                  ><i class="fa-solid fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
                   {% if not user.is_superuser %}
@@ -109,80 +325,176 @@
         </nav>
       </header>
 
-      <div class="search-sort-container">
-        <div class="search-bar">
-          <input type="text" placeholder="Search..." />
-          <button>Search</button>
-        </div>
-        <div class="sort-by">
-          <label for="sort">Sort by:</label>
-          <select id="sort">
-            <option value="name">Name</option>
-            <option value="date">Date</option>
-          </select>
-        </div>
+      <!-- Scrollable main content -->
+      <div class="scrollable-content">
+        <section class="book-pagination-section">
+          <h2>Explore Books</h2>
+          <!-- <div class="book-list" id="bookList">
+          </div>
+
+          <div class="pagination-controls">
+            <button id="prevPage">Previous</button>
+            <span id="pageInfo">Page 1</span>
+            <button id="nextPage">Next</button>
+          </div> -->
+          <div class="book-scroll-container">
+            <div class="scroll-arrow left-arrow">&#10094;</div>
+
+            <div class="book-cards-wrapper" id="bookWrapper">
+              <!-- JS will insert books here -->
+            </div>
+
+            <div class="scroll-arrow right-arrow">&#10095;</div>
+          </div>
+        </section>
+
+        <!-- 📖 Registered Books Section -->
+        <section class="registered-books">
+          <h2>My Registered Books</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Book Name</th>
+                <th>Topic</th>
+                <th>Registered On</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Keep empty for now -->
+            </tbody>
+          </table>
+        </section>
       </div>
-
-      <div class="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img
-              src="https://img.freepik.com/premium-vector/book-festival-books-sale-back-school-concept-design-colorful-vector-design-illustrations_331172-1657.jpg?semt=ais_hybrid"
-              alt="Harry Potter Book"
-            />
-          </div>
-          <div class="carousel-item">
-            <img
-              src="https://images.unsplash.com/photo-1526243741027-444d633d7365?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGJvb2tzfGVufDB8fDB8fHww"
-              alt="The Hobbit Book"
-            />
-          </div>
-          <div class="carousel-item">
-            <img
-              src="https://media.istockphoto.com/id/2154290498/photo/children-kindergarten-and-reading-book-in-classroom-childhood-development-and-growth-for.webp?a=1&b=1&s=612x612&w=0&k=20&c=WR985kHgWULaOHtIldFkVTSeHM7n6fhoAB0CDrcZSw4="
-              alt="Percy Jackson Book"
-            />
-          </div>
-        </div>
-        <button
-          class="carousel-control carousel-control-prev"
-          onclick="prevSlide()"
-        >
-          &#10094;
-        </button>
-        <button
-          class="carousel-control carousel-control-next"
-          onclick="nextSlide()"
-        >
-          &#10095;
-        </button>
-      </div>
-
-      <script>
-        let currentIndex = 0;
-        const slides = document.querySelectorAll(".carousel-item");
-        const totalSlides = slides.length;
-
-        function updateCarousel() {
-          document.querySelector(
-            ".carousel-inner"
-          ).style.transform = `translateX(-${currentIndex * 100}%)`;
-        }
-
-        function nextSlide() {
-          currentIndex = (currentIndex + 1) % totalSlides;
-          updateCarousel();
-        }
-
-        function prevSlide() {
-          currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-          updateCarousel();
-        }
-      </script>
 
       <footer>
-        <p>&copy; 2025 TogetherCulture. All rights reserved.</p>
+        <p style="color: white">
+          &copy; 2025 TogetherCulture. All rights reserved.
+        </p>
       </footer>
     </div>
+
+    <script>
+      let currentIndex = 0;
+      const slides = document.querySelectorAll(".carousel-item");
+      const totalSlides = slides.length;
+
+      function updateCarousel() {
+        document.querySelector(
+          ".carousel-inner"
+        ).style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+
+      function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateCarousel();
+      }
+
+      function prevSlide() {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateCarousel();
+      }
+
+      const books = [
+        {
+          name: "Cultural Stories",
+          topic: "Tradition",
+          access: "Community Holder",
+          image:
+            "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400",
+        },
+        {
+          name: "Unity Roots",
+          topic: "Diversity",
+          access: "Key Access Holder",
+          image:
+            "https://images.unsplash.com/photo-1605379399642-870262d3d051?auto=format&fit=crop&w=400&q=80",
+        },
+        {
+          name: "Heritage Tales",
+          topic: "History",
+          access: "Creative Workspace Holder,Key Access Holder",
+          image:
+            "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=800&q=80",
+        },
+        {
+          name: "Legacy Lines",
+          topic: "Values",
+          access: "All Access",
+          image:
+            "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=400&q=80",
+        },
+        {
+          name: "Festive Beats",
+          topic: "Festivals",
+          access: "Guest",
+          image:
+            "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400",
+        },
+        {
+          name: "Together We Grow",
+          topic: "Community",
+          access: "Key Access Holder",
+          image:
+            "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=400",
+        },
+        {
+          name: "Bonded by Books",
+          topic: "Knowledge",
+          access: "Guest",
+          image:
+            "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400",
+        },
+        {
+          name: "Echoes of Culture",
+          topic: "Tradition",
+          access: "Key Access Holder",
+          image:
+            "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400",
+        },
+        {
+          name: "Connected Lives",
+          topic: "Unity",
+          access: "Community Holder",
+          image:
+            "https://images.unsplash.com/photo-1487528278747-ba99ed528ebc?w=400",
+        },
+      ];
+
+      function renderBooksToScroll() {
+        const bookWrapper = document.getElementById("bookWrapper");
+        bookWrapper.innerHTML = ""; // Clear previous cards
+
+        books.forEach((book) => {
+          const card = document.createElement("div");
+          card.className = "book-card";
+          card.innerHTML = `
+        <img src="${book.image}" alt="${book.name}" class="book-img" />
+        <h3>${book.name}</h3>
+        <p><strong>Topic:</strong> ${book.topic}</p>
+        <p><strong>Access:</strong> ${book.access}</p>
+        <button onclick="alert('Registered for: ${book.name}')">Register</button>
+      `;
+          bookWrapper.appendChild(card);
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        renderBooksToScroll();
+
+        const bookContainer = document.querySelector(".book-cards-wrapper");
+
+        document
+          .querySelector(".left-arrow")
+          .addEventListener("mouseover", () => {
+            bookContainer.scrollLeft -= 200;
+          });
+
+        document
+          .querySelector(".right-arrow")
+          .addEventListener("mouseover", () => {
+            bookContainer.scrollLeft += 200;
+          });
+      });
+    </script>
   </body>
 </html>
