@@ -15,94 +15,59 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
 
     <style>
-      .dropbtn {
-        background: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        padding: 10px;
+      .carousel {
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        height: 100vh; /* Full viewport height */
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 10px;
+      }
+
+      .carousel-inner {
         display: flex;
-        align-items: center;
-        gap: 5px;
+        transition: transform 0.5s ease-in-out;
+        width: 400%;
+        height: 100%; /* Match the height of the carousel */
       }
 
-      .dropbtn i {
-        font-size: 18px !important;
-        color: rgb(240, 240, 235) !important;
-        display: inline !important;
-        visibility: visible !important;
+      .carousel-item {
+        flex: 1 0 100%;
+        height: 100%; /* Match the height of the carousel */
       }
 
-      .dropdown:hover .dropbtn i {
-        transform: rotate(180deg);
+      .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Ensures the entire image is visible */
+        display: block;
       }
 
-      .dropdown-content {
-        display: none;
+      .carousel-control {
         position: absolute;
-        background-color: white;
-        min-width: 150px;
-        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-      }
-
-      .dropdown-content a {
-        color: #333;
-        padding: 10px 12px;
-        text-decoration: none;
-        display: block;
-      }
-
-      .dropdown-content a:hover {
-        background-color: #f1f1f1;
-      }
-
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
-
-      header .logo a {
-        text-decoration: none;
-        color: inherit;
-      }
-      /* css for the color changing */
-      .color-cycle {
-        font-weight: bold;
-        animation: colorChange 3s infinite;
-      }
-
-      @keyframes colorChange {
-        0% {
-          color: #e74c3c;
-        } /* red */
-        25% {
-          color: #f39c12;
-        } /* orange */
-        50% {
-          color: #27ae60;
-        } /* green */
-        75% {
-          color: #2980b9;
-        } /* blue */
-        100% {
-          color: #8e44ad;
-        } /* purple */
-      }
-
-      .header-left {
-        display: flex;
-        align-items: center;
-        gap: 16px; /* Adjust spacing between logo and user-info */
-      }
-
-      .logo h1 {
-        margin: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
         font-size: 24px;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 2;
+        border-radius: 50%;
       }
 
-      .user-info small {
-        font-size: 14px;
-        color: white; /* Adjust to match your header background */
+      .carousel-control.prev {
+        left: 10px;
+      }
+
+      .carousel-control.next {
+        right: 10px;
+      }
+
+      .carousel-control:hover {
+        background-color: rgba(0, 0, 0, 0.8);
       }
     </style>
   </head>
@@ -164,78 +129,135 @@
           </ul>
         </nav>
       </header>
+      <main>
+        <div style="display: flex; gap: 60px;">
+          <div>
+            <h2 style="padding-top: 10px">Best Events in Cambridge</h2>
+            <p style="width: 35rem; padding-top: 20px">
+              Cambridge is rich with architecture, history, and character. Visit
+              art galleries and museums or take a riverboat ride on the beautiful
+              River Cam. At night, enjoy a world-class play or dance the night
+              away at one of the city's many clubs. Whether you're a local, new in
+              town, or just cruising through, we have you covered with helpful
+              tips and insightful suggestions on the can't-miss events and
+              attractions. You can explore everything Cambridge has to offer by
+              filtering by location, what's popular, our top picks, and much more.
+              Cambridge event organizers use Eventbrite because it's the industry
+              leader amongst all ticket selling sites. Check them out and purchase
+              your tickets to an unforgettable live experience today.
+            </p>
+          </div>
+          <div style="margin-top: 40px;">
+            <img style="border-radius: 10px;" src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F942064753%2F420943651703%2F1%2Foriginal.20250122-170442?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C1600%2C800&s=521b62100da8413fa2287cfc5d2bbd75" alt="">
+          </div>
+        </div>
+        
 
-      <main class="dashboard-main">
-        <div class="dashboard-welcome-message">
-          <!-- <h1>
-            Welcome {% if user.is_authenticated %}{{ user.first_name }}{% else
-            %}Guest{% endif %}!
-          </h1>
-          <h1>WELCOME</h1>
-          <h2>To Together Culture</h2> -->
+        <div style="display: flex; margin-top: 20px">
+          <div>
+            <img
+              style="width: 30px; height: 30px; background-color: blue"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFniLDhLzilKACEfFfGeuuRRGwJY7VvYWgMgdijnBC9_dm1M6KMKkNc5KeIQ9LnFdkdzo&usqp=CAU"
+              alt=""
+            />
+          </div>
+          <div
+            style="
+              background-color: blue;
+              width: 90px;
+              text-align: center;
+              border-radius: 10px;
+              align-items: center;
+              justify-content: center;
+              display: flex;
+            "
+          >
+            <p style="text-align: center">Cambridge</p>
+          </div>
+        </div>
 
-          <section class="homepage-section">
-            <div class="section-left">
+        <div>
+          <div style="margin-top: 20px">
+            <h2>Popular in Cambridge</h2>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <div
+              style="
+                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                width: 25rem;
+                border-radius: 5px;
+                height: 22rem;
+                margin-top: 10px;
+              "
+            >
               <img
-                src="{% static 'images/people.jpg' %}"
-                alt="Community Event"
-                class="transparent-img"
+                style="width: 25rem; border-radius: 5px"
+                src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F980719143%2F2674630097831%2F1%2Foriginal.20250311-134932?h=230&w=460&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C323%2C7952%2C3976&s=03804b2096bb8007276c8d83d7f5712f"
+                alt=""
               />
-            </div>
-            <div class="section-right">
-              <h2>Connect with Culture</h2>
-              <p class="summary-text">
-                Meet people, share traditions, and grow stronger together.
-              </p>
-              <button class="toggleMoreBtn">More</button>
-              <p class="more-text" style="display: none">
-                Join vibrant festivals, discussions, and shared learning
-                experiences from every background.
-              </p>
-            </div>
-          </section>
+              <h4 style="padding: 5px">WorkSpace Membership</h4>
+              
 
-          <section class="homepage-section">
-            <div class="section-left">
-              <img
-                src="{% static 'images/login.jpg' %}"
-                alt="Learning Session"
-                class="transparent-img"
-              />
-            </div>
-            <div class="section-right">
-              <h2>Learn and Collaborate</h2>
-              <p class="summary-text">
-                Engage in knowledge-sharing and improve your skills.
-              </p>
-              <button class="toggleMoreBtn">More</button>
-              <p class="more-text" style="display: none">
-                Access digital resources, mentorship, and expert sessions
-                tailored for personal and professional growth.
-              </p>
-            </div>
-          </section>
 
-          <section class="homepage-section">
-            <div class="section-left">
+              <p style="padding: 5px">Access to Community Forum</p>
+
+              <p style="padding: 5px; ">Basic Support</p>
+
+              <p style="padding: 5px">Monthly Newsletters</p>
+            </div>
+            <div
+              style="
+                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                width: 25rem;
+                border-radius: 5px;
+                height: 22rem;
+                margin-top: 10px;
+              "
+            >
               <img
-                src="{% static 'images/background.jpg' %}"
-                alt="Support Group"
-                class="transparent-img"
+                style="width: 25rem; border-radius: 5px"
+                src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F986368543%2F93142957423%2F1%2Foriginal.20250318-093840?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C0%2C2160%2C1080&s=51c1e46bc76e210df1833b777a59a44e"
+                alt=""
               />
+              <h4 style="padding: 5px">Comunity Membership</h4>
+             
+
+
+              <p style="padding: 5px"> All Community Features</p>
+
+              <p style="padding: 5px; ">Priority Support</p>
+
+              <p style="padding: 5px">Exclusive Content Access</p>
             </div>
-            <div class="section-right">
-              <h2>Support and Belonging</h2>
-              <p class="summary-text">
-                Find a safe space to express yourself and seek support.
-              </p>
-              <button class="toggleMoreBtn">More</button>
-              <p class="more-text" style="display: none">
-                Participate in mental health circles, wellness events, and
-                connect with people who understand your journey.
-              </p>
+            <div
+              style="
+                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                width: 25rem;
+                border-radius: 5px;
+                height: 22rem;
+                margin-top: 10px;
+              "
+            >
+              <img
+                style="width: 25rem; border-radius: 5px"
+                src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F982797403%2F2283512169893%2F1%2Foriginal.20250313-123650?w=512&auto=format%2Ccompress&q=75&sharp=10&rect=0%2C38%2C1920%2C960&s=6bbb974267cbb3eb94585b6d6c5d81a7"
+                alt=""
+              />
+              <h4 style="padding: 5px">Key Access Membership</h4>
+              
+
+
+              <p style="padding: 5px">All Key Access Features</p>
+
+              <p style="padding: 5px; ">Custom WorkSpace Creation</p>
+
+              <p style="padding: 5px">Advanced Analytics</p>
             </div>
-          </section>
+           
+          
+           
+            
+          </div>
         </div>
       </main>
 
@@ -246,17 +268,32 @@
       </footer>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".toggleMoreBtn").forEach((button) => {
-          button.addEventListener("click", function () {
-            const moreText = this.nextElementSibling;
-            const isVisible = moreText.style.display === "block";
-            moreText.style.display = isVisible ? "none" : "block";
-            this.textContent = isVisible ? "More" : "Less";
-          });
+        const carouselInner = document.querySelector(".carousel-inner");
+        const items = document.querySelectorAll(".carousel-item");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        let currentIndex = 0;
+
+        function updateCarousel() {
+          carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        nextBtn.addEventListener("click", () => {
+          currentIndex = (currentIndex + 1) % items.length;
+          updateCarousel();
         });
+
+        prevBtn.addEventListener("click", () => {
+          currentIndex = (currentIndex - 1 + items.length) % items.length;
+          updateCarousel();
+        });
+
+        setInterval(() => {
+          currentIndex = (currentIndex + 1) % items.length;
+          updateCarousel();
+        }, 5000); // 5 seconds
       });
     </script>
   </body>
