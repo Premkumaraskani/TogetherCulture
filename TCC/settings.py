@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -62,8 +64,8 @@ ROOT_URLCONF = "TCC.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
-        "APP_DIRS": True,
+        "DIRS": [BASE_DIR / "templates"],  # Ensure this is correctly set
+        "APP_DIRS": True,  # Ensure app templates are enabled
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -78,21 +80,15 @@ TEMPLATES = [
 WSGI_APPLICATION = "TCC.wsgi.application"
 # LOGIN_REDIRECT_URL = '/'
 
+# Login URL configuration
+LOGIN_URL = '/login/'  # Update this to the correct login page URL
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 AUTH_USER_MODEL = 'login.Users'
 
 DATABASES = {
-    # "default": {
-    #     "ENGINE": "django.db.backends.mysql",
-    #     "NAME": 'TogetherCulture',
-    #     "USER":'username',
-    #     "PASSWORD":'Password12345!@#$%',
-    #     "HOST":'127.0.0.1',
-    #     # "HOST":'192.168.0.186',
-    #     "PORT":'3306'
-    # }
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
@@ -137,10 +133,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 # Default primary key field type
