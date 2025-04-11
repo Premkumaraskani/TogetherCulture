@@ -5,11 +5,15 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import Event, RegisteredEvent
 
-@login_required
 def events_view(request):
     events = Event.objects.all()
-    registered_events = RegisteredEvent.objects.filter(username=request.user)
-    registered_event_ids = registered_events.values_list('event_id', flat=True)
+    registered_events = []
+    registered_event_ids = []
+
+    if request.user.is_authenticated:
+        registered_events = RegisteredEvent.objects.filter(username=request.user)
+        registered_event_ids = registered_events.values_list('event_id', flat=True)
+
     available_events = events.exclude(id__in=registered_event_ids)
 
     return render(request, 'events/eventspage.html', {

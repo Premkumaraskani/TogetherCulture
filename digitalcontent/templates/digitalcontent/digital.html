@@ -326,7 +326,9 @@
               {% if user.is_authenticated %}
               <a href="{% url 'digital' %}">Resources</a>
               {% else %}
-              <a href="{% url 'loginpage' %}?next={% url 'digital' %}">Resources</a>
+              <a href="{% url 'loginpage' %}?next={% url 'digital' %}"
+                >Resources</a
+              >
               {% endif %}
             </li>
             {% if user.is_authenticated %}
@@ -353,37 +355,51 @@
           </ul>
         </nav>
       </header>
-      
 
       <!-- Messages Section -->
       <div class="messages">
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+        {% if messages %} {% for message in messages %}
+        <div
+          class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}"
+        >
           {{ message }}
         </div>
-        {% endfor %}
-        {% endif %}
+        {% endfor %} {% endif %}
       </div>
 
       <!-- Main Content -->
       <main>
         <section class="digital-content-section">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
+          <!-- prettier-ignore -->
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
             <h2>Explore Digital Content</h2>
-            <div style="display: flex; gap: 10px; align-items: center;">
+            <div style="display: flex; gap: 10px; align-items: center">
               {% if user.is_authenticated and user.account_type|lower in allowed_creators %}
-              <button class="add-content-btn" onclick="openAddContentModal()">+</button>
+              <button class="add-content-btn" onclick="openAddContentModal()">
+                +
+              </button>
               {% endif %}
               <input
                 type="text"
                 id="searchExplore"
                 placeholder="Search digital content by name..."
                 oninput="filterExploreContent()"
-                style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 300px;"
+                style="
+                  padding: 10px;
+                  border: 1px solid #ccc;
+                  border-radius: 5px;
+                  width: 300px;
+                "
               />
             </div>
           </div>
+          <!-- prettier-ignore -->
           <div class="book-scroll-container">
             <div class="book-cards-wrapper" id="exploreContentWrapper">
               {% if digital_contents %}
@@ -401,7 +417,8 @@
                         class="register-btn"
                         type="submit"
                         {% if book.id in registered_ids %}
-                        disabled style="background-color: grey; cursor: not-allowed;"
+                        disabled
+                        style="background-color: grey; cursor: not-allowed"
                         {% endif %}
                       >
                         {% if book.id in registered_ids %} Registered {% else %} Register {% endif %}
@@ -411,7 +428,7 @@
                     {% if user.username == book.created_by and user.account_type|lower in allowed_creators %}
                     <button
                       class="register-btn"
-                      style="background-color: #ffc107; color: black;"
+                      style="background-color: #ffc107; color: black"
                       onclick="openEditModal('{{ book.id }}')"
                     >
                       Edit
@@ -422,7 +439,7 @@
                 </div>
                 {% endfor %}
               {% else %}
-                <p>No digital content available at the moment.</p>
+              <p>No digital content available at the moment.</p>
               {% endif %}
             </div>
           </div>
@@ -430,34 +447,51 @@
 
         {% if user.is_authenticated and user.account_type|lower != 'admin' %}
         <section class="digital-content-section">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
             <h2>My Registered Digital Content</h2>
             <input
               type="text"
               id="searchRegistered"
               placeholder="Search registered digital content by name..."
               oninput="filterRegisteredContent()"
-              style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 300px;"
+              style="
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                width: 300px;
+              "
             />
           </div>
+          <!-- prettier-ignore -->
           <div class="book-scroll-container">
             <div class="book-cards-wrapper" id="registeredContentWrapper">
-              {% if registered_contents %}
-                {% for registered in registered_contents %}
-                <div class="book-card" data-name="{{ registered.content.name|lower }}">
-                  <img src="{{ registered.content.image.url }}" alt="{{ registered.content.name }}" class="book-img" />
-                  <h3>{{ registered.content.name }}</h3>
-                  <button
-                    class="register-btn"
-                    style="background-color: #007bff; color: white;"
-                    onclick="openDescriptionModal('{{ registered.content.description }}')"
-                  >
-                    View Description
-                  </button>
-                </div>
-                {% endfor %}
-              {% else %}
-                <p>You have not registered for any digital content yet.</p>
+              {% if registered_contents %} {% for registered in registered_contents %}
+              <div
+                class="book-card"
+                data-name="{{ registered.content.name|lower }}"
+              >
+                <img
+                  src="{{ registered.content.image.url }}"
+                  alt="{{ registered.content.name }}"
+                  class="book-img"
+                />
+                <h3>{{ registered.content.name }}</h3>
+                <button
+                  class="register-btn"
+                  style="background-color: #007bff; color: white"
+                  onclick="openDescriptionModal('{{ registered.content.description }}')"
+                >
+                  View Description
+                </button>
+              </div>
+              {% endfor %} {% else %}
+              <p>You have not registered for any digital content yet.</p>
               {% endif %}
             </div>
           </div>
@@ -505,22 +539,31 @@
               <input type="text" id="name" name="name" required />
 
               <label for="description">Description:</label>
-              <textarea id="description" name="description" rows="4" required></textarea>
-
+              <textarea
+                id="description"
+                name="description"
+                rows="4"
+                required
+              ></textarea>
+              <!-- prettier-ignore -->
               <label for="access_by">Access By:</label>
               <select id="access_by" name="access_by" required>
                 <option value="">Select Access</option>
-                {% if user.account_type|lower == 'key access holder' %}
                 <option value="key access holder">Key Access Holder</option>
-                {% elif user.account_type|lower == 'create workspace holder' or user.is_superuser %}
                 <option value="community holder">Community Holder</option>
-                <option value="key access holder">Key Access Holder</option>
-                <option value="create workspace holder">Create Workspace Holder</option>
-                {% endif %}
+                <option value="create workspace holder">
+                  Create Workspace Holder
+                </option>
               </select>
 
               <label for="image">Image:</label>
-              <input type="file" id="image" name="image" accept="image/*" required />
+              <input
+                type="file"
+                id="image"
+                name="image"
+                accept="image/*"
+                required
+              />
             </div>
             <div
               style="
@@ -644,21 +687,26 @@
           </h3>
           <p id="moreDescription" style="margin-bottom: 20px"></p>
           <h4>Registered Users</h4>
-          <table id="registeredUsersTable" style="width: 100%; border-collapse: collapse;">
+          <table
+            id="registeredUsersTable"
+            style="width: 100%; border-collapse: collapse"
+          >
             <thead>
               <tr>
-                <th style="border: 1px solid #ddd; padding: 8px;">Username</th>
-                <th style="border: 1px solid #ddd; padding: 8px;">Registered At</th>
+                <th style="border: 1px solid #ddd; padding: 8px">Username</th>
+                <th style="border: 1px solid #ddd; padding: 8px">
+                  Registered At
+                </th>
               </tr>
             </thead>
             <tbody>
               <!-- Rows will be dynamically added here -->
             </tbody>
           </table>
-          <div style="text-align: center; margin-top: 20px;">
+          <div style="text-align: center; margin-top: 20px">
             <button
               class="register-btn"
-              style="background-color: #007bff; color: white;"
+              style="background-color: #007bff; color: white"
               onclick="closeMoreModal()"
             >
               Close
@@ -714,10 +762,10 @@
           <div id="monitorContent">
             <!-- Content will be dynamically loaded here -->
           </div>
-          <div style="text-align: center; margin-top: 20px;">
+          <div style="text-align: center; margin-top: 20px">
             <button
               class="register-btn"
-              style="background-color: #007bff; color: white;"
+              style="background-color: #007bff; color: white"
               onclick="closeMonitorPopup()"
             >
               Close
@@ -770,32 +818,51 @@
           >
             Edit Digital Content
           </h3>
-          <form id="editContentForm" method="POST" enctype="multipart/form-data" onsubmit="submitEditForm(event)">
+          <form
+            id="editContentForm"
+            method="POST"
+            enctype="multipart/form-data"
+            onsubmit="submitEditForm(event)"
+          >
             {% csrf_token %}
             <input type="hidden" id="editContentId" name="content_id" />
-            <div style="display: flex; flex-direction: column; gap: 15px;">
+            <div style="display: flex; flex-direction: column; gap: 15px">
               <label for="editName">Name:</label>
               <input type="text" id="editName" name="name" required />
 
               <label for="editDescription">Description:</label>
-              <textarea id="editDescription" name="description" rows="4" required></textarea>
+              <textarea
+                id="editDescription"
+                name="description"
+                rows="4"
+                required
+              ></textarea>
 
               <label for="editAccessBy">Access By:</label>
               <select id="editAccessBy" name="access_by" required>
                 <option value="community holder">Community Holder</option>
                 <option value="key access holder">Key Access Holder</option>
-                <option value="create workspace holder">Create Workspace Holder</option>
+                <option value="create workspace holder">
+                  Create Workspace Holder
+                </option>
               </select>
 
               <label for="editImage">Image:</label>
               <input type="file" id="editImage" name="image" accept="image/*" />
             </div>
-            <div style="margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
+            <div
+              style="
+                margin-top: 20px;
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+              "
+            >
               <button type="submit" class="register-btn">Save</button>
               <button
                 type="button"
                 class="register-btn"
-                style="background-color: #dc3545; color: white;"
+                style="background-color: #dc3545; color: white"
                 onclick="closeEditModal()"
               >
                 Cancel
@@ -850,11 +917,13 @@
             Registered Users
           </h3>
           <div id="registeredUsersContent">
-            <table style="width: 100%; border-collapse: collapse;">
+            <table style="width: 100%; border-collapse: collapse">
               <thead>
                 <tr>
-                  <th style="border: 1px solid #ddd; padding: 8px;">Username</th>
-                  <th style="border: 1px solid #ddd; padding: 8px;">Registered At</th>
+                  <th style="border: 1px solid #ddd; padding: 8px">Username</th>
+                  <th style="border: 1px solid #ddd; padding: 8px">
+                    Registered At
+                  </th>
                 </tr>
               </thead>
               <tbody id="registeredUsersTable">
@@ -862,10 +931,10 @@
               </tbody>
             </table>
           </div>
-          <div style="text-align: center; margin-top: 20px;">
+          <div style="text-align: center; margin-top: 20px">
             <button
               class="register-btn"
-              style="background-color: #007bff; color: white;"
+              style="background-color: #007bff; color: white"
               onclick="closeRegisteredUsersModal()"
             >
               Close
@@ -941,7 +1010,9 @@
         fetch(`/digital/registered-users/${contentId}/`)
           .then((response) => response.json())
           .then((data) => {
-            const tableBody = document.getElementById("registeredUsersTable").querySelector("tbody");
+            const tableBody = document
+              .getElementById("registeredUsersTable")
+              .querySelector("tbody");
             tableBody.innerHTML = ""; // Clear existing rows
             data.forEach((user) => {
               const row = document.createElement("tr");
@@ -970,9 +1041,15 @@
             monitorContent.innerHTML = `
               <h4>Digital Content Details</h4>
               <p><strong>Name:</strong> ${data.digital_content.name}</p>
-              <p><strong>Description:</strong> ${data.digital_content.description}</p>
-              <p><strong>Access By:</strong> ${data.digital_content.access_by}</p>
-              <img src="${data.digital_content.image_url}" alt="${data.digital_content.name}" style="width: 100%; height: auto; margin-bottom: 20px;" />
+              <p><strong>Description:</strong> ${
+                data.digital_content.description
+              }</p>
+              <p><strong>Access By:</strong> ${
+                data.digital_content.access_by
+              }</p>
+              <img src="${data.digital_content.image_url}" alt="${
+              data.digital_content.name
+            }" style="width: 100%; height: auto; margin-bottom: 20px;" />
               <h4>Registered Users</h4>
               <table style="width: 100%; border-collapse: collapse;">
                 <thead>
@@ -1015,10 +1092,14 @@
           })
           .then((data) => {
             // Populate the form fields
-            document.getElementById("editContentId").value = data.digital_content.id;
-            document.getElementById("editName").value = data.digital_content.name;
-            document.getElementById("editDescription").value = data.digital_content.description;
-            document.getElementById("editAccessBy").value = data.digital_content.access_by;
+            document.getElementById("editContentId").value =
+              data.digital_content.id;
+            document.getElementById("editName").value =
+              data.digital_content.name;
+            document.getElementById("editDescription").value =
+              data.digital_content.description;
+            document.getElementById("editAccessBy").value =
+              data.digital_content.access_by;
 
             // Show the modal
             document.getElementById("editContentModal").style.display = "block";
@@ -1037,7 +1118,9 @@
 
       function submitEditForm(event) {
         event.preventDefault();
-        const formData = new FormData(document.getElementById("editContentForm"));
+        const formData = new FormData(
+          document.getElementById("editContentForm")
+        );
 
         fetch("/digital/update/", {
           method: "POST",
@@ -1079,8 +1162,10 @@
             }
 
             // Show the modal
-            document.getElementById("registeredUsersModal").style.display = "block";
-            document.getElementById("registeredUsersOverlay").style.display = "block";
+            document.getElementById("registeredUsersModal").style.display =
+              "block";
+            document.getElementById("registeredUsersOverlay").style.display =
+              "block";
           })
           .catch((error) => {
             console.error("Error fetching registered users:", error);
@@ -1090,26 +1175,33 @@
 
       function closeRegisteredUsersModal() {
         document.getElementById("registeredUsersModal").style.display = "none";
-        document.getElementById("registeredUsersOverlay").style.display = "none";
+        document.getElementById("registeredUsersOverlay").style.display =
+          "none";
       }
 
       function filterExploreContent() {
-        const searchValue = document.getElementById("searchExplore").value.toLowerCase();
+        const searchValue = document
+          .getElementById("searchExplore")
+          .value.toLowerCase();
         const contentWrapper = document.getElementById("exploreContentWrapper");
         const cards = contentWrapper.querySelectorAll(".book-card");
 
-        cards.forEach(card => {
+        cards.forEach((card) => {
           const name = card.getAttribute("data-name");
           card.style.display = name.includes(searchValue) ? "block" : "none";
         });
       }
 
       function filterRegisteredContent() {
-        const searchValue = document.getElementById("searchRegistered").value.toLowerCase();
-        const contentWrapper = document.getElementById("registeredContentWrapper");
+        const searchValue = document
+          .getElementById("searchRegistered")
+          .value.toLowerCase();
+        const contentWrapper = document.getElementById(
+          "registeredContentWrapper"
+        );
         const cards = contentWrapper.querySelectorAll(".book-card");
 
-        cards.forEach(card => {
+        cards.forEach((card) => {
           const name = card.getAttribute("data-name");
           card.style.display = name.includes(searchValue) ? "block" : "none";
         });

@@ -104,6 +104,26 @@
         font-size: 14px;
         color: white; /* Adjust to match your header background */
       }
+      header,
+      footer {
+        position: fixed;
+        width: 100%;
+        left: 0;
+        z-index: 999;
+      }
+
+      header {
+        top: 0;
+      }
+
+      footer {
+        bottom: 0;
+      }
+
+      main {
+        margin-top: 80px; /* Adjust based on header height */
+        margin-bottom: 60px; /* Adjust based on footer height */
+      }
     </style>
   </head>
   <body>
@@ -139,7 +159,13 @@
             {% if user.is_authenticated and user.is_superuser %}
             <li><a href="{% url 'user' %}">Users</a></li>
             {% endif %}
-            <li><a href="{% url 'digital' %}">Resources</a></li>
+            <li>
+              {% if user.is_authenticated %}
+              <a href="{% url 'digital' %}">Resources</a>
+              {% else %}
+              <a href="{% url 'loginpage' %}?next={% url 'digital' %}">Resources</a>
+              {% endif %}
+            </li>
             {% if user.is_authenticated %}
 
             <li>

@@ -5,6 +5,7 @@ from login.models import Users
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
+
 # Create your views here.
 
 def user_view(request):
