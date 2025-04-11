@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Membership Plans - Together Culture</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+
+    <style>
+      /* Updated Dropdown Button Style */
+      .dropbtn {
+        background: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .dropbtn i {
+        font-size: 18px !important;
+        color: rgb(240, 240, 235) !important;
+        display: inline !important;
+        visibility: visible !important;
+      }
+
+      .dropdown:hover .dropbtn i {
+        transform: rotate(180deg);
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 150px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: #333;
+        padding: 10px 12px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      header .logo a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* css for the color changing */
+      .color-cycle {
+        font-weight: bold;
+        animation: colorChange 3s infinite;
+      }
+
+      @keyframes colorChange {
+        0% {
+          color: #e74c3c;
+        } /* red */
+        25% {
+          color: #f39c12;
+        } /* orange */
+        50% {
+          color: #27ae60;
+        } /* green */
+        75% {
+          color: #2980b9;
+        } /* blue */
+        100% {
+          color: #8e44ad;
+        } /* purple */
+      }
+
+      body {
+        background-image: url("{% static 'images/background.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+      }
+
+      .digital-content-section {
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        max-width: 1200px;
+        margin: 20px auto;
+      }
+
+      .book-scroll-container {
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      .book-cards-wrapper {
+        display: flex;
+        gap: 20px;
+        flex-wrap: nowrap;
+      }
+
+      .book-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        text-align: center;
+        min-width: 250px;
+        max-width: 250px;
+        height: 350px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .book-img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+
+      /* Styling for Add Content Button */
+      .add-content-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-bottom: 20px;
+        transition: background-color 0.3s ease;
+      }
+
+      .add-content-btn:hover {
+        background-color: #218838;
+      }
+
+      /* Styling for Register button */
+      .register-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+      }
+
+      .register-btn:hover {
+        background-color: #0056b3;
+      }
+
+      /* Styling for messages */
+      .messages {
+        margin: 10px auto;
+        max-width: 1200px;
+        padding: 10px;
+      }
+
+      .messages .alert {
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+
+      .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .alert-warning {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+      }
+
+      .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      /* Ensure the header remains fixed */
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 999;
+        background-color: black; /* Set header background to black */
+        color: white; /* Ensure text color is white for contrast */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+      }
+
+      /* Add margin to the main content to avoid overlap with the fixed header */
+      main {
+        margin-top: 80px; /* Adjust based on the header height */
+      }
+
+      /* Add scrollable table inside the modal */
+      #registeredUsersTableWrapper {
+        max-height: 300px; /* Set a fixed height for the table container */
+        overflow-y: auto; /* Enable vertical scrolling */
+        border: 1px solid #ddd; /* Add a border for better visibility */
+        margin-top: 15px;
+      }
+
+      #registeredUsersTable {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      #registeredUsersTable th,
+      #registeredUsersTable td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+
+      #registeredUsersTable th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 16px; /* Adjust spacing between logo and user-info */
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 8px; /* Adjust spacing between username and dropdown */
+      }
+
+      .dropbtn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 10px;
+      }
+
+      .dropbtn i {
+        font-size: 18px;
+        color: white;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 150px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="header-left">
+          <div class="logo">
+            <a href="{% url 'homepage' %}">
+              <span class="color-cycle"><h1>Together Culture</h1></span>
+            </a>
+          </div>
+          {% if user.is_authenticated %}
+          <div class="user-info">
+            <small>
+              <span class="color-cycle"
+                >{{ user.get_account_type_display }}</span
+              >
+            </small>
+          </div>
+          {% endif %}
+        </div>
+        <nav>
+          <ul>
+            <li><a href="{% url 'events' %}">Events</a></li>
+            <li>
+              {% if user.is_authenticated %} {% if not user.is_superuser %}
+              <a href="{% url 'membership' %}">Membership</a>
+              {% endif %} {% else %}
+              <!-- Guest sees the membership link -->
+              <a href="{% url 'membership' %}">Membership</a>
+              {% endif %}
+            </li>
+            {% if user.is_authenticated and user.is_superuser %}
+            <li><a href="{% url 'user' %}">Users</a></li>
+            {% endif %}
+            <li>
+              {% if user.is_authenticated %}
+              <a href="{% url 'digital' %}">Resources</a>
+              {% else %}
+              <a href="{% url 'loginpage' %}?next={% url 'digital' %}">Resources</a>
+              {% endif %}
+            </li>
+            {% if user.is_authenticated %}
+
+            <li>
+              <div class="dropdown">
+                <button class="dropbtn">
+                  <span class="color-cycle">{{ user.username }}</span
+                  ><i class="fa-solid fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                  {% if not user.is_superuser %}
+                  <a href="{% url 'profile' %}">Profile</a>
+                  {% endif %}
+                  <a href="{% url 'logout' %}">Logout</a>
+                </div>
+              </div>
+            </li>
+            {% else %}
+            <li id="user-link">
+              <a href="{% url 'loginpage' %}">Login</a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </header>
+      
+
+      <!-- Messages Section -->
+      <div class="messages">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+
+      <!-- Main Content -->
+      <main>
+        <section class="digital-content-section">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Explore Digital Content</h2>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              {% if user.is_authenticated and user.account_type|lower in allowed_creators %}
+              <button class="add-content-btn" onclick="openAddContentModal()">+</button>
+              {% endif %}
+              <input
+                type="text"
+                id="searchExplore"
+                placeholder="Search digital content by name..."
+                oninput="filterExploreContent()"
+                style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 300px;"
+              />
+            </div>
+          </div>
+          <div class="book-scroll-container">
+            <div class="book-cards-wrapper" id="exploreContentWrapper">
+              {% if digital_contents %}
+                {% for book in digital_contents %}
+                <div class="book-card" data-name="{{ book.name|lower }}">
+                  <img src="{{ book.image.url }}" alt="{{ book.name }}" class="book-img" />
+                  <h3>{{ book.name }}</h3>
+                  {% if user.is_authenticated %}
+                  <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 10px;">
+                    {% if user.account_type|lower != 'admin' and user.account_type|lower in book.access_by|lower %}
+                    <form method="POST" action="">
+                      {% csrf_token %}
+                      <input type="hidden" name="content_id" value="{{ book.id }}" />
+                      <button
+                        class="register-btn"
+                        type="submit"
+                        {% if book.id in registered_ids %}
+                        disabled style="background-color: grey; cursor: not-allowed;"
+                        {% endif %}
+                      >
+                        {% if book.id in registered_ids %} Registered {% else %} Register {% endif %}
+                      </button>
+                    </form>
+                    {% endif %}
+                    {% if user.username == book.created_by and user.account_type|lower in allowed_creators %}
+                    <button
+                      class="register-btn"
+                      style="background-color: #ffc107; color: black;"
+                      onclick="openEditModal('{{ book.id }}')"
+                    >
+                      Edit
+                    </button>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                </div>
+                {% endfor %}
+              {% else %}
+                <p>No digital content available at the moment.</p>
+              {% endif %}
+            </div>
+          </div>
+        </section>
+
+        {% if user.is_authenticated and user.account_type|lower != 'admin' %}
+        <section class="digital-content-section">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>My Registered Digital Content</h2>
+            <input
+              type="text"
+              id="searchRegistered"
+              placeholder="Search registered digital content by name..."
+              oninput="filterRegisteredContent()"
+              style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 300px;"
+            />
+          </div>
+          <div class="book-scroll-container">
+            <div class="book-cards-wrapper" id="registeredContentWrapper">
+              {% if registered_contents %}
+                {% for registered in registered_contents %}
+                <div class="book-card" data-name="{{ registered.content.name|lower }}">
+                  <img src="{{ registered.content.image.url }}" alt="{{ registered.content.name }}" class="book-img" />
+                  <h3>{{ registered.content.name }}</h3>
+                  <button
+                    class="register-btn"
+                    style="background-color: #007bff; color: white;"
+                    onclick="openDescriptionModal('{{ registered.content.description }}')"
+                  >
+                    View Description
+                  </button>
+                </div>
+                {% endfor %}
+              {% else %}
+                <p>You have not registered for any digital content yet.</p>
+              {% endif %}
+            </div>
+          </div>
+        </section>
+        {% endif %}
+
+        <!-- Add Digital Content Modal -->
+        <div
+          id="addContentModal"
+          style="
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 400px;
+          "
+        >
+          <h3
+            style="
+              text-align: center;
+              margin-bottom: 20px;
+              background-color: yellow;
+              color: black;
+              padding: 10px;
+              border-radius: 8px 8px 0 0;
+            "
+          >
+            Add Digital Content
+          </h3>
+          <form
+            id="addContentForm"
+            method="POST"
+            action="{% url 'add_digital_content' %}"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token %}
+            <div style="display: flex; flex-direction: column; gap: 15px">
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name" required />
+
+              <label for="description">Description:</label>
+              <textarea id="description" name="description" rows="4" required></textarea>
+
+              <label for="access_by">Access By:</label>
+              <select id="access_by" name="access_by" required>
+                <option value="">Select Access</option>
+                {% if user.account_type|lower == 'key access holder' %}
+                <option value="key access holder">Key Access Holder</option>
+                {% elif user.account_type|lower == 'create workspace holder' or user.is_superuser %}
+                <option value="community holder">Community Holder</option>
+                <option value="key access holder">Key Access Holder</option>
+                <option value="create workspace holder">Create Workspace Holder</option>
+                {% endif %}
+              </select>
+
+              <label for="image">Image:</label>
+              <input type="file" id="image" name="image" accept="image/*" required />
+            </div>
+            <div
+              style="
+                margin-top: 20px;
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+              "
+            >
+              <button type="submit" class="register-btn">Add</button>
+              <button
+                type="button"
+                class="register-btn"
+                onclick="closeAddContentModal()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Modal Overlay -->
+        <div
+          id="modalOverlay"
+          style="
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+          "
+          onclick="closeAddContentModal()"
+        ></div>
+
+        <!-- Description Modal -->
+        <div
+          id="descriptionModal"
+          style="
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 400px;
+          "
+        >
+          <h3
+            style="
+              text-align: center;
+              margin-bottom: 20px;
+              background-color: yellow;
+              color: black;
+              padding: 10px;
+              border-radius: 8px 8px 0 0;
+            "
+          >
+            Description
+          </h3>
+          <p id="descriptionText" style="margin-bottom: 20px"></p>
+          <div style="text-align: center">
+            <button
+              class="register-btn"
+              style="background-color: #007bff; color: white"
+              onclick="closeDescriptionModal()"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+        <div
+          id="descriptionOverlay"
+          style="
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+          "
+          onclick="closeDescriptionModal()"
+        ></div>
+
+        <!-- More Modal -->
+        <div
+          id="moreModal"
+          style="
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 600px;
+          "
+        >
+          <h3
+            style="
+              text-align: center;
+              margin-bottom: 20px;
+              background-color: yellow;
+              color: black;
+              padding: 10px;
+              border-radius: 8px 8px 0 0;
+            "
+          >
+            Digital Content Details
+          </h3>
+          <p id="moreDescription" style="margin-bottom: 20px"></p>
+          <h4>Registered Users</h4>
+          <table id="registeredUsersTable" style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th style="border: 1px solid #ddd; padding: 8px;">Username</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Registered At</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Rows will be dynamically added here -->
+            </tbody>
+          </table>
+          <div style="text-align: center; margin-top: 20px;">
+            <button
+              class="register-btn"
+              style="background-color: #007bff; color: white;"
+              onclick="closeMoreModal()"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+
+        <!-- Modal Overlay -->
+        <div
+          id="moreModalOverlay"
+          style="
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+          "
+          onclick="closeMoreModal()"
+        ></div>
+
+        <!-- Monitor Popup -->
+        <div
+          id="monitorPopup"
+          style="
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 600px;
+          "
+        >
+          <h3
+            style="
+              text-align: center;
+              margin-bottom: 20px;
+              background-color: yellow;
+              color: black;
+              padding: 10px;
+              border-radius: 8px 8px 0 0;
+            "
+          >
+            Digital Content Monitor
+          </h3>
+          <div id="monitorContent">
+            <!-- Content will be dynamically loaded here -->
+          </div>
+          <div style="text-align: center; margin-top: 20px;">
+            <button
+              class="register-btn"
+              style="background-color: #007bff; color: white;"
+              onclick="closeMonitorPopup()"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+
+        <!-- Modal Overlay -->
+        <div
+          id="monitorOverlay"
+          style="
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+          "
+          onclick="closeMonitorPopup()"
+        ></div>
+
+        <!-- Edit Digital Content Modal -->
+        <div
+          id="editContentModal"
+          style="
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 600px;
+          "
+        >
+          <h3
+            style="
+              text-align: center;
+              margin-bottom: 20px;
+              background-color: yellow;
+              color: black;
+              padding: 10px;
+              border-radius: 8px 8px 0 0;
+            "
+          >
+            Edit Digital Content
+          </h3>
+          <form id="editContentForm" method="POST" enctype="multipart/form-data" onsubmit="submitEditForm(event)">
+            {% csrf_token %}
+            <input type="hidden" id="editContentId" name="content_id" />
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+              <label for="editName">Name:</label>
+              <input type="text" id="editName" name="name" required />
+
+              <label for="editDescription">Description:</label>
+              <textarea id="editDescription" name="description" rows="4" required></textarea>
+
+              <label for="editAccessBy">Access By:</label>
+              <select id="editAccessBy" name="access_by" required>
+                <option value="community holder">Community Holder</option>
+                <option value="key access holder">Key Access Holder</option>
+                <option value="create workspace holder">Create Workspace Holder</option>
+              </select>
+
+              <label for="editImage">Image:</label>
+              <input type="file" id="editImage" name="image" accept="image/*" />
+            </div>
+            <div style="margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
+              <button type="submit" class="register-btn">Save</button>
+              <button
+                type="button"
+                class="register-btn"
+                style="background-color: #dc3545; color: white;"
+                onclick="closeEditModal()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Modal Overlay -->
+        <div
+          id="editModalOverlay"
+          style="
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+          "
+          onclick="closeEditModal()"
+        ></div>
+
+        <!-- Registered Users Modal -->
+        <div
+          id="registeredUsersModal"
+          style="
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 600px;
+          "
+        >
+          <h3
+            style="
+              text-align: center;
+              margin-bottom: 20px;
+              background-color: yellow;
+              color: black;
+              padding: 10px;
+              border-radius: 8px 8px 0 0;
+            "
+          >
+            Registered Users
+          </h3>
+          <div id="registeredUsersContent">
+            <table style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr>
+                  <th style="border: 1px solid #ddd; padding: 8px;">Username</th>
+                  <th style="border: 1px solid #ddd; padding: 8px;">Registered At</th>
+                </tr>
+              </thead>
+              <tbody id="registeredUsersTable">
+                <!-- Rows will be dynamically added here -->
+              </tbody>
+            </table>
+          </div>
+          <div style="text-align: center; margin-top: 20px;">
+            <button
+              class="register-btn"
+              style="background-color: #007bff; color: white;"
+              onclick="closeRegisteredUsersModal()"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+
+        <!-- Modal Overlay -->
+        <div
+          id="registeredUsersOverlay"
+          style="
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+          "
+          onclick="closeRegisteredUsersModal()"
+        ></div>
+      </main>
+
+      <!-- Footer -->
+      <footer>
+        <p style="color: white">
+          &copy; 2025 TogetherCulture. All rights reserved.
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      function openAddContentModal() {
+        document.getElementById("addContentModal").style.display = "block";
+        document.getElementById("modalOverlay").style.display = "block";
+      }
+
+      function closeAddContentModal() {
+        document.getElementById("addContentModal").style.display = "none";
+        document.getElementById("modalOverlay").style.display = "none";
+      }
+
+      function checkFormFields() {
+        const name = document.getElementById("name").value.trim();
+        const description = document.getElementById("description").value.trim();
+        const accessBy = document.getElementById("access_by").value.trim();
+        const image = document.getElementById("image").value.trim();
+        const submitButton = document.getElementById("submitButton");
+
+        if (name && description && accessBy && image) {
+          submitButton.disabled = false;
+        } else {
+          submitButton.disabled = true;
+        }
+      }
+
+      function openDescriptionModal(description) {
+        document.getElementById("descriptionText").innerText = description;
+        document.getElementById("descriptionModal").style.display = "block";
+        document.getElementById("descriptionOverlay").style.display = "block";
+      }
+
+      function closeDescriptionModal() {
+        document.getElementById("descriptionModal").style.display = "none";
+        document.getElementById("descriptionOverlay").style.display = "none";
+      }
+
+      function openMoreModal(description, contentId) {
+        document.getElementById("moreDescription").innerText = description;
+
+        // Fetch registered users via AJAX
+        fetch(`/digital/registered-users/${contentId}/`)
+          .then((response) => response.json())
+          .then((data) => {
+            const tableBody = document.getElementById("registeredUsersTable").querySelector("tbody");
+            tableBody.innerHTML = ""; // Clear existing rows
+            data.forEach((user) => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                <td style="border: 1px solid #ddd; padding: 8px;">${user.username}</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">${user.registered_at}</td>
+              `;
+              tableBody.appendChild(row);
+            });
+          });
+
+        document.getElementById("moreModal").style.display = "block";
+        document.getElementById("moreModalOverlay").style.display = "block";
+      }
+
+      function closeMoreModal() {
+        document.getElementById("moreModal").style.display = "none";
+        document.getElementById("moreModalOverlay").style.display = "none";
+      }
+
+      function openMonitorPopup(contentId) {
+        fetch(`/digital/monitor/${contentId}/`)
+          .then((response) => response.json())
+          .then((data) => {
+            const monitorContent = document.getElementById("monitorContent");
+            monitorContent.innerHTML = `
+              <h4>Digital Content Details</h4>
+              <p><strong>Name:</strong> ${data.digital_content.name}</p>
+              <p><strong>Description:</strong> ${data.digital_content.description}</p>
+              <p><strong>Access By:</strong> ${data.digital_content.access_by}</p>
+              <img src="${data.digital_content.image_url}" alt="${data.digital_content.name}" style="width: 100%; height: auto; margin-bottom: 20px;" />
+              <h4>Registered Users</h4>
+              <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Username</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">Registered At</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${data.registered_users
+                    .map(
+                      (user) => `
+                    <tr>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${user.username}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${user.registered_at}</td>
+                    </tr>
+                  `
+                    )
+                    .join("")}
+                </tbody>
+              </table>
+            `;
+            document.getElementById("monitorPopup").style.display = "block";
+            document.getElementById("monitorOverlay").style.display = "block";
+          });
+      }
+
+      function closeMonitorPopup() {
+        document.getElementById("monitorPopup").style.display = "none";
+        document.getElementById("monitorOverlay").style.display = "none";
+      }
+
+      function openEditModal(contentId) {
+        fetch(`/digital/monitor/${contentId}/`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Failed to fetch digital content details.");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            // Populate the form fields
+            document.getElementById("editContentId").value = data.digital_content.id;
+            document.getElementById("editName").value = data.digital_content.name;
+            document.getElementById("editDescription").value = data.digital_content.description;
+            document.getElementById("editAccessBy").value = data.digital_content.access_by;
+
+            // Show the modal
+            document.getElementById("editContentModal").style.display = "block";
+            document.getElementById("editModalOverlay").style.display = "block";
+          })
+          .catch((error) => {
+            console.error("Error fetching digital content details:", error);
+            alert("Failed to load digital content details. Please try again.");
+          });
+      }
+
+      function closeEditModal() {
+        document.getElementById("editContentModal").style.display = "none";
+        document.getElementById("editModalOverlay").style.display = "none";
+      }
+
+      function submitEditForm(event) {
+        event.preventDefault();
+        const formData = new FormData(document.getElementById("editContentForm"));
+
+        fetch("/digital/update/", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              alert(data.message);
+              closeEditModal();
+              location.reload(); // Reload the page to reflect changes
+            } else {
+              alert(data.message);
+            }
+          });
+      }
+
+      function openRegisteredUsersModal(contentId) {
+        fetch(`/digital/monitor/${contentId}/`)
+          .then((response) => response.json())
+          .then((data) => {
+            const tableBody = document.getElementById("registeredUsersTable");
+            tableBody.innerHTML = ""; // Clear existing rows
+            if (data.registered_users.length > 0) {
+              data.registered_users.forEach((user) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                  <td>${user.username}</td>
+                  <td>${user.registered_at}</td>
+                `;
+                tableBody.appendChild(row);
+              });
+            } else {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                <td colspan="2" style="text-align: center;">No registered users found.</td>
+              `;
+              tableBody.appendChild(row);
+            }
+
+            // Show the modal
+            document.getElementById("registeredUsersModal").style.display = "block";
+            document.getElementById("registeredUsersOverlay").style.display = "block";
+          })
+          .catch((error) => {
+            console.error("Error fetching registered users:", error);
+            alert("Failed to load registered users. Please try again.");
+          });
+      }
+
+      function closeRegisteredUsersModal() {
+        document.getElementById("registeredUsersModal").style.display = "none";
+        document.getElementById("registeredUsersOverlay").style.display = "none";
+      }
+
+      function filterExploreContent() {
+        const searchValue = document.getElementById("searchExplore").value.toLowerCase();
+        const contentWrapper = document.getElementById("exploreContentWrapper");
+        const cards = contentWrapper.querySelectorAll(".book-card");
+
+        cards.forEach(card => {
+          const name = card.getAttribute("data-name");
+          card.style.display = name.includes(searchValue) ? "block" : "none";
+        });
+      }
+
+      function filterRegisteredContent() {
+        const searchValue = document.getElementById("searchRegistered").value.toLowerCase();
+        const contentWrapper = document.getElementById("registeredContentWrapper");
+        const cards = contentWrapper.querySelectorAll(".book-card");
+
+        cards.forEach(card => {
+          const name = card.getAttribute("data-name");
+          card.style.display = name.includes(searchValue) ? "block" : "none";
+        });
+      }
+    </script>
+  </body>
+</html>

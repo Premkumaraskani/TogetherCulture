@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Content Details</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Digital Content: {{ digital_content.name }}</h2>
+      <p><strong>Description:</strong> {{ digital_content.description }}</p>
+      <p><strong>Access By:</strong> {{ digital_content.access_by }}</p>
+      <p><strong>Created By:</strong> {{ digital_content.created_by }}</p>
+      <h3>Registered Users</h3>
+      <ul>
+        {% if registered_users %}
+          {% for user in registered_users %}
+          <li>{{ user.username.username }}</li>
+          {% endfor %}
+        {% else %}
+          <p>No users have registered for this content yet.</p>
+        {% endif %}
+      </ul>
+      <button onclick="window.history.back()" class="register-btn">Back</button>
+    </div>
+  </body>
+</html>
